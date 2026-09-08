@@ -198,7 +198,10 @@
   function performSearch() {
     const input = document.getElementById('q');
     const out = document.getElementById('results');
+    const clearBtn = document.getElementById('search-clear-btn');
     if (!input || !out) return;
+
+    if (clearBtn) clearBtn.classList.toggle('show', input.value.length > 0);
 
     const rawQuery = input.value.trim();
     if (rawQuery.length < 2) {
@@ -673,6 +676,25 @@
       modalOverlay.addEventListener('click', e => {
         if (e.target === modalOverlay) closeNoteModal();
       });
+    }
+
+    // 5. Back to Top scroll visibility
+    const backToTopBtn = document.getElementById('back-to-top');
+    if (backToTopBtn) {
+      let scrollTick = false;
+      window.addEventListener('scroll', () => {
+        if (!scrollTick) {
+          scrollTick = true;
+          requestAnimationFrame(() => {
+            if (window.scrollY > 400) {
+              backToTopBtn.classList.add('visible');
+            } else {
+              backToTopBtn.classList.remove('visible');
+            }
+            scrollTick = false;
+          });
+        }
+      }, { passive: true });
     }
 
     console.log('TerraForm by Nabawy engine initialized successfully.');

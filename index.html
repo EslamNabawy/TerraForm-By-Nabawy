@@ -15,6 +15,12 @@
     <a href="#" class="mark">
       <span>TerraForm by Nabawy</span>
     </a>
+    <div class="nav-sections">
+      <a href="#books" class="nav-sec-link">Books</a>
+      <a href="#practice-arena" class="nav-sec-link">Drills</a>
+      <a href="#notes-vault" class="nav-sec-link">Notes</a>
+      <a href="#cheatsheet" class="nav-sec-link">Commands</a>
+    </div>
     <nav>
       <button onclick="document.getElementById('q').focus(); document.getElementById('q').scrollIntoView({behavior:'smooth', block:'center'});">
         🔍 <span class="btn-text">Search</span>
@@ -59,6 +65,7 @@
         <div class="searchbar">
           <span class="mag">🔍</span>
           <input id="q" type="search" placeholder="Search library — try “state lock”, “for_each”, “ALB”, “Sentinel”…" autocomplete="off">
+          <button id="search-clear-btn" class="search-clear-btn" title="Clear search">✕</button>
           <span class="kbd-shortcut">Ctrl+K or /</span>
         </div>
 
@@ -124,6 +131,7 @@
       <article class="card" id="book-card-1">
         <div class="card-top">
           <div class="num">VOLUME 1 · FOUNDATIONS</div>
+          <span class="tag reader-cue">⚡ Customizable Reader</span>
         </div>
         <h2>Terraform Master I</h2>
         <p>Every core concept, anatomy, workflow, gotcha, and exam note — from IaC &amp; idempotence to variables, workspaces, provisioners, and the capstone chain. The fundamental reference volume.</p>
@@ -134,7 +142,7 @@
         </div>
         <div class="btns">
           <a class="btn solid" href="books/vol1-foundations.html">📖 Read online</a>
-          <a class="btn amber" href="books/vol1-foundations.pdf">⬇ PDF <small>5.2 MB</small></a>
+          <a class="btn amber" href="books/vol1-foundations.pdf" download>⬇ PDF <small>5.2 MB</small></a>
         </div>
         <details class="chapters-preview-toggle">
           <summary>📑 Preview Chapters &amp; Topics</summary>
@@ -162,6 +170,7 @@
       <article class="card" id="book-card-2">
         <div class="card-top">
           <div class="num">VOLUME 2 · PRODUCTION</div>
+          <span class="tag reader-cue">⚡ Customizable Reader</span>
         </div>
         <h2>Terraform Master II</h2>
         <p>Multi-environment layouts, workspaces, networking deep-dive, count &amp; for_each, outputs, full project walkthrough, and the complete two-tier ALB build. The production-grade engineering volume.</p>
@@ -172,7 +181,7 @@
         </div>
         <div class="btns">
           <a class="btn solid" href="books/vol2-production.html">📖 Read online</a>
-          <a class="btn amber" href="books/vol2-production.pdf">⬇ PDF <small>4.2 MB</small></a>
+          <a class="btn amber" href="books/vol2-production.pdf" download>⬇ PDF <small>4.2 MB</small></a>
         </div>
         <details class="chapters-preview-toggle">
           <summary>📑 Preview Chapters &amp; Topics</summary>
@@ -197,6 +206,7 @@
       <article class="card" id="book-card-3">
         <div class="card-top">
           <div class="num">VOLUME 3 · HANDS-ON LAB</div>
+          <span class="tag reader-cue">⚡ Customizable Reader</span>
         </div>
         <h2>Terraform Practice Lab</h2>
         <p>40 comprehensive exercises — 15 warm-ups, 15 multi-concept drills, and 10 production bosses — each with a full worked answer (WHY + TRAP + EXAM). Broken configs, plan predictions, and debugging drills.</p>
@@ -207,7 +217,7 @@
         </div>
         <div class="btns">
           <a class="btn solid" href="books/lab.html">📖 Read online</a>
-          <a class="btn amber" href="books/lab.pdf">⬇ PDF <small>14.9 MB</small></a>
+          <a class="btn amber" href="books/lab.pdf" download>⬇ PDF <small>14.9 MB</small></a>
         </div>
         <details class="chapters-preview-toggle">
           <summary>📑 Preview Chapters &amp; Topics</summary>
@@ -231,6 +241,7 @@
       <article class="card" id="book-card-4">
         <div class="card-top">
           <div class="num">VOLUME 4 · CERTIFICATION</div>
+          <span class="tag reader-cue">⚡ Customizable Reader</span>
         </div>
         <h2>Exam Command Center</h2>
         <p>HashiCorp Certified: Terraform Associate (003) prep — complete exam intel, 9 domain reviews, 90 domain drills with deep answer keys, 3 full 57-question mocks, and diagnostic score tracker.</p>
@@ -241,7 +252,7 @@
         </div>
         <div class="btns">
           <a class="btn solid" href="books/exam-center.html">📖 Read online</a>
-          <a class="btn amber" href="books/exam-center.pdf">⬇ PDF <small>28 MB</small></a>
+          <a class="btn amber" href="books/exam-center.pdf" download>⬇ PDF <small>28 MB</small></a>
         </div>
         <details class="chapters-preview-toggle">
           <summary>📑 Preview Chapters &amp; Topics</summary>
@@ -606,6 +617,11 @@
       </div>
     </div>
   </div>
+
+  <!-- BACK TO TOP FLOATING BUTTON -->
+  <button id="back-to-top" class="back-to-top-btn" onclick="window.scrollTo({top:0, behavior:'smooth'})" title="Back to top">
+    ↑ <span class="btn-text">Top</span>
+  </button>
 
   <!-- TOAST NOTIFICATION -->
   <div id="app-toast" class="toast"></div>

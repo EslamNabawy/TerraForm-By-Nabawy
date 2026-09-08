@@ -1,0 +1,405 @@
+/* ══════════════════════════════════════════════════════════════════════════
+   TERRAFORM BY NABAWY — BOOK READER ENGINE (book-reader.css)
+   Dual Theme (Parchment / Obsidian), Font Scaling, Mobile Responsive Layout,
+   and Tactile Floating Reading Toolbar. Zero dependencies.
+   ══════════════════════════════════════════════════════════════════════════ */
+
+/* ── 1. FLOATING READER TOOLBAR ── */
+.reader-toolbar {
+  position: fixed;
+  top: 14px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 9999;
+  background: var(--paper, #faf7f1);
+  border: 2.5px solid var(--ink, #26201a);
+  border-radius: 999px;
+  box-shadow: 4px 4px 0 rgba(38,32,26,0.9);
+  padding: 6px 16px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+  transition: all 0.2s ease;
+  backdrop-filter: blur(8px);
+}
+
+.reader-toolbar:hover {
+  box-shadow: 6px 6px 0 rgba(38,32,26,0.95);
+}
+
+.reader-btn {
+  background: var(--card, #fffdf9);
+  color: var(--ink, #26201a);
+  border: 2px solid var(--ink, #26201a);
+  border-radius: 999px;
+  padding: 5px 12px;
+  font-size: 12.5px;
+  font-weight: 700;
+  cursor: pointer;
+  font-family: inherit;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  box-shadow: 2px 2px 0 rgba(38,32,26,0.85);
+  transition: transform 0.12s, box-shadow 0.12s, background 0.12s;
+  white-space: nowrap;
+}
+
+.reader-btn:hover {
+  background: var(--t-amber, #fdf1de);
+  transform: translate(-1px, -1px);
+  box-shadow: 3px 3px 0 rgba(38,32,26,0.9);
+}
+
+.reader-btn:active {
+  transform: translate(2px, 2px);
+  box-shadow: 0 0 0;
+}
+
+.reader-back-btn {
+  background: var(--ink, #26201a);
+  color: var(--paper, #faf7f1) !important;
+  font-weight: 800;
+}
+
+.reader-back-btn:hover {
+  background: var(--amber, #d97706);
+  color: #fff !important;
+}
+
+.reader-title-badge {
+  font-family: Georgia, serif;
+  font-weight: 700;
+  font-size: 13.5px;
+  color: var(--ink, #26201a);
+  padding: 0 4px;
+  white-space: nowrap;
+  max-width: 220px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.reader-divider {
+  width: 1px;
+  height: 22px;
+  background: var(--line, #e7e0d2);
+  margin: 0 2px;
+}
+
+.reader-font-group {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.reader-font-btn {
+  padding: 4px 9px;
+  font-size: 12px;
+  font-weight: 800;
+  min-width: 28px;
+  justify-content: center;
+}
+
+.reader-font-label {
+  font-size: 11px;
+  font-weight: 800;
+  color: var(--muted, #7c7264);
+  min-width: 38px;
+  text-align: center;
+  user-select: none;
+}
+
+.reader-page-indicator {
+  font-size: 11.5px;
+  font-weight: 800;
+  color: var(--amber-d, #b45309);
+  background: var(--t-amber, #fdf1de);
+  border: 1.5px solid var(--ink, #26201a);
+  border-radius: 999px;
+  padding: 3px 9px;
+  white-space: nowrap;
+}
+
+/* ── 2. DARK THEME (OBSIDIAN & AMBER) FOR BOOKS ── */
+[data-theme="dark"] {
+  --paper: #1e1a17 !important;
+  --card: #27221e !important;
+  --ink: #f0e9df !important;
+  --line: #403730 !important;
+  --rule: #403730 !important;
+  --muted: #a69b8f !important;
+  --desk: #14110f !important;
+  --amber: #f59e0b !important;
+  --amber-d: #fbbf24 !important;
+  --teal: #14b8a6 !important;
+  --crimson: #f87171 !important;
+  --plum: #a78bfa !important;
+  --green: #4ade80 !important;
+  --rose: #fb7185 !important;
+  --t-amber: rgba(245, 158, 11, 0.16) !important;
+  --t-teal: rgba(20, 184, 166, 0.16) !important;
+  --t-crimson: rgba(248, 113, 113, 0.18) !important;
+  --t-plum: rgba(167, 139, 250, 0.18) !important;
+  --t-green: rgba(74, 222, 128, 0.16) !important;
+  --t-paper: #302a24 !important;
+  --t-stone: #57534e !important;
+}
+
+[data-theme="dark"] body {
+  background: #14110f !important;
+  color: #f0e9df !important;
+}
+
+[data-theme="dark"] .reader-toolbar {
+  background: #1e1a17 !important;
+  border-color: #403730 !important;
+  box-shadow: 4px 4px 0 #000000 !important;
+}
+
+[data-theme="dark"] .reader-btn {
+  background: #27221e !important;
+  color: #f0e9df !important;
+  border-color: #403730 !important;
+  box-shadow: 2px 2px 0 #000000 !important;
+}
+
+[data-theme="dark"] .reader-btn:hover {
+  background: var(--t-amber) !important;
+  border-color: var(--amber) !important;
+  color: var(--amber-d) !important;
+}
+
+[data-theme="dark"] .reader-back-btn {
+  background: #f0e9df !important;
+  color: #1e1a17 !important;
+  border-color: #f0e9df !important;
+}
+
+[data-theme="dark"] .reader-back-btn:hover {
+  background: #f59e0b !important;
+  color: #12100e !important;
+}
+
+[data-theme="dark"] .reader-divider {
+  background: #403730 !important;
+}
+
+[data-theme="dark"] .reader-title-badge {
+  color: #f0e9df !important;
+}
+
+[data-theme="dark"] .reader-page-indicator {
+  background: #302a24 !important;
+  border-color: #403730 !important;
+  color: #fbbf24 !important;
+}
+
+[data-theme="dark"] .sheet {
+  background: #1e1a17 !important;
+  box-shadow: 0 10px 32px rgba(0, 0, 0, 0.8) !important;
+  border: 1px solid #403730 !important;
+}
+
+[data-theme="dark"] .code,
+[data-theme="dark"] .tree,
+[data-theme="dark"] .termbody,
+[data-theme="dark"] .termwin {
+  background: #12100e !important;
+  border-color: #403730 !important;
+  color: #efe9dd !important;
+}
+
+[data-theme="dark"] table.tb {
+  background: #27221e !important;
+  border-color: #403730 !important;
+}
+
+[data-theme="dark"] .tb td {
+  background: #27221e !important;
+  border-color: #403730 !important;
+  color: #ded7ce !important;
+}
+
+[data-theme="dark"] .tb tr:nth-child(even) td {
+  background: #201c19 !important;
+}
+
+[data-theme="dark"] .tb th {
+  background: #14110f !important;
+  color: #f0e9df !important;
+  border-bottom: 2px solid #403730 !important;
+}
+
+[data-theme="dark"] .panel,
+[data-theme="dark"] .zone,
+[data-theme="dark"] .labstep,
+[data-theme="dark"] .qz,
+[data-theme="dark"] .blk,
+[data-theme="dark"] .stepitem,
+[data-theme="dark"] .chipr,
+[data-theme="dark"] .m-exam {
+  background: #27221e !important;
+  border-color: #403730 !important;
+  color: #f0e9df !important;
+}
+
+[data-theme="dark"] .blk small,
+[data-theme="dark"] .dnote,
+[data-theme="dark"] .folio,
+[data-theme="dark"] p.lead {
+  color: #ded7ce !important;
+}
+
+[data-theme="dark"] a.backtoc {
+  background: #27221e !important;
+  border-color: #403730 !important;
+  color: #ded7ce !important;
+}
+
+[data-theme="dark"] a.backtoc:hover {
+  color: #fbbf24 !important;
+  border-color: #f59e0b !important;
+}
+
+[data-theme="dark"] .folio::before,
+[data-theme="dark"] .folio::after {
+  border-top-color: #403730 !important;
+}
+
+[data-theme="dark"] .folio .fnum {
+  color: #f0e9df !important;
+}
+
+[data-theme="dark"] .cover .stamp {
+  background: #27221e !important;
+  border-color: #f0e9df !important;
+  box-shadow: 5px 5px 0 #f59e0b !important;
+}
+
+/* ── 3. FONT SCALING ENGINE ── */
+@media screen {
+  /* Prevent sheet overflow clipping when font is enlarged */
+  html[data-font-size="large"] .sheet,
+  html[data-font-size="xlarge"] .sheet,
+  html[data-font-size="huge"] .sheet {
+    height: auto !important;
+    max-height: none !important;
+    overflow: visible !important;
+    min-height: 297mm !important;
+    padding-bottom: 25mm !important;
+  }
+
+  html[data-font-size="small"] .sheet {
+    zoom: 0.92;
+  }
+  html[data-font-size="normal"] .sheet {
+    zoom: 1.0;
+  }
+  html[data-font-size="large"] .sheet {
+    zoom: 1.12;
+  }
+  html[data-font-size="xlarge"] .sheet {
+    zoom: 1.25;
+  }
+  html[data-font-size="huge"] .sheet {
+    zoom: 1.40;
+  }
+
+  /* Target body spacing with top toolbar */
+  body {
+    padding-top: 55px !important;
+  }
+}
+
+/* ── 4. RESPONSIVE MOBILE / TABLET VIEW ── */
+@media screen and (max-width: 860px) {
+  body {
+    padding-top: 65px !important;
+    padding-bottom: 30px !important;
+  }
+
+  .reader-toolbar {
+    top: 10px;
+    width: calc(100vw - 20px);
+    justify-content: space-between;
+    padding: 6px 10px;
+    gap: 6px;
+  }
+
+  .reader-title-badge {
+    display: none;
+  }
+
+  .reader-btn {
+    padding: 4px 8px;
+    font-size: 11.5px;
+  }
+
+  .reader-print-btn {
+    display: none;
+  }
+
+  .sheet {
+    width: 95vw !important;
+    min-width: 0 !important;
+    max-width: 95vw !important;
+    height: auto !important;
+    min-height: auto !important;
+    max-height: none !important;
+    padding: 18px 14px 28px !important;
+    margin: 14px auto !important;
+    border-radius: 12px !important;
+    overflow: visible !important;
+    zoom: 1.0 !important;
+  }
+
+  .folio {
+    position: relative !important;
+    bottom: auto !important;
+    left: auto !important;
+    right: auto !important;
+    margin-top: 24px !important;
+  }
+
+  .grid2, .grid3, .labcols {
+    grid-template-columns: 1fr !important;
+  }
+
+  .cover {
+    padding: 24px 14px !important;
+  }
+
+  .cover h1 {
+    font-size: 32px !important;
+  }
+
+  .cover .stamp {
+    font-size: 26px !important;
+    padding: 8px 14px !important;
+  }
+}
+
+/* ── 5. PRINT FIDELITY (RESTORES PURE A4 PRINTING) ── */
+@media print {
+  .reader-toolbar {
+    display: none !important;
+  }
+  body {
+    padding: 0 !important;
+    background: #fff !important;
+    color: #000 !important;
+  }
+  .sheet {
+    zoom: 1.0 !important;
+    margin: 0 !important;
+    box-shadow: none !important;
+    width: 210mm !important;
+    height: 297mm !important;
+    max-height: 297mm !important;
+    overflow: hidden !important;
+    page-break-after: always !important;
+    border: none !important;
+  }
+}
