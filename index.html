@@ -17,6 +17,7 @@
     </a>
     <div class="nav-sections">
       <a href="#books" class="nav-sec-link">Books</a>
+      <a href="#route" class="nav-sec-link">Route</a>
       <a href="#practice-arena" class="nav-sec-link">Drills</a>
       <a href="#notes-vault" class="nav-sec-link">Notes</a>
       <a href="#cheatsheet" class="nav-sec-link">Commands</a>
@@ -84,40 +85,6 @@
         <div id="results"></div>
       </div>
     </section>
-
-    <!-- THE LEARNING ROUTE -->
-    <div class="section-header">
-      <h2 class="sec"><span>🗺️</span> The learning route</h2>
-      <span class="sec-sub">Follow the recommended sequence — each volume builds upon the last. Click a step to jump to it.</span>
-    </div>
-
-    <div class="route-container">
-      <div class="route-steps">
-        <div class="route-step-card active" data-step="1" onclick="window.selectRouteStep(1)">
-          <div class="route-step-num">Step ①</div>
-          <div class="route-step-title">Foundations</div>
-          <div class="route-step-desc">Core concepts, AWS provider, state ledger, locking, variables, and Day 1 capstone.</div>
-        </div>
-
-        <div class="route-step-card" data-step="2" onclick="window.selectRouteStep(2)">
-          <div class="route-step-num">Step ②</div>
-          <div class="route-step-title">Production</div>
-          <div class="route-step-desc">Workspaces, 3-VPC networking, count vs for_each, and two-tier ALB walkthrough.</div>
-        </div>
-
-        <div class="route-step-card" data-step="3" onclick="window.selectRouteStep(3)">
-          <div class="route-step-num">Step ③</div>
-          <div class="route-step-title">Practice Lab</div>
-          <div class="route-step-desc">40 hands-on exercises: warmups, multi-concept drills, and incident refactoring bosses.</div>
-        </div>
-
-        <div class="route-step-card" data-step="4" onclick="window.selectRouteStep(4)">
-          <div class="route-step-num">Step ④</div>
-          <div class="route-step-title">Exam Center</div>
-          <div class="route-step-desc">Certification command center: 9 domain reviews, 90 drills, 3 full 57-question mocks.</div>
-        </div>
-      </div>
-    </div>
 
     <!-- THE BOOKS SECTION -->
     <div class="section-header">
@@ -270,6 +237,40 @@
         </details>
       </article>
 
+    </div>
+
+    <!-- THE LEARNING ROUTE -->
+    <div class="section-header" id="route">
+      <h2 class="sec"><span>🗺️</span> The learning route</h2>
+      <span class="sec-sub">Follow the recommended sequence — each volume builds upon the last. Click a step to jump to it.</span>
+    </div>
+
+    <div class="route-container">
+      <div class="route-steps">
+        <div class="route-step-card active" data-step="1" onclick="window.selectRouteStep(1)">
+          <div class="route-step-num">Step ①</div>
+          <div class="route-step-title">Foundations</div>
+          <div class="route-step-desc">Core concepts, AWS provider, state ledger, locking, variables, and Day 1 capstone.</div>
+        </div>
+
+        <div class="route-step-card" data-step="2" onclick="window.selectRouteStep(2)">
+          <div class="route-step-num">Step ②</div>
+          <div class="route-step-title">Production</div>
+          <div class="route-step-desc">Workspaces, 3-VPC networking, count vs for_each, and two-tier ALB walkthrough.</div>
+        </div>
+
+        <div class="route-step-card" data-step="3" onclick="window.selectRouteStep(3)">
+          <div class="route-step-num">Step ③</div>
+          <div class="route-step-title">Practice Lab</div>
+          <div class="route-step-desc">40 hands-on exercises: warmups, multi-concept drills, and incident refactoring bosses.</div>
+        </div>
+
+        <div class="route-step-card" data-step="4" onclick="window.selectRouteStep(4)">
+          <div class="route-step-num">Step ④</div>
+          <div class="route-step-title">Exam Center</div>
+          <div class="route-step-desc">Certification command center: 9 domain reviews, 90 drills, 3 full 57-question mocks.</div>
+        </div>
+      </div>
     </div>
 
     <!-- INTERACTIVE EXAM PRACTICE DRILL ARENA -->
