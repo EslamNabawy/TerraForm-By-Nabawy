@@ -378,25 +378,111 @@
   }
 }
 
-/* ── 4. MOBILE LAYOUT (< 768px) ── */
+/* ── 4. FLOATING BACK TO TOP BUTTON FOR BOOKS ── */
+.book-back-to-top-btn {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  z-index: 9999;
+  background: var(--ink, #26201a);
+  color: var(--paper, #faf7f1);
+  border: 2px solid var(--ink, #26201a);
+  border-radius: 999px;
+  padding: 8px 15px;
+  font-size: 13px;
+  font-weight: 800;
+  font-family: 'Segoe UI', system-ui, sans-serif;
+  cursor: pointer;
+  box-shadow: 3px 3px 0 var(--amber, #d97706);
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(12px);
+  transition: opacity 0.22s ease, visibility 0.22s ease, transform 0.22s ease,
+              background 0.15s ease, box-shadow 0.12s ease;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+}
+.book-back-to-top-btn.visible {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+}
+.book-back-to-top-btn:hover {
+  background: var(--amber, #d97706);
+  color: #fff;
+  border-color: var(--amber, #d97706);
+  box-shadow: 4px 4px 0 var(--ink, #26201a);
+  transform: translateY(-2px);
+}
+.book-back-to-top-btn:active {
+  transform: translateY(2px);
+  box-shadow: 0 0 0;
+}
+
+[data-theme="dark"] .book-back-to-top-btn {
+  background: #241f1a;
+  color: #f2ece2;
+  border-color: #4a4037;
+  box-shadow: 3px 3px 0 var(--amber);
+}
+[data-theme="dark"] .book-back-to-top-btn:hover {
+  background: var(--amber);
+  color: #12100e;
+  border-color: var(--amber);
+  box-shadow: 4px 4px 0 #000000;
+}
+
+/* ── 5. MOBILE LAYOUT (< 768px) ── */
 @media screen and (max-width: 768px) {
   .reader-topbar {
-    padding: 0 10px;
+    padding: 0 8px;
     height: 46px;
+    gap: 6px;
   }
   .reader-book-title {
     display: none;
+  }
+  .reader-left {
+    gap: 6px;
+    flex-shrink: 0;
+  }
+  .reader-right {
+    gap: 5px;
+    flex-shrink: 0;
   }
   .reader-nav-btn {
     padding: 4px 8px;
     font-size: 11.5px;
   }
   .reader-ctrl-btn {
-    padding: 4px 7px;
+    padding: 4px 8px;
+    font-size: 11.5px;
+  }
+  .reader-ctrl-btn .btn-text {
+    display: none;
+  }
+  .reader-font-controls {
+    padding: 1px 3px;
+    gap: 1px;
+  }
+  .reader-font-btn {
+    padding: 2px 5px;
     font-size: 11px;
+    min-width: 20px;
+  }
+  .reader-font-level {
+    font-size: 10px;
+    min-width: 26px;
   }
   .reader-print-btn {
     display: none !important;
+  }
+  .book-back-to-top-btn {
+    bottom: 14px;
+    right: 14px;
+    padding: 6px 11px;
+    font-size: 11.5px;
   }
 
   body {
@@ -431,9 +517,10 @@
   }
 }
 
-/* ── 5. PRINT FIDELITY (EXACT A4 SHEETS RESTORED) ── */
+/* ── 6. PRINT FIDELITY (EXACT A4 SHEETS RESTORED) ── */
 @media print {
-  .reader-topbar {
+  .reader-topbar,
+  .book-back-to-top-btn {
     display: none !important;
   }
   body {

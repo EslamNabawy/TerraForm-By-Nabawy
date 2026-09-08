@@ -139,10 +139,39 @@
     });
   }
 
+  function createBackToTop() {
+    if (document.getElementById('book-back-to-top')) return;
+    const btn = document.createElement('button');
+    btn.id = 'book-back-to-top';
+    btn.className = 'book-back-to-top-btn';
+    btn.title = 'Back to top of book';
+    btn.innerHTML = '↑ <span class="btn-text">Top</span>';
+    btn.addEventListener('click', () => {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
+    document.body.appendChild(btn);
+
+    let scrollTick = false;
+    window.addEventListener('scroll', () => {
+      if (!scrollTick) {
+        scrollTick = true;
+        requestAnimationFrame(() => {
+          if (window.scrollY > 350) {
+            btn.classList.add('visible');
+          } else {
+            btn.classList.remove('visible');
+          }
+          scrollTick = false;
+        });
+      }
+    }, { passive: true });
+  }
+
   function init() {
     applyTheme(STATE.theme);
     applyFontSize();
     createHeader();
+    createBackToTop();
     setupKeyboard();
   }
 

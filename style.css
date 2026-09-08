@@ -425,15 +425,16 @@ footer .fol-rule::before,footer .fol-rule::after{content:''; flex:1; border-top:
   box-shadow: 0 0 0;
 }
 [data-theme="dark"] .back-to-top-btn {
-  background: var(--paper);
-  color: var(--desk);
-  border-color: var(--line);
+  background: #241f1a;
+  color: #f2ece2;
+  border-color: #4a4037;
   box-shadow: 3px 3px 0 var(--amber);
 }
 [data-theme="dark"] .back-to-top-btn:hover {
   background: var(--amber);
-  color: #fff;
+  color: #12100e;
   border-color: var(--amber);
+  box-shadow: 4px 4px 0 #000000;
 }
 
 /* ═══════════ MOTION ═══════════ */
