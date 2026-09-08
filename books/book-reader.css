@@ -1,141 +1,147 @@
 /* ══════════════════════════════════════════════════════════════════════════
-   TERRAFORM BY NABAWY — ADVANCED BOOK READER ENGINE (book-reader.css)
-   Themes: Parchment (Light), Obsidian (Dark), Warm Sepia
-   Customization: Font Size Scaling, Typography Switching, Fluid/Paginated Modes
+   TERRAFORM BY NABAWY — BOOK READER ENGINE (book-reader.css)
+   Clean, responsive, mobile-first reading engine.
+   - Screen View: Fully responsive, readable typography, dark/light theme
+   - Print View: 100% Pixel-perfect A4 print sheets
    ══════════════════════════════════════════════════════════════════════════ */
 
-/* ── 1. FLOATING READER TOOLBAR ── */
-.reader-toolbar {
+/* ── 1. MINIMAL STICKY TOP NAV BAR ── */
+.reader-topbar {
   position: fixed;
-  top: 10px;
-  left: 50%;
-  transform: translateX(-50%);
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 50px;
   z-index: 99999;
   background: var(--paper, #faf7f1);
-  border: 2px solid var(--ink, #26201a);
-  border-radius: 999px;
-  box-shadow: 4px 4px 0 rgba(38,32,26,0.9);
-  padding: 5px 12px;
+  border-bottom: 2px solid var(--ink, #26201a);
   display: flex;
   align-items: center;
-  gap: 7px;
+  justify-content: space-between;
+  padding: 0 16px;
   font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
-  transition: all 0.2s ease;
-  backdrop-filter: blur(12px);
-  max-width: 98vw;
+  box-shadow: 0 2px 8px rgba(38,32,26,0.12);
+  transition: background 0.2s, border-color 0.2s;
 }
 
-.reader-toolbar:hover {
-  box-shadow: 6px 6px 0 rgba(38,32,26,0.95);
+.reader-left {
+  display: flex;
+  align-items: center;
+  gap: 12px;
 }
 
-.reader-btn {
-  background: var(--card, #fffdf9);
-  color: var(--ink, #26201a);
+.reader-nav-btn {
+  background: var(--ink, #26201a);
+  color: var(--paper, #faf7f1) !important;
   border: 1.5px solid var(--ink, #26201a);
-  border-radius: 999px;
-  padding: 4px 9px;
-  font-size: 11.5px;
-  font-weight: 700;
-  cursor: pointer;
-  font-family: inherit;
+  border-radius: 8px;
+  padding: 5px 12px;
+  font-size: 12.5px;
+  font-weight: 800;
   text-decoration: none;
   display: inline-flex;
   align-items: center;
-  gap: 4px;
-  box-shadow: 2px 2px 0 rgba(38,32,26,0.85);
-  transition: transform 0.1s, box-shadow 0.1s, background 0.1s;
+  gap: 6px;
+  box-shadow: 2px 2px 0 var(--amber, #d97706);
+  transition: all 0.12s ease;
   white-space: nowrap;
 }
 
-.reader-btn:hover {
-  background: var(--t-amber, #fdf1de);
+.reader-nav-btn:hover {
+  background: var(--amber, #d97706);
+  border-color: var(--amber, #d97706);
+  color: #fff !important;
   transform: translateY(-1px);
-  box-shadow: 3px 3px 0 rgba(38,32,26,0.9);
 }
 
-.reader-btn:active {
+.reader-book-title {
+  font-family: Georgia, serif;
+  font-weight: 700;
+  font-size: 14px;
+  color: var(--ink, #26201a);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 320px;
+}
+
+.reader-right {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.reader-ctrl-btn {
+  background: var(--card, #fffdf9);
+  color: var(--ink, #26201a);
+  border: 1.5px solid var(--ink, #26201a);
+  border-radius: 8px;
+  padding: 4px 10px;
+  font-size: 12px;
+  font-weight: 800;
+  font-family: inherit;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  box-shadow: 1.5px 1.5px 0 rgba(38,32,26,0.85);
+  transition: all 0.12s ease;
+  white-space: nowrap;
+}
+
+.reader-ctrl-btn:hover {
+  background: var(--t-amber, #fdf1de);
+  border-color: var(--amber, #d97706);
+  color: var(--amber-d, #b45309);
+  transform: translateY(-1px);
+}
+
+.reader-ctrl-btn:active {
   transform: translateY(1px);
   box-shadow: 0 0 0;
 }
 
-.reader-back-btn {
-  background: var(--ink, #26201a);
-  color: var(--paper, #faf7f1) !important;
-  font-weight: 800;
-}
-
-.reader-back-btn:hover {
-  background: var(--amber, #d97706);
-  color: #fff !important;
-}
-
-.reader-title-badge {
-  font-family: Georgia, serif;
-  font-weight: 700;
-  font-size: 12.5px;
-  color: var(--ink, #26201a);
-  padding: 0 4px;
-  white-space: nowrap;
-  max-width: 170px;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-
-.reader-divider {
-  width: 1px;
-  height: 20px;
-  background: var(--line, #e7e0d2);
-  margin: 0 1px;
-}
-
-.reader-font-group {
+.reader-font-controls {
   display: flex;
   align-items: center;
   gap: 2px;
+  background: var(--t-paper, #f4eee1);
+  border: 1.5px solid var(--ink, #26201a);
+  border-radius: 8px;
+  padding: 2px 4px;
 }
 
 .reader-font-btn {
-  padding: 3px 7px;
-  font-size: 11px;
+  background: none;
+  border: none;
+  color: var(--ink, #26201a);
   font-weight: 800;
-  min-width: 24px;
-  justify-content: center;
+  font-size: 12px;
+  padding: 2px 6px;
+  cursor: pointer;
+  border-radius: 4px;
 }
 
-.reader-font-label {
-  font-size: 10.5px;
+.reader-font-btn:hover {
+  background: var(--amber, #d97706);
+  color: #fff;
+}
+
+.reader-font-level {
+  font-size: 11px;
   font-weight: 800;
   color: var(--muted, #7c7264);
   min-width: 32px;
   text-align: center;
-  user-select: none;
 }
 
-.reader-page-indicator {
-  font-size: 11px;
-  font-weight: 800;
-  color: var(--amber-d, #b45309);
-  background: var(--t-amber, #fdf1de);
-  border: 1.5px solid var(--ink, #26201a);
-  border-radius: 999px;
-  padding: 3px 8px;
-  white-space: nowrap;
-}
-
-/* ── 2. THEMES ── */
-/* Parchment Light (Default) */
-:root, [data-theme="light"] {
-  --desk: #e9e2d6 !important;
-}
-
-/* Obsidian Dark */
+/* ── 2. DARK MODE (OBSIDIAN) OVERRIDES ── */
 [data-theme="dark"] {
-  --paper: #1b1714 !important;
-  --card: #241f1a !important;
+  --paper: #191512 !important;
+  --card: #221d18 !important;
   --ink: #f2ece2 !important;
-  --line: #3d352e !important;
-  --rule: #3d352e !important;
+  --line: #383028 !important;
+  --rule: #383028 !important;
   --muted: #a69b8f !important;
   --desk: #100e0c !important;
   --amber: #f59e0b !important;
@@ -150,7 +156,7 @@
   --t-crimson: rgba(248, 113, 113, 0.2) !important;
   --t-plum: rgba(167, 139, 250, 0.2) !important;
   --t-green: rgba(74, 222, 128, 0.18) !important;
-  --t-paper: #2d2620 !important;
+  --t-paper: #2b241e !important;
   --t-stone: #57534e !important;
 }
 
@@ -160,54 +166,54 @@
   color: #f2ece2 !important;
 }
 
-[data-theme="dark"] .reader-toolbar {
-  background: #1b1714 !important;
-  border-color: #3d352e !important;
-  box-shadow: 4px 4px 0 #000000 !important;
+[data-theme="dark"] .reader-topbar {
+  background: #191512 !important;
+  border-bottom-color: #383028 !important;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.6) !important;
 }
 
-[data-theme="dark"] .reader-btn {
-  background: #241f1a !important;
+[data-theme="dark"] .reader-book-title {
   color: #f2ece2 !important;
-  border-color: #3d352e !important;
-  box-shadow: 2px 2px 0 #000000 !important;
 }
 
-[data-theme="dark"] .reader-btn:hover {
+[data-theme="dark"] .reader-nav-btn {
+  background: #f2ece2 !important;
+  color: #191512 !important;
+  border-color: #f2ece2 !important;
+  box-shadow: 2px 2px 0 #f59e0b !important;
+}
+
+[data-theme="dark"] .reader-nav-btn:hover {
+  background: #f59e0b !important;
+  color: #100e0c !important;
+}
+
+[data-theme="dark"] .reader-ctrl-btn {
+  background: #221d18 !important;
+  color: #f2ece2 !important;
+  border-color: #383028 !important;
+  box-shadow: 1.5px 1.5px 0 #000 !important;
+}
+
+[data-theme="dark"] .reader-ctrl-btn:hover {
   background: var(--t-amber) !important;
   border-color: var(--amber) !important;
   color: var(--amber-d) !important;
 }
 
-[data-theme="dark"] .reader-back-btn {
-  background: #f2ece2 !important;
-  color: #1b1714 !important;
-  border-color: #f2ece2 !important;
+[data-theme="dark"] .reader-font-controls {
+  background: #2b241e !important;
+  border-color: #383028 !important;
 }
 
-[data-theme="dark"] .reader-back-btn:hover {
-  background: #f59e0b !important;
-  color: #100e0c !important;
-}
-
-[data-theme="dark"] .reader-divider {
-  background: #3d352e !important;
-}
-
-[data-theme="dark"] .reader-title-badge {
+[data-theme="dark"] .reader-font-btn {
   color: #f2ece2 !important;
 }
 
-[data-theme="dark"] .reader-page-indicator {
-  background: #2d2620 !important;
-  border-color: #3d352e !important;
-  color: #fbbf24 !important;
-}
-
 [data-theme="dark"] .sheet {
-  background: #1b1714 !important;
-  box-shadow: 0 10px 32px rgba(0, 0, 0, 0.85) !important;
-  border: 1px solid #3d352e !important;
+  background: #191512 !important;
+  border-color: #383028 !important;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.85) !important;
   color: #f2ece2 !important;
 }
 
@@ -216,30 +222,30 @@
 [data-theme="dark"] .termbody,
 [data-theme="dark"] .termwin,
 [data-theme="dark"] pre {
-  background: #100e0c !important;
-  border-color: #3d352e !important;
+  background: #0f0d0b !important;
+  border-color: #383028 !important;
   color: #f2ece2 !important;
 }
 
 [data-theme="dark"] table.tb {
-  background: #241f1a !important;
-  border-color: #3d352e !important;
+  background: #221d18 !important;
+  border-color: #383028 !important;
 }
 
 [data-theme="dark"] .tb td {
-  background: #241f1a !important;
-  border-color: #3d352e !important;
-  color: #e2dacf !important;
+  background: #221d18 !important;
+  border-color: #383028 !important;
+  color: #ded7ce !important;
 }
 
 [data-theme="dark"] .tb tr:nth-child(even) td {
-  background: #1b1714 !important;
+  background: #1c1714 !important;
 }
 
 [data-theme="dark"] .tb th {
-  background: #100e0c !important;
+  background: #0f0d0b !important;
   color: #f2ece2 !important;
-  border-bottom: 2px solid #3d352e !important;
+  border-bottom: 2px solid #383028 !important;
 }
 
 [data-theme="dark"] .panel,
@@ -250,32 +256,14 @@
 [data-theme="dark"] .stepitem,
 [data-theme="dark"] .chipr,
 [data-theme="dark"] .m-exam {
-  background: #241f1a !important;
-  border-color: #3d352e !important;
+  background: #221d18 !important;
+  border-color: #383028 !important;
   color: #f2ece2 !important;
-}
-
-[data-theme="dark"] .blk small,
-[data-theme="dark"] .dnote,
-[data-theme="dark"] .folio,
-[data-theme="dark"] p.lead {
-  color: #ded7ce !important;
-}
-
-[data-theme="dark"] a.backtoc {
-  background: #241f1a !important;
-  border-color: #3d352e !important;
-  color: #ded7ce !important;
-}
-
-[data-theme="dark"] a.backtoc:hover {
-  color: #fbbf24 !important;
-  border-color: #f59e0b !important;
 }
 
 [data-theme="dark"] .folio::before,
 [data-theme="dark"] .folio::after {
-  border-top-color: #3d352e !important;
+  border-top-color: #383028 !important;
 }
 
 [data-theme="dark"] .folio .fnum {
@@ -283,163 +271,169 @@
 }
 
 [data-theme="dark"] .cover .stamp {
-  background: #241f1a !important;
+  background: #221d18 !important;
   border-color: #f2ece2 !important;
-  box-shadow: 5px 5px 0 #f59e0b !important;
+  box-shadow: 4px 4px 0 #f59e0b !important;
 }
 
-/* Sepia Theme */
-[data-theme="sepia"] {
-  --paper: #f4ebd9 !important;
-  --card: #faf3e5 !important;
-  --ink: #3b2d1d !important;
-  --line: #ded1ba !important;
-  --rule: #ded1ba !important;
-  --muted: #7d6b54 !important;
-  --desk: #e3d6be !important;
-  --amber: #c2781b !important;
-  --amber-d: #9e5b0b !important;
-  --t-amber: #faecd5 !important;
-  --t-paper: #ece0ca !important;
-}
-
-[data-theme="sepia"] html,
-[data-theme="sepia"] body {
-  background: #e3d6be !important;
-  color: #3b2d1d !important;
-}
-
-[data-theme="sepia"] .sheet {
-  background: #f4ebd9 !important;
-  border-color: #ded1ba !important;
-  box-shadow: 0 6px 20px rgba(59, 45, 29, 0.18) !important;
-}
-
-/* ── 3. FONT SCALING & TYPOGRAPHY ── */
+/* ── 3. SCREEN RESPONSIVE ENGINE (REPLACES RIGID A4 BOXES) ── */
 @media screen {
   body {
-    padding-top: 55px !important;
+    padding-top: 65px !important;
+    padding-bottom: 40px !important;
+    background: var(--desk, #e9e2d6) !important;
+    color: var(--ink) !important;
   }
 
-  /* Font Scaling */
-  html[data-font-size="small"] .sheet { zoom: 0.92; }
-  html[data-font-size="normal"] .sheet { zoom: 1.0; }
-  html[data-font-size="large"] .sheet { zoom: 1.14; }
-  html[data-font-size="xlarge"] .sheet { zoom: 1.28; }
-  html[data-font-size="huge"] .sheet { zoom: 1.42; }
-
-  /* Ensure enlarged sheets expand naturally */
-  html[data-font-size="large"] .sheet,
-  html[data-font-size="xlarge"] .sheet,
-  html[data-font-size="huge"] .sheet {
-    height: auto !important;
-    max-height: none !important;
-    overflow: visible !important;
-    min-height: 297mm !important;
-    padding-bottom: 25mm !important;
-  }
-
-  /* Typography mode: Serif */
-  html[data-font-family="serif"] body,
-  html[data-font-family="serif"] .sheet {
-    font-family: Georgia, 'Times New Roman', serif !important;
-  }
-
-  /* Fluid Continuous Web Reading Mode */
-  html[data-layout="continuous"] .sheet {
-    width: min(920px, 94vw) !important;
-    max-width: 920px !important;
+  .sheet {
+    width: min(880px, 94vw) !important;
     min-width: 0 !important;
+    max-width: 880px !important;
     height: auto !important;
     min-height: auto !important;
     max-height: none !important;
     overflow: visible !important;
+    margin: 24px auto !important;
     padding: clamp(20px, 4vw, 36px) !important;
-    margin: 20px auto !important;
+    border: 2px solid var(--ink) !important;
     border-radius: 14px !important;
-    zoom: 1.0 !important;
+    box-shadow: 5px 5px 0 rgba(38,32,26,0.85) !important;
+    page-break-after: auto !important;
+    page-break-inside: auto !important;
   }
-  html[data-layout="continuous"] .folio {
+
+  /* Font Scaling Options */
+  html[data-font-size="small"] { font-size: 13.5px; }
+  html[data-font-size="normal"] { font-size: 15px; }
+  html[data-font-size="large"] { font-size: 16.5px; }
+  html[data-font-size="xlarge"] { font-size: 18px; }
+
+  .sheet h1.t, .sheet h1 {
+    font-size: clamp(22px, 3.5vw, 28px) !important;
+    line-height: 1.25 !important;
+  }
+  .sheet p, .sheet .lead {
+    font-size: 1em !important;
+    line-height: 1.65 !important;
+  }
+  .sheet .mark {
+    font-size: 0.95em !important;
+    line-height: 1.55 !important;
+    padding: 10px 14px !important;
+    margin: 10px 0 !important;
+  }
+  .sheet .mark .tag {
+    font-size: 0.8em !important;
+    margin-bottom: 3px !important;
+  }
+  .sheet .panel {
+    padding: 14px 16px !important;
+    margin: 12px 0 !important;
+  }
+  .sheet .code, .sheet .tree, .sheet pre {
+    font-size: 0.9em !important;
+    line-height: 1.55 !important;
+    padding: 10px 14px !important;
+    margin: 10px 0 !important;
+    overflow-x: auto !important;
+    white-space: pre !important;
+    max-width: 100% !important;
+  }
+  .sheet .blk {
+    font-size: 0.9em !important;
+    padding: 8px 12px !important;
+  }
+  .sheet .blk small {
+    font-size: 0.85em !important;
+  }
+  .sheet table.tb {
+    font-size: 0.92em !important;
+    width: 100% !important;
+  }
+  .sheet .tb th, .sheet .tb td {
+    padding: 8px 11px !important;
+  }
+  .sheet .folio {
     position: relative !important;
     bottom: auto !important;
     left: auto !important;
     right: auto !important;
     margin-top: 28px !important;
+    padding-top: 10px !important;
+    font-size: 0.85em !important;
+  }
+
+  /* Cover adaptation on screen */
+  .sheet.cover {
+    display: flex !important;
+    flex-direction: column !important;
+    justify-content: center !important;
+  }
+  .sheet.cover .stamp {
+    position: static !important;
+    font-size: 32px !important;
+    opacity: 0.8 !important;
+    transform: none !important;
+    margin-bottom: 12px !important;
   }
 }
 
-/* ── 4. RESPONSIVE MOBILE / TABLET VIEW ── */
-@media screen and (max-width: 860px) {
-  body {
-    padding-top: 65px !important;
-    padding-bottom: 30px !important;
+/* ── 4. MOBILE LAYOUT (< 768px) ── */
+@media screen and (max-width: 768px) {
+  .reader-topbar {
+    padding: 0 10px;
+    height: 46px;
   }
-
-  .reader-toolbar {
-    top: 8px;
-    width: calc(100vw - 16px);
-    justify-content: space-between;
-    padding: 5px 8px;
-    gap: 4px;
-  }
-
-  .reader-title-badge {
+  .reader-book-title {
     display: none;
   }
-
-  .reader-btn {
+  .reader-nav-btn {
+    padding: 4px 8px;
+    font-size: 11.5px;
+  }
+  .reader-ctrl-btn {
     padding: 4px 7px;
     font-size: 11px;
   }
+  .reader-print-btn {
+    display: none !important;
+  }
 
-  .reader-print-btn,
-  .reader-layout-btn {
-    display: none;
+  body {
+    padding-top: 54px !important;
+    padding-bottom: 20px !important;
   }
 
   .sheet {
-    width: 95vw !important;
-    min-width: 0 !important;
-    max-width: 95vw !important;
-    height: auto !important;
-    min-height: auto !important;
-    max-height: none !important;
-    padding: 18px 14px 28px !important;
-    margin: 14px auto !important;
-    border-radius: 12px !important;
-    overflow: visible !important;
-    zoom: 1.0 !important;
+    width: calc(100vw - 16px) !important;
+    max-width: calc(100vw - 16px) !important;
+    margin: 10px auto !important;
+    padding: 16px 12px !important;
+    border-radius: 10px !important;
+    box-shadow: 3px 3px 0 rgba(38,32,26,0.85) !important;
   }
 
-  .folio {
-    position: relative !important;
-    bottom: auto !important;
-    left: auto !important;
-    right: auto !important;
-    margin-top: 24px !important;
-  }
-
-  .grid2, .grid3, .labcols {
+  .grid2, .grid3, .labcols, .fcols, .frow {
     grid-template-columns: 1fr !important;
+    display: grid !important;
+    gap: 8px !important;
   }
 
-  .cover {
-    padding: 24px 14px !important;
+  .tblwrap, table.tb {
+    display: block !important;
+    overflow-x: auto !important;
+    width: 100% !important;
+    -webkit-overflow-scrolling: touch !important;
   }
 
-  .cover h1 {
-    font-size: 30px !important;
-  }
-
-  .cover .stamp {
-    font-size: 24px !important;
-    padding: 8px 12px !important;
+  .toc {
+    columns: 1 !important;
   }
 }
 
-/* ── 5. PRINT FIDELITY (RESTORES PURE A4 PRINTING) ── */
+/* ── 5. PRINT FIDELITY (EXACT A4 SHEETS RESTORED) ── */
 @media print {
-  .reader-toolbar {
+  .reader-topbar {
     display: none !important;
   }
   body {
@@ -448,14 +442,24 @@
     color: #000 !important;
   }
   .sheet {
-    zoom: 1.0 !important;
     margin: 0 !important;
     box-shadow: none !important;
     width: 210mm !important;
+    min-width: 210mm !important;
+    max-width: 210mm !important;
     height: 297mm !important;
+    min-height: 297mm !important;
     max-height: 297mm !important;
     overflow: hidden !important;
     page-break-after: always !important;
+    page-break-inside: avoid !important;
     border: none !important;
+    padding: 10mm 12mm 14mm !important;
+  }
+  .folio {
+    position: absolute !important;
+    bottom: 8mm !important;
+    left: 15mm !important;
+    right: 15mm !important;
   }
 }
