@@ -179,6 +179,8 @@ footer .fol-rule::before,footer .fol-rule::after{content:''; flex:1; border-top:
 .card .btn.solid:hover{background:var(--amber-d);}
 .card .btn.amber{background:var(--t-amber); color:var(--ink);}
 .card .btn.amber:hover{background:var(--amber); color:#fff;}
+.card .btn.downloading{pointer-events:none; opacity:0.85; background:var(--amber)!important; color:#fff!important; animation:pulseAmber 1s infinite alternate;}
+@keyframes pulseAmber{from{box-shadow:2px 2px 0 var(--ink);}to{box-shadow:4px 4px 10px rgba(217,119,6,0.6);}}
 .chapters-preview-toggle{margin-top:14px; border-top:1.5px dashed var(--line); padding-top:10px;}
 .chapters-preview-toggle summary{font-size:12px; font-weight:800; color:var(--amber-d); cursor:pointer; user-select:none; list-style:none;}
 .chapters-preview-toggle summary::-webkit-details-marker{display:none;}

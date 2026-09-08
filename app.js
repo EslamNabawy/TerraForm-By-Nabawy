@@ -580,8 +580,63 @@
   }
 
   // =========================================================================
-  // 12. WINDOW EXPOSURES & INITIALIZATION
+  // 12. ROBUST PDF DOWNLOADER
   // =========================================================================
+  async function downloadPdf(url, filename, btn) {
+    if (btn && btn.classList.contains('downloading')) return;
+    
+    const origHtml = btn ? btn.innerHTML : '';
+    if (btn) {
+      btn.classList.add('downloading');
+      btn.innerHTML = `⏳ <span class="btn-text">Downloading...</span>`;
+    }
+    showToast(`Downloading ${filename || 'PDF'}...`, '📥');
+    playSound('click');
+
+    try {
+      const response = await fetch(url);
+      if (!response.ok) throw new Error(`HTTP error ${response.status}`);
+      
+      const blob = await response.blob();
+      const blobUrl = window.URL.createObjectURL(blob);
+      
+      const tempLink = document.createElement('a');
+      tempLink.style.display = 'none';
+      tempLink.href = blobUrl;
+      tempLink.setAttribute('download', filename || 'Terraform-Book.pdf');
+      document.body.appendChild(tempLink);
+      tempLink.click();
+      
+      setTimeout(() => {
+        document.body.removeChild(tempLink);
+        window.URL.revokeObjectURL(blobUrl);
+      }, 500);
+
+      playSound('success');
+      showToast(`${filename || 'PDF'} downloaded!`, '✅');
+    } catch (err) {
+      console.warn('Direct blob download failed, falling back to direct tab open:', err);
+      // Fallback: direct download link / new tab
+      const tempLink = document.createElement('a');
+      tempLink.target = '_blank';
+      tempLink.rel = 'noopener noreferrer';
+      tempLink.href = url;
+      tempLink.setAttribute('download', filename || 'Terraform-Book.pdf');
+      document.body.appendChild(tempLink);
+      tempLink.click();
+      setTimeout(() => document.body.removeChild(tempLink), 500);
+    } finally {
+      if (btn) {
+        btn.classList.remove('downloading');
+        btn.innerHTML = origHtml;
+      }
+    }
+  }
+
+  // =========================================================================
+  // 13. WINDOW EXPOSURES & INITIALIZATION
+  // =========================================================================
+  window.downloadPdf = downloadPdf;
   window.openNoteModal = openNoteModal;
   window.closeNoteModal = closeNoteModal;
   window.navigateNote = navigateNote;
@@ -696,6 +751,16 @@
         }
       }, { passive: true });
     }
+
+    // 6. PDF Download buttons handler
+    document.querySelectorAll('.pdf-download-btn, a[href$=".pdf"]').forEach(btn => {
+      btn.addEventListener('click', e => {
+        e.preventDefault();
+        const url = btn.getAttribute('href');
+        const filename = btn.getAttribute('download') || url.split('/').pop();
+        downloadPdf(url, filename, btn);
+      });
+    });
 
     console.log('TerraForm by Nabawy engine initialized successfully.');
   });
