@@ -67,3 +67,11 @@ test('malformed persisted drill statistics do not break app initialization', () 
   assert.match(app, /loadDrillStats\(\)/);
   assert.match(app, /catch \(error\)/);
 });
+
+test('book reader keeps screen sheets rounded and constrains grid content', () => {
+  const readerCss = read('books', 'book-reader.css');
+
+  assert.match(readerCss, /\.sheet::before\s*\{[\s\S]*border-radius: 12px 12px 0 0 !important/);
+  assert.match(readerCss, /\.grid2,\s*\.grid3,\s*\.labcols\s*\{[\s\S]*minmax\(0, 1fr\)/);
+  assert.match(readerCss, /\.sheet\.cover \.cver\s*\{[\s\S]*position: static !important/);
+});
