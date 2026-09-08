@@ -41,7 +41,18 @@ h1{font-family:Georgia,serif;font-size:52px;margin:6px 0;line-height:1.05}
 .route span{background:var(--card);border:2px solid var(--ink);border-radius:9px;padding:5px 12px;box-shadow:2px 2px 0 rgba(38,32,26,.8)}
 footer{text-align:center;color:var(--muted);font-size:12px;margin-top:44px}
 a.inline{color:var(--amber-d);font-weight:700}
-</style>
+.searchbar{max-width:620px;margin:22px auto 0;position:relative}
+.searchbar input{width:100%;font-size:16px;padding:13px 18px 13px 44px;border:2.5px solid var(--ink);border-radius:999px;background:var(--card);box-shadow:3px 3px 0 rgba(38,32,26,.85);outline:none;font-family:inherit}
+.searchbar input:focus{border-color:var(--amber-d)}
+.searchbar .mag{position:absolute;left:16px;top:50%;transform:translateY(-50%);font-size:18px}
+#results{max-width:620px;margin:10px auto 0;text-align:left;display:none}
+#results.on{display:block}
+#results .res{display:block;text-decoration:none;color:var(--ink);background:var(--card);border:2px solid var(--ink);border-radius:10px;padding:9px 13px;margin:7px 0;font-size:13px;box-shadow:2px 2px 0 rgba(38,32,26,.8)}
+#results .res:hover{background:var(--t-amber)}
+#results .res b{font-family:Georgia,serif;display:block;font-size:13.5px}
+#results .res small{color:var(--muted)}
+#results .nores{font-size:13px;color:var(--muted);text-align:center;padding:8px}
+@media(max-width:760px){.wrap{padding:16px 12px 44px}.hero{padding:30px 18px}.stamp{font-size:32px}.kick{letter-spacing:.2em}.sub{font-size:13.5px}.btns .btn{flex:1 1 100%;text-align:center}.card{padding:16px}.route span{flex:1 1 40%;text-align:center}.notes .note{flex:1 1 44%;text-align:center}}</style>
 </head>
 <body>
 <div class="wrap">
@@ -53,6 +64,8 @@ a.inline{color:var(--amber-d);font-weight:700}
 <div class="rule"></div>
 <p class="sub">The complete INK &amp; AMBER study library — foundations, production, hands-on lab, and exam command center. Read every book online or download the print-ready PDFs.</p>
 <div class="chips"><span class="chip">📖 4 books</span><span class="chip">📄 219 pages</span><span class="chip">🎓 261 exam questions</span><span class="chip">🏋️ 40 lab drills</span><span class="chip">📝 11 study notes</span></div>
+<div class="searchbar"><span class="mag">🔍</span><input id="q" type="search" placeholder="Search all books &amp; notes — try “state lock”, “for_each”, “Sentinel”…" autocomplete="off"></div>
+<div id="results"></div>
 </div>
 
 <h2 class="sec">The learning route</h2>
@@ -108,5 +121,20 @@ Open the online version → <b>Ctrl/Cmd+P → Save as PDF → Background graphic
 <footer>Built from Eng. Mohamed Magdy's Terraform course · INK &amp; AMBER style · TerraForm by Nabawy · <a class="inline" href="https://github.com/EslamNabawy">GitHub</a></footer>
 
 </div>
+<script>
+// Search renders only our own static index.json titles (never the user query) — no XSS surface.
+let IDX=[];
+fetch('search_index.json').then(r=>r.json()).then(j=>{IDX=j;});
+const box=document.getElementById('q'), out=document.getElementById('results');
+box.addEventListener('input',()=>{
+  const s=box.value.trim().toLowerCase();
+  if(s.length<2){out.classList.remove('on');out.innerHTML='';return;}
+  const words=s.split(/\s+/);
+  const hits=IDX.filter(e=>{const t=(e.t+' '+e.k).toLowerCase();return words.every(w=>t.includes(w));}).slice(0,14);
+  out.classList.add('on');
+  out.innerHTML=hits.length?hits.map(e=>'<a class="res" href="'+e.u+'"><b>'+e.t+'</b><small>'+e.s+'</small></a>').join('')
+    :'<div class="nores">No matches — try “state”, “module”, “plan”, “Sentinel”…</div>';
+});
+</script>
 </body>
 </html>
