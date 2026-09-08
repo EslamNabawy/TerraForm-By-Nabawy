@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>TerraForm by Nabawy — INK &amp; AMBER Study Library</title>
+<style>
+:root{--paper:#faf7f1;--card:#fffdf9;--ink:#26201a;--line:#e7e0d2;--muted:#7c7264;--amber:#d97706;--amber-d:#b45309;--teal:#0f766e;--crimson:#b91c1c;--plum:#7c3aed;--green:#15803d;--t-amber:#fdf1de;--t-teal:#e8f4f2;--t-crimson:#fbeaea;--t-plum:#f3eefb;--t-green:#eaf6ec;--t-paper:#f4eee1}
+*{box-sizing:border-box}body{margin:0;background:#e9e2d6;color:var(--ink);font-family:'Segoe UI',system-ui,Roboto,Arial,sans-serif}
+.wrap{max-width:1060px;margin:0 auto;padding:28px 20px 60px}
+.hero{background:var(--paper);border:3px solid var(--ink);border-radius:18px;box-shadow:7px 7px 0 rgba(38,32,26,.85);padding:44px 34px;text-align:center;position:relative;overflow:hidden}
+.hero::before{content:'';position:absolute;top:0;left:0;right:0;height:10px;background:linear-gradient(to bottom,var(--ink) 0 7px,var(--amber) 7px 10px)}
+.stamp{display:inline-block;border:3px solid var(--ink);border-radius:14px;box-shadow:4px 4px 0 var(--amber);background:var(--card);font-size:40px;padding:10px 16px;transform:rotate(-2deg)}
+.kick{font-size:12px;font-weight:800;letter-spacing:.32em;color:var(--amber-d);margin:18px 0 4px}
+h1{font-family:Georgia,serif;font-size:52px;margin:6px 0;line-height:1.05}
+.rule{width:90px;border-top:6px solid var(--amber);margin:16px auto}
+.sub{font-size:15px;color:#4a4238;max-width:640px;margin:0 auto;line-height:1.65}
+.chips{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-top:20px}
+.chip{background:var(--card);border:2px solid var(--ink);border-radius:999px;padding:5px 14px;font-size:12.5px;font-weight:800;box-shadow:2px 2px 0 rgba(38,32,26,.8)}
+.sec{font-family:Georgia,serif;font-size:24px;margin:38px 0 4px}
+.sec-sub{color:var(--muted);font-size:13.5px;margin:0 0 16px}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+@media(max-width:760px){.grid{grid-template-columns:1fr}h1{font-size:36px}}
+.card{background:var(--card);border:2.5px solid var(--ink);border-radius:14px;box-shadow:5px 5px 0 rgba(38,32,26,.85);padding:20px 22px;display:flex;flex-direction:column}
+.card .num{font-size:11px;font-weight:800;letter-spacing:.2em;color:var(--amber-d)}
+.card h2{font-family:Georgia,serif;font-size:22px;margin:4px 0 6px}
+.card p{font-size:13.5px;line-height:1.6;color:#4a4238;margin:0 0 12px}
+.meta{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:14px}
+.tag{font-size:11px;font-weight:800;border:1.5px solid var(--ink);border-radius:7px;padding:2px 9px;background:var(--t-paper)}
+.btns{display:flex;gap:10px;margin-top:auto;flex-wrap:wrap}
+.btn{display:inline-block;text-decoration:none;font-weight:800;font-size:13.5px;border:2px solid var(--ink);border-radius:10px;padding:9px 18px;box-shadow:3px 3px 0 rgba(38,32,26,.85)}
+.btn.solid{background:var(--ink);color:var(--paper)}
+.btn.amber{background:var(--t-amber);color:var(--ink)}
+.btn small{font-weight:600;color:inherit;opacity:.7}
+.panel{background:var(--card);border:2px solid var(--ink);border-radius:12px;box-shadow:4px 4px 0 rgba(38,32,26,.85);padding:14px 18px;margin:14px 0;font-size:13.5px;line-height:1.65}
+.panel .tag2{display:block;font-size:10.5px;font-weight:800;letter-spacing:.14em;text-transform:uppercase;color:var(--amber-d);margin-bottom:4px}
+.notes{display:flex;flex-wrap:wrap;gap:9px}
+.note{font-size:12.5px;font-weight:700;text-decoration:none;color:var(--ink);background:var(--card);border:2px solid var(--ink);border-radius:9px;padding:6px 12px;box-shadow:2px 2px 0 rgba(38,32,26,.8)}
+.note:hover{background:var(--t-amber)}
+.route{display:flex;align-items:center;gap:8px;flex-wrap:wrap;font-size:13px;font-weight:700}
+.route span{background:var(--card);border:2px solid var(--ink);border-radius:9px;padding:5px 12px;box-shadow:2px 2px 0 rgba(38,32,26,.8)}
+footer{text-align:center;color:var(--muted);font-size:12px;margin-top:44px}
+a.inline{color:var(--amber-d);font-weight:700}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<div class="hero">
+<div class="stamp">📚</div>
+<div class="kick">TERRAFORM MASTER SERIES</div>
+<h1>TerraForm by Nabawy</h1>
+<div class="rule"></div>
+<p class="sub">The complete INK &amp; AMBER study library — foundations, production, hands-on lab, and exam command center. Read every book online or download the print-ready PDFs.</p>
+<div class="chips"><span class="chip">📖 4 books</span><span class="chip">📄 219 pages</span><span class="chip">🎓 261 exam questions</span><span class="chip">🏋️ 40 lab drills</span><span class="chip">📝 11 study notes</span></div>
+</div>
+
+<h2 class="sec">The learning route</h2>
+<p class="sec-sub">Follow the numbers — each volume assumes the previous one.</p>
+<div class="route"><span>① Foundations</span>→<span>② Production</span>→<span>③ Practice Lab</span>→<span>④ Exam Center</span></div>
+
+<h2 class="sec">The books</h2>
+<p class="sec-sub">“Read online” opens the full print-ready book in your browser · “PDF” downloads the A4 version.</p>
+<div class="grid">
+
+<div class="card"><div class="num">VOLUME 1 · FOUNDATIONS</div><h2>Terraform Master I</h2>
+<p>Every core concept, anatomy, workflow, gotcha, and exam note — from IaC &amp; idempotence to variables, workspaces, provisioners, and the capstone chain. The reference volume.</p>
+<div class="meta"><span class="tag">25 pages</span><span class="tag">24 topics</span><span class="tag">5-layer notes</span></div>
+<div class="btns"><a class="btn solid" href="books/vol1-foundations.html">📖 Read online</a><a class="btn amber" href="books/vol1-foundations.pdf">⬇ PDF <small>5.2 MB</small></a></div></div>
+
+<div class="card"><div class="num">VOLUME 2 · PRODUCTION</div><h2>Terraform Master II</h2>
+<p>Multi-environment layouts, workspaces, networking deep-dive, count &amp; for_each, outputs, full project walkthrough, and the ALB build. The production volume.</p>
+<div class="meta"><span class="tag">17 pages</span><span class="tag">incl. ALB build</span><span class="tag">real walkthrough</span></div>
+<div class="btns"><a class="btn solid" href="books/vol2-production.html">📖 Read online</a><a class="btn amber" href="books/vol2-production.pdf">⬇ PDF <small>4.2 MB</small></a></div></div>
+
+<div class="card"><div class="num">VOLUME 3 · HANDS-ON LAB</div><h2>Terraform Practice Lab</h2>
+<p>40 exercises — 15 warm-ups, 15 drills, 10 bosses — every one with a full worked answer (WHY + TRAP + EXAM). Broken code, scenarios, output-reading, debugging.</p>
+<div class="meta"><span class="tag">39 pages</span><span class="tag">40 exercises</span><span class="tag">40 solutions</span></div>
+<div class="btns"><a class="btn solid" href="books/lab.html">📖 Read online</a><a class="btn amber" href="books/lab.pdf">⬇ PDF <small>14.9 MB</small></a></div></div>
+
+<div class="card"><div class="num">VOLUME 4 · CERTIFICATION</div><h2>Exam Command Center</h2>
+<p>HashiCorp Certified: Terraform Associate (003) prep — exam intel, 9 domain reviews, 90 drills with deep keys, 3 full 57-question mocks with answer keys, score tracker.</p>
+<div class="meta"><span class="tag">138 pages</span><span class="tag">261 questions</span><span class="tag">3 mocks</span></div>
+<div class="btns"><a class="btn solid" href="books/exam-center.html">📖 Read online</a><a class="btn amber" href="books/exam-center.pdf">⬇ PDF <small>28 MB</small></a></div></div>
+
+</div>
+
+<h2 class="sec">Study notes</h2>
+<p class="sec-sub">The 11 gap-filler notes that took coverage to 24/24 — Markdown, free to download.</p>
+<div class="panel"><span class="tag2">📝 Notes vault</span>
+<div class="notes">
+<a class="note" href="notes/09-alb-walkthrough.md">09 · ALB walkthrough</a>
+<a class="note" href="notes/17-what-is-terraform-facts.md">17 · Terraform facts</a>
+<a class="note" href="notes/18-terraform-init.md">18 · init</a>
+<a class="note" href="notes/19-providers-catalog.md">19 · providers</a>
+<a class="note" href="notes/20-core-cli-commands.md">20 · core CLI</a>
+<a class="note" href="notes/21-state-file-what-why.md">21 · state what &amp; why</a>
+<a class="note" href="notes/22-state-commands.md">22 · state commands</a>
+<a class="note" href="notes/23-fmt-and-destroy.md">23 · fmt &amp; destroy</a>
+<a class="note" href="notes/24-more-cli-commands.md">24 · more CLI</a>
+<a class="note" href="notes/25-provisioners-doctrine.md">25 · provisioners</a>
+<a class="note" href="notes/26-capstone-hands-on-chain.md">26 · capstone chain</a>
+</div></div>
+
+<div class="panel"><span class="tag2">🖨 Print any book</span>
+Open the online version → <b>Ctrl/Cmd+P → Save as PDF → Background graphics ON</b>. Links stay clickable in the PDF.</div>
+
+<footer>Built from Eng. Mohamed Magdy's Terraform course · INK &amp; AMBER style · TerraForm by Nabawy · <a class="inline" href="https://github.com/EslamNabawy">GitHub</a></footer>
+
+</div>
+</body>
+</html>

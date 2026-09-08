@@ -1,0 +1,955 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Terraform Practice Lab · INK &amp; AMBER</title>
+<style>
+:root{--paper:#faf7f1;--card:#fffdf9;--ink:#26201a;--line:#e7e0d2;--muted:#7c7264;--amber:#d97706;--amber-d:#b45309;--teal:#0f766e;--crimson:#b91c1c;--plum:#7c3aed;--green:#15803d;--t-amber:#fdf1de;--t-teal:#e8f4f2;--t-crimson:#fbeaea;--t-plum:#f3eefb;--t-green:#eaf6ec;--t-paper:#f4eee1;--rose:#be123c;--t-rose:#fbeaea;--sky-t:#e0f0fa}
+*{box-sizing:border-box;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+body{margin:0;background:#e9e2d6;font-family:'Segoe UI',system-ui,-apple-system,Roboto,Arial,sans-serif;color:var(--ink)}
+@page{size:A4;margin:0}
+.sheet{width:210mm;min-width:210mm;max-width:210mm;height:297mm;min-height:297mm;max-height:297mm;background:var(--paper);margin:0 auto 9mm;padding:10mm 12mm 14mm;box-sizing:border-box;position:relative;box-shadow:0 6px 22px rgba(38,32,26,.22);page-break-after:always;page-break-inside:avoid;overflow:hidden}
+.sheet::before{content:'';position:absolute;top:0;left:0;right:0;height:8px;background:linear-gradient(to bottom, var(--ink) 0 6px, var(--amber) 6px 8px)}
+@media print{body{background:#fff}.sheet{margin:0;box-shadow:none}}
+.pghead{margin:0 0 10px;border-bottom:2px solid var(--ink);padding-bottom:7px}
+.hrow{display:flex;align-items:flex-start;gap:12px}
+.kick{font-size:9.8px;font-weight:800;letter-spacing:.18em;text-transform:uppercase;color:var(--amber-d);margin-bottom:2px}
+h1.t{font-family:Georgia,'Times New Roman',serif;font-size:24.2px;font-weight:700;margin:0;line-height:1.2}
+.hmeta{margin-left:auto;align-self:flex-start;font-size:9.8px;font-weight:800;border:2px solid var(--ink);border-radius:8px;padding:3px 10px;background:var(--t-amber);box-shadow:3px 0 var(--ink);white-space:nowrap}
+.folio{position:absolute;bottom:8mm;left:15mm;right:15mm;display:flex;align-items:center;gap:10px;font-size:9.3px;letter-spacing:.06em;color:var(--muted)}
+.folio::before,.folio::after{content:'';flex:1;border-top:2px solid var(--ink)}
+.folio .fnum{font-weight:800;color:var(--ink)}
+a.tocrow{color:inherit;text-decoration:none}
+a.tocrow:hover .tp{color:var(--amber-d)}
+a.tlink{color:var(--amber-d);font-weight:700;text-decoration:none;border-bottom:2px dotted var(--amber)}
+a.tlink:hover{background:var(--t-amber)}
+a.backtoc{color:var(--muted);text-decoration:none;border:1.5px solid var(--ink);border-radius:6px;padding:1px 7px;font-weight:800;font-size:8.8px;box-shadow:2px 2px 0 rgba(38,32,26,.8);background:var(--card)}
+a.backtoc:hover{color:var(--amber-d)}
+.mark{border-radius:0 10px 10px 0;border-left:5px solid;padding:9px 13px;margin:7px 0;font-size:11.7px;line-height:1.40}
+.mark .tag{display:block;font-size:9.3px;font-weight:800;letter-spacing:.14em;text-transform:uppercase;margin-bottom:2px}
+.m-key{border-color:var(--amber);background:var(--t-amber)}.m-key .tag{color:var(--amber-d)}
+.m-warn{border-color:var(--crimson);background:var(--t-crimson)}.m-warn .tag{color:var(--crimson)}
+.m-tip{border-color:var(--teal);background:var(--t-teal)}.m-tip .tag{color:var(--teal)}
+.m-fun{border-color:var(--plum);background:var(--t-plum)}.m-fun .tag{color:var(--plum)}
+.m-ok{border-color:var(--green);background:var(--t-green)}.m-ok .tag{color:var(--green)}
+.m-exam{border:2px solid var(--ink);border-left:6px solid var(--amber);background:var(--card);border-radius:0 10px 10px 0;box-shadow:3px 3px 0 var(--ink);padding:9px 13px;margin:7px 0;font-size:11.7px;line-height:1.40}
+.m-exam .tag{display:block;font-size:9.3px;font-weight:800;letter-spacing:.14em;text-transform:uppercase;color:var(--amber-d);margin-bottom:2px}
+.panel{background:var(--card);border:2px solid var(--ink);border-radius:12px;box-shadow:4px 4px 0 rgba(38,32,26,.85);padding:8px 10px}
+.ptitle{font-family:Georgia,serif;font-size:14.0px;font-weight:700;margin:0 0 7px}
+.blk{display:inline-block;border:2px solid var(--ink);border-radius:10px;padding:7px 12px;font-weight:800;font-size:11.6px;text-align:center;box-shadow:3px 3px 0 rgba(38,32,26,.85)}
+.blk small{display:block;font-weight:600;font-size:9.8px;margin-top:2px;line-height:1.3}
+.b-amber{background:var(--t-amber)}.b-teal{background:var(--t-teal)}.b-crimson{background:var(--t-crimson)}
+.b-plum{background:var(--t-plum)}.b-green{background:var(--t-green)}.b-paper{background:var(--card)}.b-sky{background:var(--sky-t)}
+.b-ink{background:var(--ink);color:var(--paper)}.b-ink small{color:#d8d0c2}
+.pill{display:inline-block;border:2px solid var(--rose);color:#9f1239;background:var(--t-rose);border-radius:999px;padding:3px 11px;font-size:10.2px;font-weight:800}
+.chipr{display:inline-flex;align-items:center;gap:6px;background:var(--card);border:2px solid var(--ink);border-radius:999px;padding:4px 11px;font-size:10.7px;font-weight:700;box-shadow:2px 2px 0 rgba(38,32,26,.8)}
+.chipr small{color:var(--muted);font-weight:600}
+.fstem{width:2.5px;height:16px;background:var(--ink);margin:0 auto}
+.fbar{border-top:2.5px solid var(--ink);height:0}
+.fbarwrap{display:flex;justify-content:center}
+.fbar2{width:50%}.fbar3{width:66.7%}
+.fcols{display:flex}
+.fcol{flex:1;padding:0 6px;display:flex;flex-direction:column;align-items:center}
+.fcol .fstub{width:2.5px;height:16px;background:var(--ink)}
+.darr{text-align:center;color:var(--ink);font-size:12.1px;margin:1px 0}
+.harrow{color:var(--ink);font-size:12.1px;align-self:center}
+.frow{display:flex;align-items:center;justify-content:center;gap:8px;flex-wrap:wrap}
+.dnote{text-align:center;font-size:11.2px;color:var(--muted);margin-top:5px}
+.zone{border:2.5px solid var(--ink);border-radius:14px;padding:8px 10px;background:var(--card);box-shadow:4px 4px 0 rgba(38,32,26,.85)}
+.z-amber{background:var(--t-amber)}.z-teal{background:var(--t-teal)}.z-crimson{background:var(--t-crimson)}.z-paper{background:var(--t-paper)}
+.zlabel{font-size:9.3px;font-weight:800;letter-spacing:.16em;text-transform:uppercase;color:var(--ink);text-align:center;margin-bottom:8px}
+.code{background:#211d19;color:#efe9dd;border:2px solid var(--ink);border-radius:12px;box-shadow:4px 4px 0 rgba(38,32,26,.85);padding:9px 12px;font:9.8px/1.4 'Consolas','SF Mono',monospace;white-space:pre-wrap;overflow-wrap:break-word;word-break:break-word;max-width:100%;overflow:hidden}
+.code .p{color:#fbbf24}.code .c{color:#93c5fd}.code .y{color:#fcd34d}.code .r{color:#f87171}.code .m{color:#f9a8d4}.code .g{color:#a8a29e}.code .s{color:#86efac}
+.code.mini{font-size:10.0px;padding:9px 12px;line-height:1.45}
+.tree{background:#211d19;color:#e7e0d2;border:2px solid var(--ink);border-radius:12px;box-shadow:4px 4px 0 rgba(38,32,26,.85);padding:9px 12px;font:9.8px/1.4 'Consolas','SF Mono',monospace;white-space:pre-wrap;overflow-wrap:break-word;word-break:break-word;max-width:100%;overflow:hidden}
+.tree b{color:#fbbf24}.tree u{color:#86efac;text-decoration:none}.tree em{color:#f9a8d4;font-style:normal}.tree i{color:#c4b5fd;font-style:normal}.tree s{color:#7dd3fc;text-decoration:none}.tree .g{color:#a8a29e}
+table.tb{width:100%;border-collapse:separate;border-spacing:0;border:2px solid var(--ink);border-radius:12px;overflow:hidden;font-size:11.3px;box-shadow:3px 3px 0 rgba(38,32,26,.85)}
+.tb th{background:var(--ink);color:var(--paper);padding:8px 11px;text-align:left;font-size:10.7px;letter-spacing:.04em}
+.tb td{padding:7.5px 11px;border-bottom:1px solid var(--line);background:var(--card);vertical-align:top}
+.tb tr:nth-child(even) td{background:var(--t-paper)}
+.tb tr:last-child td{border-bottom:none}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.grid3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px}
+.center{text-align:center}
+ul.tick{list-style:none;padding:0;margin:4px 0}
+ul.tick li{padding:3px 0 3px 2px;display:flex;gap:9px;align-items:flex-start;font-size:11.6px;line-height:1.40}
+h3.sec{font-family:Georgia,serif;font-size:13px;font-weight:700;margin:5px 0 4px}
+h3.sec .n{color:var(--amber-d);margin-right:6px}
+p.lead{font-size:11.2px;line-height:1.4;margin:0 0 8px}
+p.small,li{font-size:11.6px;line-height:1.40}
+.st{display:inline-block;border:2px solid;border-radius:999px;padding:2px 10px;font-size:9.8px;font-weight:800}
+.st-run{border-color:var(--green);color:var(--green);background:var(--t-green)}
+.st-pend{border-color:var(--amber-d);color:var(--amber-d);background:var(--t-amber)}
+.st-term{border-color:var(--crimson);color:var(--crimson);background:var(--t-crimson)}
+.qz{border:2px solid var(--ink);border-radius:10px;box-shadow:3px 3px 0 rgba(38,32,26,.85);padding:7px 11px;margin:4px 0;background:var(--card);font-size:11.0px;line-height:1.35}
+.qz .qn{font-weight:900;color:var(--amber-d);margin-right:5px}
+.glos{border-left:4px solid var(--amber);background:var(--card);border-radius:0 8px 8px 0;padding:6px 10px;font-size:10.5px;line-height:1.30}
+.glos b{font-family:Georgia,serif}
+.stepitem{display:flex;gap:10px;align-items:flex-start;border:2px solid var(--ink);border-radius:10px;box-shadow:3px 3px 0 rgba(38,32,26,.85);background:var(--card);padding:8px 12px;margin:0 0 8px}
+.stepnum{min-width:26px;height:26px;background:var(--ink);color:var(--paper);border-radius:8px;font-weight:900;font-size:12.1px;display:flex;align-items:center;justify-content:center;box-shadow:2px 2px 0 var(--amber)}
+.ok{color:var(--green);font-weight:800}.bad{color:var(--crimson);font-weight:800}
+.termwin{border:2px solid var(--ink);border-radius:12px;overflow:hidden;box-shadow:4px 4px 0 rgba(38,32,26,.85);background:#211d19}
+.termhead{padding:6px 12px;font-size:10.2px;font-weight:800;letter-spacing:.08em;color:#fffdf8}
+.th-obs{background:var(--teal)}.th-ctl{background:var(--amber-d)}
+.termbody{background:#211d19;color:#efe9dd;font:9.4px/1.4 'Consolas','SF Mono',monospace;padding:7px 10px;white-space:pre-wrap;overflow-wrap:break-word;word-break:break-word;max-width:100%;overflow:hidden}
+.termbody .p{color:#fbbf24}.termbody .g{color:#a8a29e}.termbody .s{color:#86efac}.termbody .r{color:#f87171}.termbody .c{color:#93c5fd}
+.labstep{border:2px solid var(--ink);border-radius:12px;box-shadow:3px 3px 0 rgba(38,32,26,.85);background:var(--card);padding:10px 12px;margin:6px 0}
+.labcols{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-top:7px}
+.labtag{font-size:9.3px;font-weight:800;letter-spacing:.08em;color:var(--muted);margin-bottom:3px;text-transform:uppercase}
+.cover{background:var(--paper);display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:20mm}
+.cover::before{height:14px;background:var(--ink)}
+.cover .stamp{border:3px solid var(--ink);border-radius:14px;box-shadow:5px 5px 0 var(--amber);padding:14px 20px;font-size:40.9px;line-height:1;transform:rotate(-2deg);background:var(--card);margin-bottom:22px}
+.cover .ckick{font-size:11.2px;font-weight:800;letter-spacing:.34em;text-transform:uppercase;color:var(--amber-d)}
+.cover h1{font-family:Georgia,serif;font-size:48.4px;font-weight:700;margin:5px 0 2px;line-height:1.08}
+.cover .ambrule{width:90px;border-top:6px solid var(--amber);margin:16px auto}
+.cover .sub{font-size:13.5px;color:#4a4238;max-width:145mm;line-height:1.50}
+.cover .vols{display:flex;gap:12px;margin-top:28px;flex-wrap:wrap;justify-content:center}
+.volcard{border:2px solid var(--ink);border-radius:12px;background:var(--card);box-shadow:4px 4px 0 rgba(38,32,26,.85);padding:10px 16px;font-weight:800;font-size:12.1px}
+.volcard small{display:block;font-weight:600;color:var(--muted);font-size:9.8px;margin-top:2px}
+.cover .cver{position:absolute;bottom:12mm;left:0;right:0;text-align:center;font-size:9.8px;letter-spacing:.3em;color:var(--muted);text-transform:uppercase}
+.tocrow{display:flex;align-items:baseline;padding:6px 2px;font-size:11.9px}
+.tocrow .tnum{font-family:Georgia,serif;font-weight:700;color:var(--amber-d);width:40px}
+.tocrow .dots{flex:1;border-bottom:2px dotted #c9bfa9;margin:0 9px 4px}
+.tocrow .tp{font-weight:800}
+.tocgrid{display:grid;grid-template-columns:1fr 1fr;gap:0 22px}
+.cb{width:13px;height:13px;border:2px solid var(--ink);border-radius:3px;display:inline-block;margin-right:7px;vertical-align:-2px;flex:none}
+.lgd{display:flex;flex-wrap:wrap;gap:7px 14px;margin-top:8px}
+.lgd div{display:flex;align-items:center;gap:7px;font-size:11.2px;font-weight:600}
+.dot8{width:12px;height:12px;border:2px solid var(--ink);border-radius:4px;display:inline-block}
+.resbox{border:2px solid var(--ink);border-radius:12px;background:var(--card);box-shadow:3px 3px 0 rgba(38,32,26,.85);padding:11px 14px;font-size:11.5px;line-height:1.40}
+.resbox a{color:var(--amber-d);font-weight:800;text-decoration:none;border-bottom:2px dotted var(--amber)}
+
+#toc .tocrow{padding:3px 2px;font-size:12px}#toc h3.sec{margin:8px 0 5px}
+#toc .tocrow{gap:8px}#toc .tocn{flex:none}#toc .tlink{flex:none}#toc .tocp{color:#7c7264;font-size:10.5px;margin-left:auto;flex:none}
+#toc .sec .n{margin-right:8px}
+
+</style>
+</head>
+<body>
+<div class="sheet cover" id="cover">
+  <div class="cover-wrap">
+    <div class="kick" style="font-size:11px;letter-spacing:.34em">TERRAFORM STUDY SERIES · VOLUME TWO</div>
+    <div class="cover-title" style="margin-top:8mm">Practice Lab</div>
+    <div class="stamp" style="margin-top:8mm">🏋️ 40 drills · full answers · solo-proof</div>
+    <div class="cover-sub" style="margin-top:8mm">Broken code, plan predictions, output reading, scenarios, refactors, traces — every exercise solvable from <b>Book 1 (Terraform Master)</b>, every solution fully worked. Attempt before hint, hint before solution.</div>
+    <div class="ambrule"></div>
+    <div class="credits">A Technical Book · INK &amp; AMBER Series<br>Companion to <b>Book 1 — Terraform Master</b> (same 24 topics, same order)</div>
+    <div class="kpills"><span class="kpill">🟢 WARM-UP ×15</span><span class="kpill amber">🟡 DRILL ×15</span><span class="kpill">🔴 BOSS ×10</span></div>
+    <div class="cver">PRINT-READY · A4 · INTERNAL NAVIGATION</div>
+  </div>
+</div>
+<div class="sheet" id="toc">
+  <div class="pghead"><div class="hrow"><div><div class="kick">CONTENTS</div><h1 class="t">🗺️ Training Map</h1></div><span class="hmeta">40 EXERCISES</span></div></div>
+  <p class="lead">Three bands, Book 1 order inside each. Every row jumps to the exercise; every exercise links to its solution — and solutions live pages away, so no spoilers.</p>
+  <div class="sec"><span class="n">I</span>FRONT MATTER</div>
+  <div class="tocrow"><span class="tocn">01</span><a class="tlink" href="#cover">Cover</a><span class="tocp">start</span></div>
+  <div class="tocrow"><span class="tocn">02</span><a class="tlink" href="#toc">Training map (this page)</a><span class="tocp">you are here</span></div>
+  <div class="tocrow"><span class="tocn">03</span><a class="tlink" href="#summary">Training route</a><span class="tocp">read first</span></div>
+  <div class="tocrow"><span class="tocn">04</span><a class="tlink" href="#howto">How to train</a><span class="tocp">rules</span></div>
+  <div class="sec"><span class="n">II</span>🟢 WARM-UPS (Book 1 Ch 1–15)</div>
+  <div class="tocrow"><span class="tocn">05</span><a class="tlink" href="#ex-01">ex-01 re-apply · ex-02 version</a><span class="tocp">IaC · facts</span></div>
+  <div class="tocrow"><span class="tocn">06</span><a class="tlink" href="#ex-03">ex-03 pillars · ex-04 apply order</a><span class="tocp">why · core</span></div>
+  <div class="tocrow"><span class="tocn">07</span><a class="tlink" href="#ex-05">ex-05 leaked keys · ex-06 block labels</a><span class="tocp">provider · VPC</span></div>
+  <div class="tocrow"><span class="tocn">08</span><a class="tlink" href="#ex-07">ex-07 init · ex-08 plan diff</a><span class="tocp">init · plan</span></div>
+  <div class="tocrow"><span class="tocn">09</span><a class="tlink" href="#ex-09">ex-09 pins · ex-10 first command</a><span class="tocp">providers · CLI</span></div>
+  <div class="tocrow"><span class="tocn">10</span><a class="tlink" href="#ex-11">ex-11 lost state · ex-12 isolate prod</a><span class="tocp">state · backend</span></div>
+  <div class="tocrow"><span class="tocn">11</span><a class="tlink" href="#ex-13">ex-13 lock · ex-14 rename · ex-15 fmt</a><span class="tocp">lock · mv · fmt</span></div>
+  <div class="sec"><span class="n">III</span>🟡 DRILLS (Book 1 Ch 16–23)</div>
+  <div class="tocrow"><span class="tocn">12</span><a class="tlink" href="#ex-16">ex-16 graph · ex-17 hardcode→vars</a><span class="tocp">graph · vars</span></div>
+  <div class="tocrow"><span class="tocn">13</span><a class="tlink" href="#ex-18">ex-18 precedence · ex-19 three envs</a><span class="tocp">vars · workspaces</span></div>
+  <div class="tocrow"><span class="tocn">14</span><a class="tlink" href="#ex-20">ex-20 drop middle · ex-21 →for_each</a><span class="tocp">count · keys</span></div>
+  <div class="tocrow"><span class="tocn">15</span><a class="tlink" href="#ex-22">ex-22 secret output · ex-23 prov myth</a><span class="tocp">outputs · prov</span></div>
+  <div class="tocrow"><span class="tocn">16</span><a class="tlink" href="#ex-24">ex-24 reuse · ex-25 console drift</a><span class="tocp">modules · drift</span></div>
+  <div class="tocrow"><span class="tocn">17</span><a class="tlink" href="#ex-26">ex-26 refresh · ex-27 adopt VPC</a><span class="tocp">refresh · import</span></div>
+  <div class="tocrow"><span class="tocn">18</span><a class="tlink" href="#ex-28">ex-28 missing alias · ex-29 TF_VAR types</a><span class="tocp">regions · env vars</span></div>
+  <div class="tocrow"><span class="tocn">19</span><a class="tlink" href="#ex-30">ex-30 safe access</a><span class="tocp">one()</span></div>
+  <div class="sec"><span class="n">IV</span>🔴 BOSSES + ANSWERS</div>
+  <div class="tocrow"><span class="tocn">20</span><a class="tlink" href="#ex-31">ex-31 race · ex-32 wrong value</a><span class="tocp">lock · debug</span></div>
+  <div class="tocrow"><span class="tocn">21</span><a class="tlink" href="#ex-33">ex-33 scale rename · ex-34 half-built</a><span class="tocp">keys · prov fail</span></div>
+  <div class="tocrow"><span class="tocn">22</span><a class="tlink" href="#ex-35">ex-35 extract module · ex-36 destroy</a><span class="tocp">modules · teardown</span></div>
+  <div class="tocrow"><span class="tocn">23</span><a class="tlink" href="#ex-37">ex-37 cross-VPC SG · ex-38 remote state</a><span class="tocp">peering · stacks</span></div>
+  <div class="tocrow"><span class="tocn">24</span><a class="tlink" href="#ex-39">ex-39 provider bump · ex-40 FINAL BOSS</a><span class="tocp">upgrade · chain</span></div>
+  <div class="tocrow"><span class="tocn">25</span><a class="tlink" href="#answers">Solutions warm-ups</a><span class="tocp">sol-01–15</span></div>
+  <div class="tocrow"><span class="tocn">26</span><a class="tlink" href="#answers-2">Solutions drills</a><span class="tocp">sol-16–30</span></div>
+  <div class="tocrow"><span class="tocn">27</span><a class="tlink" href="#answers-3">Solutions bosses</a><span class="tocp">sol-31–40</span></div>
+  <div class="tocrow"><span class="tocn">28</span><a class="tlink" href="#scorecard">Scorecard</a><span class="tocp">🏁 end</span></div>
+  <div class="folio"><span>🏋️ Practice Lab</span><span class="fnum">— Page 2 —</span><span><a class="backtoc" href="#toc">▤ TOC</a> prev | <a class="tlink" href="#summary">next</a></span></div>
+</div>
+<div class="sheet" id="summary">
+  <div class="pghead"><div class="hrow"><div><div class="kick">TRAINING ROUTE</div><h1 class="t">Warm-ups → Drills → Bosses → Capstone</h1></div><span class="hmeta">📖 5 MIN</span></div></div>
+  <p class="lead">Book 1 taught you the tools; this book puts reps in. <b>Warm-ups</b> (<a class="tlink" href="#ex-01">ex-01–15</a>) check one fact each from <b>Book 1, Chapters 1–15</b> — if any feel hard, re-read that chapter first. <b>Drills</b> (<a class="tlink" href="#ex-16">ex-16–30</a>) combine two ideas from <b>Chapters 16–23</b> (precedence, keys, sharing, adopting). <b>Bosses</b> (<a class="tlink" href="#ex-31">ex-31–40</a>) are incidents: races, half-built boxes, refactors at scale. The <a class="tlink" href="#ex-40">FINAL BOSS</a> rebuilds the <b>Chapter 24</b> chain cold.</p>
+  <div class="mark m-key"><span class="tag">🔑 THE RULES (from <a class="tlink" href="#howto">How to train</a>)</span><b>Attempt → hint → solution.</b> Predict every plan BEFORE running it. No console until the diff is written down. Every exercise links its solution (<a class="tlink" href="#sol-01">→ Solution</a> style) — solutions live pages away, so wandering eyes learn nothing.</div>
+  <div class="sec"><span class="n">▣</span>The 7 drill types (each appears ≥3×)</div>
+  <div class="dcol">
+    <div class="panel"><div class="ptitle">T1 Find the bug · T2 Predict the plan</div><p class="small">Broken HCL or a config+state pair — write the fix or the exact +/−/~ diff.</p></div>
+    <div class="panel"><div class="ptitle">T3 Read the output · T4 Scenario</div><p class="small">Real terminal text to diagnose; client briefs to design + code.</p></div>
+    <div class="panel"><div class="ptitle">T5 Command choice · T6 Refactor</div><p class="small">Four tempting options, one right; reshape code, result unchanged.</p></div>
+    <div class="panel"><div class="ptitle">T7 Trace the flow</div><p class="small">"What exactly happens, in order, when…?" — narrate the machinery.</p></div>
+  </div>
+  <div class="sec"><span class="n">▣</span>Where the bands live</div>
+  <table class="tb"><tr><th>Band</th><th>Exercises</th><th>Book 1 ground</th><th>Done when</th></tr>
+  <tr><td>🟢 Warm-ups</td><td><a class="tlink" href="#ex-01">ex-01–15</a></td><td>Ch 1–15, one fact each</td><td>13/15 without hints</td></tr>
+  <tr><td>🟡 Drills</td><td><a class="tlink" href="#ex-16">ex-16–30</a></td><td>Ch 16–23, two ideas each</td><td>solutions match on WHY, not just answer</td></tr>
+  <tr><td>🔴 Bosses</td><td><a class="tlink" href="#ex-31">ex-31–40</a></td><td>incidents + <a class="tlink" href="#ex-40">final chain</a></td><td>scorecard all green</td></tr></table>
+  <div class="folio"><span>🏋️ Practice Lab</span><span class="fnum">— Page 3 —</span><span><a class="backtoc" href="#toc">▤ TOC</a> <a class="tlink" href="#toc">prev</a> | <a class="tlink" href="#howto">next</a></span></div>
+</div>
+<div class="sheet" id="howto">
+  <div class="pghead"><div class="hrow"><div><div class="kick">HOW TO TRAIN</div><h1 class="t">Rules, Bands &amp; the 7 Drill Types</h1></div><span class="hmeta">📖 4 MIN</span></div></div>
+  <p class="lead">Training beats re-reading. Each exercise is solvable from <b>Book 1</b> alone — chapter named on every header — and each solution teaches the reasoning, not just the answer.</p>
+  <div class="dcol">
+    <div class="panel"><div class="ptitle">📏 The three rules</div><ul class="ul-tight"><li><b>Attempt before hint.</b> Write something — even a wrong diff teaches.</li><li><b>Hint before solution.</b> One nudge is usually enough.</li><li><b>No console until predicted.</b> Plan on paper, then run.</li></ul></div>
+    <div class="panel"><div class="ptitle">🎚️ The bands</div><ul class="ul-tight"><li>🟢 <b>Warm-up</b> — one fact, 2 minutes.</li><li>🟡 <b>Drill</b> — two ideas combined, 5–8 minutes.</li><li>🔴 <b>Boss</b> — incident or refactor, 10–15 minutes.</li></ul></div>
+  </div>
+  <div class="sec"><span class="n">▣</span>Anatomy of an exercise page</div>
+  <div class="code">EXERCISE NN · &lt;topic&gt;                        [🟢 WARM-UP · Book 1 Ch N]
+┌ THE TASK ── scenario + exact deliverable ─────────────┐
+│ HINT ── one nudge, never the answer                  │
+└ → Solution on page NN ───────────────────────────────┘</div>
+  <div class="sec"><span class="n">▣</span>Anatomy of a solution</div>
+  <div class="code">✅ THE ANSWER — code / diff / diagnosis (fully worked)
+🧠 WHY — 2–4 sentences of reasoning (the real lesson)
+⚠ TRAP — the tempting wrong answer, and why it bites
+🎓 EXAM — one testable line</div>
+  <div class="mark m-tip"><span class="tag">💡 SCORING YOURSELF</span>Mark the <a class="tlink" href="#scorecard">scorecard</a> honestly: <b>green</b> = solved cold, <b>amber</b> = needed the hint, <b>red</b> = read the solution. Reds go back into next week's rotation.</div>
+  <div class="folio"><span>🏋️ Practice Lab</span><span class="fnum">— Page 4 —</span><span><a class="backtoc" href="#toc">▤ TOC</a> <a class="tlink" href="#summary">prev</a> | <a class="tlink" href="#ex-01">next</a></span></div>
+</div>
+<div class="sheet" id="ex-01">
+  <div class="pghead"><div class="hrow"><div><div class="kick">EXERCISE 01–02 · IDEMPOTENCE + TOOLCHAIN</div><h1 class="t">🟢 ex-01 · ex-02 warm-ups</h1></div><span class="hmeta">Book 1 Ch 1–2</span></div></div>
+  <div class="panel"><div class="ptitle">🎯 ex-01 THE TASK (T2 · Predict the plan)</div><p class="small">You applied this config yesterday afternoon and went home. Nothing changed overnight — no edits, no console clicks, no teammate applies. <b>This morning you run <code>terraform apply</code> again.</b> Write down the exact plan tail: how many to add / change / destroy — and the one sentence Terraform prints when reality already matches code.</p>
+  <div class="code">resource "aws_vpc" "main" { cidr_block = "10.0.0.0/16" }
+# state: { "type": "aws_vpc", "name": "main", "id": "vpc-0ab123456" }</div></div>
+  <div class="mark m-tip"><span class="tag">💡 HINT</span>Same code → same infra — that's the whole promise of <b>Book 1, Chapter 1</b>. What does "no diff" look like in plan language? (Two words, then three zeros.)</div>
+  <div class="panel"><div class="ptitle">🎯 ex-02 THE TASK (T3 · Read the output)</div><p class="small">A teammate pastes this into the PR and asks "are we on the right toolchain?" <b>Answer three things:</b> (1) the Terraform CLI version, (2) the AWS provider version — and whether it's locked or floating, (3) the single command that produced the lock, and the filename it wrote.</p>
+  <div class="code">$ terraform version
+Terraform v1.9.8
+on linux_amd64
++ provider registry.terraform.io/hashicorp/aws v5.31.0
+
+$ ls -la
+.terraform.lock.hcl
+main.tf  versions.tf</div></div>
+  <div class="mark m-tip"><span class="tag">💡 HINT</span>Two versions hide in the first output; the second output names the guarantee. Which file makes your teammate's <code>init</code> download byte-identical plugins? (<b>Book 1, Chapter 7</b>.)</div>
+  <p class="small center">→ <a class="tlink" href="#sol-01">Solutions sol-01 · sol-02</a></p>
+  <div class="panel"><div class="ptitle">🔁 Follow-up rep — drift breaks the streak</div><p class="small">Same VPC, but last night someone tagged it by hand in the console (<code>Owner=ops</code>). <b>Predict:</b> does the morning <code>plan</code> still print 0/0/0? Write the new tail — and the one command that re-blesses reality without changing code.</p>
+  <div class="code"># code: no tags block · real VPC: tags = { Owner = "ops" }
+$ terraform plan   # → ? to add, ? to change, ? to destroy</div></div>
+  <div class="mark m-exam"><span class="tag">🎓 EXAM LENS</span>Associate loves idempotence phrasing: "second apply, no changes" → <b>No changes. Infrastructure matches.</b> Toolchain questions test lock-file purpose, never version trivia.</div>
+  <div class="folio"><span>🏋️ Practice Lab</span><span class="fnum">— Page 5 —</span><span><a class="backtoc" href="#toc">▤ TOC</a> <a class="tlink" href="#howto">prev</a> | <a class="tlink" href="#ex-03">next</a></span></div>
+</div>
+<div class="sheet" id="ex-03">
+  <div class="pghead"><div class="hrow"><div><div class="kick">EXERCISE 03–04 · WHY + CORE</div><h1 class="t">🟢 ex-03 · ex-04 warm-ups</h1></div><span class="hmeta">Book 1 Ch 3–4</span></div></div>
+  <div class="panel"><div class="ptitle">🎯 ex-03 THE TASK (T5 · Command choice)</div><p class="small">Your team runs AWS + Cloudflare + GitHub. A manager says "CloudFormation is free and deep — why pay the Terraform learning cost?" <b>Pick the pillar that answers him, then kill the other three options with one line each:</b><br>A) Coding best practices &nbsp; B) Platform-agnostic &nbsp; C) Massive community &nbsp; D) Speed &amp; reliability</p>
+  <div class="code"># your stack in one apply:
+resource "aws_s3_bucket" "a" { bucket = "x" }
+resource "github_repository" "c" { name = "infra" }</div></div>
+  <div class="mark m-tip"><span class="tag">💡 HINT</span>Which pillar dies the moment you add a second API? (<b>Book 1, Chapter 2</b>, pillar 2 — and its "we're AWS-only" objection.)</div>
+  <div class="panel"><div class="ptitle">🎯 ex-04 THE TASK (T7 · Trace the flow)</div><p class="small">You run <code>apply</code> on a config with one VPC and one subnet referencing it. <b>Number these events 1–6 in true execution order:</b> ☐ provider authenticates to AWS ☐ Core builds the dependency graph ☐ subnet created ☐ plan diff computed ☐ VPC created ☐ HCL parsed.</p>
+  <div class="code">resource "aws_vpc" "main" { cidr_block = "10.0.0.0/16" }
+resource "aws_subnet" "a" {
+  vpc_id = aws_vpc.main.id   # ← the edge the graph follows
+  cidr_block = "10.0.1.0/24"
+}</div></div>
+  <div class="mark m-tip"><span class="tag">💡 HINT</span>Reading always precedes planning; planning precedes touching anything. Who creates — Core or the plugin? (<b>Book 1, Chapter 4</b>.)</div>
+  <p class="small center">→ <a class="tlink" href="#sol-03">Solutions sol-03 · sol-04</a></p>
+  <div class="panel"><div class="ptitle">🔁 Follow-up rep — who runs what</div><p class="small">Your apply fails with <code>Error: configuring Terraform AWS Provider: no valid credential sources</code>. <b>Whose job failed — Core's or the provider plugin's?</b> Name the failing phase (parse / graph / plan / auth / create) and the cheapest fix that keeps secrets out of git.</p>
+  <div class="code">$ terraform apply
+Error: configuring Terraform AWS Provider: no valid credential sources
+# provider block carries region only. Shell carries nothing yet.</div></div>
+  <div class="mark m-exam"><span class="tag">🎓 EXAM LENS</span>Platform-agnostic is the #1 "why Terraform" answer. Core-vs-plugin: any question with "who authenticates / who builds the graph" splits exactly on that line.</div>
+  <div class="folio"><span>🏋️ Practice Lab</span><span class="fnum">— Page 6 —</span><span><a class="backtoc" href="#toc">▤ TOC</a> <a class="tlink" href="#ex-01">prev</a> | <a class="tlink" href="#ex-05">next</a></span></div>
+</div>
+<div class="sheet" id="ex-05">
+  <div class="pghead"><div class="hrow"><div><div class="kick">EXERCISE 05–06 · PROVIDER + VPC</div><h1 class="t">🟢 ex-05 · ex-06 warm-ups</h1></div><span class="hmeta">Book 1 Ch 5–6</span></div></div>
+  <div class="panel"><div class="ptitle">🎯 ex-05 THE TASK (T1 · Find the bug)</div><p class="small">This <code>provider.tf</code> was just committed to a public repo. <b>Two things are wrong — one is a secret leak, one will break every non-default-AWS setup.</b> Name both and write the fixed block.</p>
+  <div class="code"># provider.tf (COMMITTED — do not do this)
+provider "aws" {
+  region     = "us-east-1"
+  access_key = "AKIAIOSFODNN7EXAMPLE"
+  secret_key = "wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY"
+}</div></div>
+  <div class="mark m-tip"><span class="tag">💡 HINT</span>Where should secrets live instead — and what decides the endpoint/region when the block is minimal? (<b>Book 1, Chapter 5</b> — three credential methods.)</div>
+  <div class="panel"><div class="ptitle">🎯 ex-06 THE TASK (T1 · Find the bug)</div><p class="small"><code>terraform validate</code> rejects this block. <b>Three label errors hide in four lines</b> — the keyword, the type, and the local name are each wrong in a different way. Rewrite it so <code>aws_vpc.main.id</code> resolves.</p>
+  <div class="code">resources "aws-vpc" "Main" {
+  cidr_block = "10.0.0.0/16"
+}</div></div>
+  <div class="mark m-tip"><span class="tag">💡 HINT</span>Anatomy is <code>resource "TYPE" "name"</code> — check plurals, dashes vs underscores, and case. (<b>Book 1, Chapter 6</b>.)</div>
+  <p class="small center">→ <a class="tlink" href="#sol-05">Solutions sol-05 · sol-06</a></p>
+  <div class="panel"><div class="ptitle">🔁 Follow-up rep — read the address</div><p class="small">Given the fixed block from ex-06, <b>write the reference expressions</b> a subnet and an output would use: (1) the VPC's ID inside <code>aws_subnet.a</code>, (2) the CIDR inside an output named <code>vpc_cidr</code>. Then state the rule that makes both resolve.</p>
+  <div class="code">resource "aws_subnet" "a" { vpc_id = ???   cidr_block = "10.0.1.0/24" }
+output "vpc_cidr" { value = ??? }</div></div>
+  <div class="mark m-exam"><span class="tag">🎓 EXAM LENS</span>Address syntax <code>TYPE.NAME.attr</code> is tested directly. Secrets-in-provider is the classic "what's wrong" exhibit — env vars or SSO, always.</div>
+  <div class="folio"><span>🏋️ Practice Lab</span><span class="fnum">— Page 7 —</span><span><a class="backtoc" href="#toc">▤ TOC</a> <a class="tlink" href="#ex-03">prev</a> | <a class="tlink" href="#ex-07">next</a></span></div>
+</div>
+<div class="sheet" id="ex-07">
+  <div class="pghead"><div class="hrow"><div><div class="kick">EXERCISE 07–08 · INIT + PLAN</div><h1 class="t">🟢 ex-07 · ex-08 warm-ups</h1></div><span class="hmeta">Book 1 Ch 7–8</span></div></div>
+  <div class="panel"><div class="ptitle">🎯 ex-07 THE TASK (T3 · Read the output)</div><p class="small">Fresh clone, first <code>init</code>. <b>Three questions:</b> which two providers installed (and versions)? What file now guarantees your teammate gets byte-identical plugins? What directory holds the downloaded binaries — and does it belong in git?</p>
+  <div class="code">$ terraform init
+Initializing provider plugins...
+- Installing hashicorp/aws v5.31.0...
+- Installed hashicorp/aws v5.31.0 (signed by HashiCorp)
+- Installing hashicorp/local v2.5.1...
+Terraform has been successfully initialized!</div></div>
+  <div class="mark m-tip"><span class="tag">💡 HINT</span>Binaries, lock file, ignore canon — three artifacts, three fates. (<b>Book 1, Chapter 7</b>.)</div>
+  <div class="panel"><div class="ptitle">🎯 ex-08 THE TASK (T2 · Predict the plan)</div><p class="small">State holds <code>web[0]</code> and <code>web[1]</code>. You change <code>count = 3</code> → <code>count = 2</code> and shrink the instance type. <b>Write the full plan tail</b> — and mark which line destroys.</p>
+  <div class="code">resource "aws_instance" "web" {
+  count = 2   # was 3
+  instance_type = "t3.small"   # was t3.micro
+}</div></div>
+  <div class="mark m-tip"><span class="tag">💡 HINT</span>Two change kinds here: a type swap (which symbol?) and a count shrink (which index dies?). Colors: <span class="ok">+</span> add, <span class="bad">−</span> destroy, ~ change.</div>
+  <p class="small center">→ <a class="tlink" href="#sol-07">Solutions sol-07 · sol-08</a></p>
+  <div class="panel"><div class="ptitle">🔁 Follow-up rep — plan archaeology</div><p class="small">A saved <code>tfplan</code> file sits in CI artifacts from last night. <b>Without applying anything</b>, show what the VPC's planned CIDR was and whether anything was slated for destruction — exact commands, jq included.</p>
+  <div class="code">$ terraform show -json tfplan | jq '.planned_values.root_module.resources[] | {addr: .address, cidr: .values.cidr_block}'
+$ terraform show -json tfplan | jq '.resource_changes[] | select(.change.actions[] == "delete") | .address'</div></div>
+  <div class="mark m-exam"><span class="tag">🎓 EXAM LENS</span>Plan symbols (+/~/−) and <code>plan -out</code> appear constantly. <code>init</code> downloads; <code>plan</code> previews; <code>apply</code> executes — never in any other order.</div>
+  <div class="folio"><span>🏋️ Practice Lab</span><span class="fnum">— Page 8 —</span><span><a class="backtoc" href="#toc">▤ TOC</a> <a class="tlink" href="#ex-05">prev</a> | <a class="tlink" href="#ex-09">next</a></span></div>
+</div>
+<div class="sheet" id="ex-09">
+  <div class="pghead"><div class="hrow"><div><div class="kick">EXERCISE 09–10 · PROVIDERS + CLI</div><h1 class="t">🟢 ex-09 · ex-10 warm-ups</h1></div><span class="hmeta">Book 1 Ch 9–10</span></div></div>
+  <div class="panel"><div class="ptitle">🎯 ex-09 THE TASK (T5 · Command choice)</div><p class="small">You pin the AWS provider. <b>One of these four is the house default — name it, and kill the other three with one line each:</b><br>A) <code>version = "&gt;= 5.0"</code> &nbsp; B) <code>version = "~> 5.0"</code> &nbsp; C) <code>version = "= 5.31.0"</code> &nbsp; D) no version at all</p>
+  <div class="code">terraform {
+  required_providers {
+    aws = { source = "hashicorp/aws"   version = "???" }
+  }
+}</div></div>
+  <div class="mark m-tip"><span class="tag">💡 HINT</span>You want bug-fix updates automatically and major-break surprises never. Which operator means "5.x, never 6.0"? (<b>Book 1, Chapter 17</b>.)</div>
+  <div class="panel"><div class="ptitle">🎯 ex-10 THE TASK (T5 · Command choice)</div><p class="small"> brand-new folder, one <code>main.tf</code>, empty backend. <b>Order these four — exactly one sequence is safe:</b> ☐ <code>terraform apply</code> ☐ <code>terraform plan -out=tfplan</code> ☐ <code>terraform init</code> ☐ <code>terraform apply tfplan</code>. Then: which step is read-only, and which file makes "reviewed == executed" true?</p>
+  <div class="code"># main.tf exists. .terraform/ does not. No state file. Go.</div></div>
+  <div class="mark m-tip"><span class="tag">💡 HINT</span>Binaries before previews, previews before changes; the saved plan is the contract. (<b>Book 1, Chapters 7–8</b>.)</div>
+  <p class="small center">→ <a class="tlink" href="#sol-09">Solutions sol-09 · sol-10</a></p>
+  <div class="panel"><div class="ptitle">🔁 Follow-up rep — the 6.0 morning</div><p class="small">Overnight the registry published provider <code>6.0.0</code> (breaking: <code>tags</code> argument renamed). Teammate A pinned <code>"~&gt; 5.0"</code>, teammate B pinned <code>"&gt;= 5.0"</code>. Both run fresh <code>init</code>. <b>Who builds clean, who breaks — and which line in whose file decides it?</b></p>
+  <div class="code"># A: version = "~> 5.0" → installs ???
+# B: version = ">= 5.0" → installs ??? → plan shows ???</div></div>
+  <div class="mark m-exam"><span class="tag">🎓 EXAM LENS</span><code>~&gt;</code> is the only pin operator the exam loves. <code>plan -out=tfplan</code> + <code>apply tfplan</code> is "reviewed == executed" — quote that phrase back.</div>
+  <div class="folio"><span>🏋️ Practice Lab</span><span class="fnum">— Page 9 —</span><span><a class="backtoc" href="#toc">▤ TOC</a> <a class="tlink" href="#ex-07">prev</a> | <a class="tlink" href="#ex-11">next</a></span></div>
+</div>
+<div class="sheet" id="ex-11">
+  <div class="pghead"><div class="hrow"><div><div class="kick">EXERCISE 11–12 · STATE + BACKEND</div><h1 class="t">🟢 ex-11 · ex-12 warm-ups</h1></div><span class="hmeta">Book 1 Ch 11–12</span></div></div>
+  <div class="panel"><div class="ptitle">🎯 ex-11 THE TASK (T7 · Trace the flow)</div><p class="small">Someone <code>rm</code>s <code>terraform.tfstate</code> on a project managing one VPC — then runs <code>apply</code>. <b>Narrate exactly what Terraform believes at each step</b> (before rm / after rm / during plan / after apply) and name the incident this causes in AWS.</p>
+  <div class="code"># before: config 1 VPC · state 1 VPC (vpc-0ab1) · AWS 1 VPC
+$ rm terraform.tfstate
+$ terraform apply -auto-approve</div></div>
+  <div class="mark m-tip"><span class="tag">💡 HINT</span>State is the ledger, not a suggestion. No ledger → what does "desired vs known" compute? (<b>Book 1, Chapters 9 + 11</b> — risk ①.)</div>
+  <div class="panel"><div class="ptitle">🎯 ex-12 THE TASK (T4 · Scenario)</div><p class="small">Client: "dev and prod share one local state file. Last week a dev <code>apply</code> nearly touched prod." <b>Design the fix:</b> backend type, the two state keys, and the one-line rule that prevents recurrence. No code beyond the backend block.</p>
+  <div class="code">terraform {
+  backend "s3" {
+    bucket = "???"   key = "???"
+    region = "us-east-1"   dynamodb_table = "???"   encrypt = true
+  }
+}</div></div>
+  <div class="mark m-tip"><span class="tag">💡 HINT</span>Separate keys stop the bleeding; separate buckets + locking stop the incident class. (<b>Book 1, Chapter 10</b> — patterns 1–2.)</div>
+  <p class="small center">→ <a class="tlink" href="#sol-11">Solutions sol-11 · sol-12</a></p>
+  <div class="panel"><div class="ptitle">🔁 Follow-up rep — refresh first</div><p class="small">Before narrating ex-11's disaster, a senior says "show me the refresh." <b>Write the two commands</b> that (1) preview what reality changed WITHOUT touching state, and (2) print the state's recorded VPC ID for comparison — then state which output proves the ledger is stale.</p>
+  <div class="code">$ terraform plan -refresh-only -out=drift.plan   # → shows ???
+$ terraform state show aws_vpc.main | grep id   # → ???</div></div>
+  <div class="mark m-exam"><span class="tag">🎓 EXAM LENS</span>"tfstate deleted" → duplicates. "Two envs, one state" → separate keys minimum, separate buckets for prod. Both are favorite scenario stems.</div>
+  <div class="folio"><span>🏋️ Practice Lab</span><span class="fnum">— Page 10 —</span><span><a class="backtoc" href="#toc">▤ TOC</a> <a class="tlink" href="#ex-09">prev</a> | <a class="tlink" href="#ex-13">next</a></span></div>
+</div>
+<div class="sheet" id="ex-13">
+  <div class="pghead"><div class="hrow"><div><div class="kick">EXERCISE 13–15 · LOCK + MV + FMT</div><h1 class="t">🟢 ex-13 · ex-14 · ex-15 warm-ups</h1></div><span class="hmeta">Book 1 Ch 13–15</span></div></div>
+  <div class="panel"><div class="ptitle">🎯 ex-13 (T3) — the lock error</div><p class="small">Second engineer sees this mid-apply. <b>What happened, what must she check before touching anything, and the exact release command?</b></p>
+  <div class="code">Error: Error acquiring the state lock
+Lock Info: ID a1b2-c3 · Operation: apply · Who: ci-runner-4</div></div>
+  <div class="mark m-tip"><span class="tag">💡 HINT</span>Read WHO/WHEN/WHAT first; release only the dead. (<b>Book 1, Chapter 11</b>.)</div>
+  <div class="panel"><div class="ptitle">🎯 ex-14 (T6) — rename without re-creating</div><p class="small">Rename <code>aws_instance.web</code> → <code>aws_instance.app</code> with <b>zero downtime and zero rebuild</b>. Give the two commands in order (ledger first, code second).</p>
+  <div class="code"># state: aws_instance.web (i-012345, live traffic). Goal: same box, new name.</div></div>
+  <div class="mark m-tip"><span class="tag">💡 HINT</span>Change the ledger, not the cloud — then let the code match. (<b>Book 1, Chapter 12</b> — mv.)</div>
+  <div class="panel"><div class="ptitle">🎯 ex-15 (T1) — the unformatted block</div><p class="small"><code>fmt -check</code> fails CI on this file. <b>Rewrite it canonically</b> (indent, spacing, alignment) and name the gate flag.</p>
+  <div class="code">resource  "aws_vpc"   "main"{
+cidr_block="10.0.0.0/16"
+   tags   =   {Name="x"}
+}</div></div>
+  <div class="mark m-tip"><span class="tag">💡 HINT</span>Two spaces, aligned <code>=</code>, sorted keys. (<b>Book 1, Chapter 13</b>.)</div>
+  <p class="small center">→ <a class="tlink" href="#sol-13">Solutions sol-13 · 14 · 15</a></p>
+  <div class="panel"><div class="ptitle">🔁 Follow-up rep — the ledger audit</div><p class="small">Before leaving for the day you snapshot state for the runbook. <b>Give the exact command</b> that dumps raw JSON to a file, then the <code>jq</code> that lists every managed address from that file — no Terraform binary needed for the second step.</p>
+  <div class="code">$ terraform state pull > state-$(date +%F).json
+$ jq -r '.resources[] | "\(.type).\(.name)"' state-2026-09-08.json</div></div>
+  <div class="mark m-exam"><span class="tag">🎓 EXAM LENS</span><code>mv</code> renames tracking, <code>rm</code> abandons, <code>fmt -check</code> gates CI, <code>force-unlock</code> needs a LOCK_ID and a corpse. Four commands, four sentences.</div>
+  <div class="folio"><span>🏋️ Practice Lab</span><span class="fnum">— Page 11 —</span><span><a class="backtoc" href="#toc">▤ TOC</a> <a class="tlink" href="#ex-11">prev</a> | <a class="tlink" href="#ex-16">next</a></span></div>
+</div>
+<div class="sheet" id="ex-16">
+  <div class="pghead"><div class="hrow"><div><div class="kick">EXERCISE 16–17 · GRAPH + VARIABLES</div><h1 class="t">🟡 ex-16 · ex-17 drills</h1></div><span class="hmeta">Book 1 Ch 16–17</span></div></div>
+  <div class="panel"><div class="ptitle">🎯 ex-16 THE TASK (T3 · Read the graph)</div><p class="small"><code>apply</code> creates the subnet BEFORE the VPC and fails. The graph SVG shows <b>no edge</b> between them. <b>Diagnose from this block:</b> why is there no edge, what's the one-line fix, and the command that redraws the proof?</p>
+  <div class="code">resource "aws_vpc" "main" { cidr_block = "10.0.0.0/16" }
+resource "aws_subnet" "a" {
+  vpc_id = "vpc-0ab123456"   # ← pasted from console, not a reference
+  cidr_block = "10.0.1.0/24"
+}</div></div>
+  <div class="mark m-tip"><span class="tag">💡 HINT</span>Edges come from <code>resource.A.x</code> references — a pasted string is invisible to the graph. (<b>Book 1, Chapters 4 + 6</b>.)</div>
+  <div class="panel"><div class="ptitle">🎯 ex-17 THE TASK (T6 · hardcode → variables)</div><p class="small">This block works but hardcodes everything. <b>Refactor to <code>variables.tf</code> + references</b> with types, one default, one required var with validation — result identical, <code>plan</code> empty.</p>
+  <div class="code">resource "aws_instance" "web" {
+  ami = "ami-0c55b159cbfafe1f0"   instance_type = "t3.micro"
+  tags = { Name = "web-0"   Env = "dev" }
+}</div></div>
+  <div class="mark m-tip"><span class="tag">💡 HINT</span>Four values → four variables; <code>env</code> gets the validation block, the AMI gets no default. (<b>Book 1, Chapter 14</b>.)</div>
+  <p class="small center">→ <a class="tlink" href="#sol-16">Solutions sol-16 · sol-17</a></p>
+  <div class="panel"><div class="ptitle">🔁 Follow-up rep — validate before graph</div><p class="small">Before redrawing ex-16's graph, CI wants a zero-cloud syntax gate. <b>Name the command, show its success output, and state exactly what it does NOT check</b> (the gap <code>plan</code> still owns).</p>
+  <div class="code">$ terraform validate
+Success! The configuration is valid.
+# checks: syntax + types + references exist. NOT checked: ???</div></div>
+  <div class="mark m-exam"><span class="tag">🎓 EXAM LENS</span>Implicit ordering (references) beats <code>depends_on</code> (explicit, last resort). <code>validate</code> is syntax-only — cloud truth needs <code>plan</code>.</div>
+  <div class="folio"><span>🏋️ Practice Lab</span><span class="fnum">— Page 12 —</span><span><a class="backtoc" href="#toc">▤ TOC</a> <a class="tlink" href="#ex-13">prev</a> | <a class="tlink" href="#ex-18">next</a></span></div>
+</div>
+<div class="sheet" id="ex-18">
+  <div class="pghead"><div class="hrow"><div><div class="kick">EXERCISE 18–19 · PRECEDENCE + ENVS</div><h1 class="t">🟡 ex-18 · ex-19 drills</h1></div><span class="hmeta">Book 1 Ch 14 + WS</span></div></div>
+  <div class="panel"><div class="ptitle">🎯 ex-18 THE TASK (T2 · Predict the winner)</div><p class="small">Four layers set <code>env</code> differently. <b>Predict the applied value, then name the single experiment that proves the full ladder:</b></p>
+  <div class="code">variables.tf:        variable "env" { default = "dev" }
+terraform.tfvars:    env = "staging"
+TF_VAR_env=prod      (exported)
+CLI: terraform apply -var="env=qa" -auto-approve</div></div>
+  <div class="mark m-tip"><span class="tag">💡 HINT</span>Order: <code>-var</code> &gt; tfvars &gt; env &gt; default. The proof sets all four differently and reads the winner. (<b>Book 1, Chapter 14</b>.)</div>
+  <div class="panel"><div class="ptitle">🎯 ex-19 THE TASK (T4 · Scenario)</div><p class="small">Client: "one codebase, three envs (dev 1×micro, staging 2×small, prod 3×small), isolated state, no copy-paste." <b>Write:</b> the sizing map keyed by workspace, the instance block using it, and the three workspace commands. Then state the one visibility rule that keeps humans safe.</p>
+  <div class="code"># sizing = { dev = {...}  staging = {...}  prod = {...} }
+# current = local.sizing[???]   ← the workspace key
+resource "aws_instance" "cluster" { count = ???   instance_type = ??? }</div></div>
+  <div class="mark m-tip"><span class="tag">💡 HINT</span><code>terraform.workspace</code> is the key; the safety rule is typed before every apply. (<b>Book 1 workspaces + Vol 2</b>.)</div>
+  <p class="small center">→ <a class="tlink" href="#sol-18">Solutions sol-18 · sol-19</a></p>
+  <div class="panel"><div class="ptitle">🔁 Follow-up rep — console proof</div><p class="small">Settle ex-18's ladder dispute without applying anything: <b>write the one <code>console</code> pipeline</b> that evaluates the winning value with all four layers loaded, and predict its exact output for the ex-18 setup.</p>
+  <div class="code">$ echo 'var.env' | terraform console -var="env=qa"
+"qa"   # ← CLI layer wins even in the REPL. Try dropping -var: ???</div></div>
+  <div class="mark m-exam"><span class="tag">🎓 EXAM LENS</span>Precedence ladder questions give 3+ layers and ask the winner — always trace top-down from <code>-var</code>. Workspaces isolate STATE; variables never do.</div>
+  <div class="folio"><span>🏋️ Practice Lab</span><span class="fnum">— Page 13 —</span><span><a class="backtoc" href="#toc">▤ TOC</a> <a class="tlink" href="#ex-16">prev</a> | <a class="tlink" href="#ex-20">next</a></span></div>
+</div>
+<div class="sheet" id="ex-20">
+  <div class="pghead"><div class="hrow"><div><div class="kick">EXERCISE 20–21 · COUNT vs KEYS</div><h1 class="t">🟡 ex-20 · ex-21 drills</h1></div><span class="hmeta">Book 1 Ch 20</span></div></div>
+  <div class="panel"><div class="ptitle">🎯 ex-20 THE TASK (T2 · Predict the drop)</div><p class="small"><code>count = 3</code> → <code>count = 2</code>, and downstream <code>aws_lb_target_group_attachment</code> reads <code>web[2].id</code>. <b>Write the plan tail AND the downstream error that follows</b> — then state the one-word reason <code>for_each</code> wouldn't do this.</p>
+  <div class="code"># state: web[0] web[1] web[2]   →   config: count = 2
+# downstream: target_id = aws_instance.web[2].id</div></div>
+  <div class="mark m-tip"><span class="tag">💡 HINT</span>Count kills the LAST index; the attachment still points at it. Keys vs indexes — that's the whole chapter. (<b>Book 1, Chapter 20</b>.)</div>
+  <div class="panel"><div class="ptitle">🎯 ex-21 THE TASK (T6 · count → for_each)</div><p class="small">Three subnets by <code>count</code>, one per AZ, referenced as <code>public[0..2]</code>. <b>Convert to a for_each map keyed by AZ</b> — same three subnets, same CIDRs, <code>plan</code> must show the catch (there is one), and you must resolve it without downtime.</p>
+  <div class="code">resource "aws_subnet" "public" {
+  count = 3
+  cidr_block = cidrsubnet("10.0.0.0/16", 8, count.index)
+  availability_zone = data.aws_availability_zones.azs.names[count.index]
+}</div></div>
+  <div class="mark m-tip"><span class="tag">💡 HINT</span>Keys change identity — <code>[0]</code> vs <code>["us-east-1a"]</code> — so plan wants rebuilds. Which ledger command preserves them? (<b>Book 1, Chapters 12 + 20</b>.)</div>
+  <p class="small center">→ <a class="tlink" href="#sol-20">Solutions sol-20 · sol-21</a></p>
+  <div class="panel"><div class="ptitle">🔁 Follow-up rep — values() rescue</div><p class="small">After ex-21's migration the ALB attachment still reads <code>public[0].id</code> and fails. <b>Rewrite that single reference</b> for a for_each map, then give the expression that returns ALL subnet IDs as a list for the output block.</p>
+  <div class="code"># broken: subnet_id = aws_subnet.public[0].id
+# fixed single: subnet_id = ???
+# fixed all:    output "ids" { value = ??? }</div></div>
+  <div class="mark m-exam"><span class="tag">🎓 EXAM LENS</span><code>count</code> vs <code>for_each</code> is the single most-tested Day-2 topic. Index shifts vs stable keys — say those five words and the follow-up writes itself.</div>
+  <div class="folio"><span>🏋️ Practice Lab</span><span class="fnum">— Page 14 —</span><span><a class="backtoc" href="#toc">▤ TOC</a> <a class="tlink" href="#ex-18">prev</a> | <a class="tlink" href="#ex-22">next</a></span></div>
+</div>
+<div class="sheet" id="ex-22">
+  <div class="pghead"><div class="hrow"><div><div class="kick">EXERCISE 22–23 · OUTPUTS + PROVISIONERS</div><h1 class="t">🟡 ex-22 · ex-23 drills</h1></div><span class="hmeta">Book 1 Ch 21–22</span></div></div>
+  <div class="panel"><div class="ptitle">🎯 ex-22 THE TASK (T3 · Read the secret)</div><p class="small">CI prints this after <code>output -raw db_password</code>. <b>Two violations in one screenshot</b> — name both, then give the two correct moves (marking + transport).</p>
+  <div class="code">$ terraform output -raw db_password
+Warning: "db_password" is sensitive
+p@ssw0rd!        # ← visible in CI logs, copied to Slack
+# output block has NO sensitive flag; value piped to chat, not a store</div></div>
+  <div class="mark m-tip"><span class="tag">💡 HINT</span>One flag hides CLI display; one habit keeps secrets out of logs. Neither encrypts state — what does? (<b>Book 1, Chapter 21</b>.)</div>
+  <div class="panel"><div class="ptitle">🎯 ex-23 THE TASK (T1 · The provisioner myth)</div><p class="small">A teammate edits the <code>remote-exec inline</code> script, re-applies, sees no diff, and declares "Terraform is broken." <b>Explain why nothing ran</b> (lifecycle rule), then give the two correct fixes: the immediate recovery AND the architectural cure.</p>
+  <div class="code">resource "aws_instance" "web" {
+  # ... unchanged ...
+  provisioner "remote-exec" {
+    inline = ["sudo apt-get install -y nginx", "sudo systemctl start nginx"]
+    # edited just now — apply shows: 0 to add, 0 to change, 0 to destroy
+  }
+}</div></div>
+  <div class="mark m-tip"><span class="tag">💡 HINT</span>Creation-only is the whole doctrine. Recovery is a ledger command; the cure removes the provisioner entirely. (<b>Book 1, Chapter 22</b>.)</div>
+  <p class="small center">→ <a class="tlink" href="#sol-22">Solutions sol-22 · sol-23</a></p>
+  <div class="panel"><div class="ptitle">🔁 Follow-up rep — precondition guard</div><p class="small">Ex-22's team wants the pipeline to FAIL if anyone removes the <code>sensitive</code> flag. <b>Write the output block</b> with a <code>precondition</code> that enforces non-empty + sensitive handling — then state where the check runs (plan or apply) and what the failure looks like.</p>
+  <div class="code">output "db_password" {
+  value = aws_db_instance.main.password
+  sensitive = true
+  precondition { condition = ???   error_message = "???" }
+}</div></div>
+  <div class="mark m-exam"><span class="tag">🎓 EXAM LENS</span><code>sensitive</code> masks display; state stays plaintext. Provisioners fire once at creation — any "re-run" question answers itself with that rule.</div>
+  <div class="folio"><span>🏋️ Practice Lab</span><span class="fnum">— Page 15 —</span><span><a class="backtoc" href="#toc">▤ TOC</a> <a class="tlink" href="#ex-20">prev</a> | <a class="tlink" href="#ex-24">next</a></span></div>
+</div>
+<div class="sheet" id="ex-24">
+  <div class="pghead"><div class="hrow"><div><div class="kick">EXERCISE 24–25 · MODULES + DRIFT</div><h1 class="t">🟡 ex-24 · ex-25 drills</h1></div><span class="hmeta">Book 1 Ch 23 + 9</span></div></div>
+  <div class="panel"><div class="ptitle">🎯 ex-24 THE TASK (T4 · Scenario)</div><p class="small">Three teams copy-paste the same 60-line VPC block; VPC #4 ships with a different CIDR scheme and breaks peering. <b>Design the module fix:</b> module dir layout (3 files), the two inputs it must take, and one root call block. No full code — interface only.</p>
+  <div class="code"># modules/vpc/{ _______, _______, _______ }
+# inputs: _______ (string), _______ (map or list)
+module "prod_vpc" {
+  source = "_______"
+  _______ = "10.20.0.0/16"
+}</div></div>
+  <div class="mark m-tip"><span class="tag">💡 HINT</span>main/variables/outputs; cidr + tags-or-AZs. Pin with <code>version</code> for registry, commit hash for git. (<b>Book 1, Chapter 23</b>.)</div>
+  <div class="panel"><div class="ptitle">🎯 ex-25 THE TASK (T7 · Trace the drift)</div><p class="small">Someone opens the console and opens port 22 to <code>0.0.0.0/0</code> on the web SG 🕵️. Nobody touches code. <b>Narrate the next <code>plan</code> line by line</b> — what symbol, on which block — then give the two ways to resolve it (keep vs revert) with exact commands.</p>
+  <div class="code"># code: ingress 443 only · real SG: 443 + 22-open-by-hand
+$ terraform plan</div></div>
+  <div class="mark m-tip"><span class="tag">💡 HINT</span>Refresh reads REAL first — the diff writes itself. Resolve by code (apply) or by console (revert). (<b>Book 1, Chapter 9</b>.)</div>
+  <p class="small center">→ <a class="tlink" href="#sol-24">Solutions sol-24 · sol-25</a></p>
+  <div class="panel"><div class="ptitle">🔁 Follow-up rep — module outputs</div><p class="small">Ex-24's module is accepted. Downstream needs the VPC ID and must NOT reach into module internals. <b>Write the module's <code>outputs.tf</code> (two values) and the root reference</b> that wires them into a subnet — wrong answers reach past the interface.</p>
+  <div class="code"># modules/vpc/outputs.tf
+output "vpc_id" { value = ??? }   # NOT aws_vpc.this.id exposed how?
+# root: subnet vpc_id = module.prod_vpc.???</div></div>
+  <div class="mark m-exam"><span class="tag">🎓 EXAM LENS</span>Root vs child module outputs; <code>~</code> means drifted-in-place. <code>terraform show -json</code> + <code>jq</code> is the CI interrogation pattern.</div>
+  <div class="folio"><span>🏋️ Practice Lab</span><span class="fnum">— Page 16 —</span><span><a class="backtoc" href="#toc">▤ TOC</a> <a class="tlink" href="#ex-22">prev</a> | <a class="tlink" href="#ex-26">next</a></span></div>
+</div>
+<div class="sheet" id="ex-26">
+  <div class="pghead"><div class="hrow"><div><div class="kick">EXERCISE 26–27 · REFRESH + IMPORT</div><h1 class="t">🟡 ex-26 · ex-27 drills</h1></div><span class="hmeta">Book 1 Ch 9 + 12</span></div></div>
+  <div class="panel"><div class="ptitle">🎯 ex-26 THE TASK (T5 · Command choice)</div><p class="small">"Show me drift without changing anything" — and separately, "my tutorial says run <code>terraform refresh</code>." <b>Pick the right command for each job and retire the legacy one:</b><br>A) <code>terraform refresh</code> &nbsp; B) <code>terraform plan -refresh-only -out=drift.plan</code> &nbsp; C) <code>terraform apply -refresh-only</code></p>
+  <div class="code"># job 1: preview drift, change nothing
+# job 2: update state to match reality (rare, deliberate)</div></div>
+  <div class="mark m-tip"><span class="tag">💡 HINT</span>Standalone <code>refresh</code> is legacy; the flag form previews or writes explicitly. (<b>Book 1, Chapters 9 + 16</b> + 📝 modern note.)</div>
+  <div class="panel"><div class="ptitle">🎯 ex-27 THE TASK (T4 · Adopt the VPC)</div><p class="small">A hand-built VPC (<code>vpc-0ab123456</code>, <code>10.0.0.0/16</code>) must come under management with zero downtime. <b>Write the three steps in order</b> — config first, then the bind command with exact address + ID, then the command that proves the binding is clean.</p>
+  <div class="code"># step 1: resource "aws_vpc" "main" { cidr_block = "10.0.0.0/16" }
+# step 2: terraform _______ _______ _______
+# step 3: _______ (must show: 0 to add, 0 to change, 0 to destroy)</div></div>
+  <div class="mark m-tip"><span class="tag">💡 HINT</span>Write → bind → prove. The bind takes ADDR then ID; the proof is a quiet plan. (<b>Book 1, Chapter 12</b>.)</div>
+  <p class="small center">→ <a class="tlink" href="#sol-26">Solutions sol-26 · sol-27</a></p>
+  <div class="panel"><div class="ptitle">🔁 Follow-up rep — show the drift</div><p class="small">Ex-26's team adopts a rule: every Friday someone posts the drift report. <b>Write the two-command Friday ritual</b> (preview file + human-readable summary via <code>show</code>) and state where the artifact is stored so Monday's apply reviews exactly it.</p>
+  <div class="code">$ terraform plan -refresh-only -out=friday.plan
+$ terraform show -json friday.plan | jq '.resource_changes[] | {addr: .address, acts: .change.actions}'</div></div>
+  <div class="mark m-exam"><span class="tag">🎓 EXAM LENS</span><code>import</code> binds identity; config must already describe the object. <code>-refresh-only</code> previews drift; bare <code>refresh</code> is legacy vocabulary.</div>
+  <div class="folio"><span>🏋️ Practice Lab</span><span class="fnum">— Page 17 —</span><span><a class="backtoc" href="#toc">▤ TOC</a> <a class="tlink" href="#ex-24">prev</a> | <a class="tlink" href="#ex-28">next</a></span></div>
+</div>
+<div class="sheet" id="ex-28">
+  <div class="pghead"><div class="hrow"><div><div class="kick">EXERCISE 28–29 · REGIONS + ENV VARS</div><h1 class="t">🟡 ex-28 · ex-29 drills</h1></div><span class="hmeta">Book 1 Ch 17 + 14</span></div></div>
+  <div class="panel"><div class="ptitle">🎯 ex-28 THE TASK (T1 · Find the bug)</div><p class="small">Both VPCs landed in <code>us-east-1</code> and peering failed on overlap — but the code "clearly" creates a DR VPC. <b>One line is missing.</b> Name it, place it, and state what <code>plan</code> shows after the fix.</p>
+  <div class="code">provider "aws" { region = "us-east-1" }
+provider "aws" { alias = "eu"   region = "eu-west-1" }
+resource "aws_vpc" "primary" { cidr_block = "10.0.0.0/16" }
+resource "aws_vpc" "dr" { cidr_block = "10.50.0.0/16" }   # ← intended: eu-west-1</div></div>
+  <div class="mark m-tip"><span class="tag">💡 HINT</span>Resources default to the un-aliased block. Opting in takes one meta-argument. (<b>Book 1, Chapter 17</b>.)</div>
+  <div class="panel"><div class="ptitle">🎯 ex-29 THE TASK (T3 · Read the error)</div><p class="small">CI fails with <code>string required, but have number</code> on a <code>map(string)</code> variable fed by <code>TF_VAR_tags</code>. <b>Diagnose the quoting bug and write the fixed export</b> — then state the general rule for complex types over env vars.</p>
+  <div class="code">$ export TF_VAR_tags={Env:prod}
+$ terraform plan
+Error: string required, but have number  # …on var.tags</div></div>
+  <div class="mark m-tip"><span class="tag">💡 HINT</span>Env vars arrive as strings; complex types need HCL syntax with quoting. (<b>Book 1, Chapter 14</b> — the #1 CI variable bug.)</div>
+  <p class="small center">→ <a class="tlink" href="#sol-28">Solutions sol-28 · sol-29</a></p>
+  <div class="panel"><div class="ptitle">🔁 Follow-up rep — count the fleet</div><p class="small">Ex-28's DR region needs 2 instances, primary needs 3 — same config, per-provider counts. <b>Write the instance block</b> using one <code>count</code> expression driven by which provider serves it, without duplicating the resource.</p>
+  <div class="code">resource "aws_instance" "web" {
+  count = ???   # 3 in primary, 2 in DR — keyed off what?
+}</div></div>
+  <div class="mark m-exam"><span class="tag">🎓 EXAM LENS</span><code>alias</code> declares, <code>provider =</code> selects. TF_VAR_* arrives as strings — complex types need single-quoted HCL, the #1 CI variable bug.</div>
+  <div class="folio"><span>🏋️ Practice Lab</span><span class="fnum">— Page 18 —</span><span><a class="backtoc" href="#toc">▤ TOC</a> <a class="tlink" href="#ex-26">prev</a> | <a class="tlink" href="#ex-30">next</a></span></div>
+</div>
+<div class="sheet" id="ex-30">
+  <div class="pghead"><div class="hrow"><div><div class="kick">EXERCISE 30 · SAFE ACCESS</div><h1 class="t">🟡 ex-30 drill + band checkpoint</h1></div><span class="hmeta">Book 1 Ch 20</span></div></div>
+  <div class="panel"><div class="ptitle">🎯 ex-30 THE TASK (T5 · Command choice)</div><p class="small">A <code>count = var.enable_monitoring ? 1 : 0</code> log group feeds an output. With monitoring OFF, all four candidates behave differently. <b>Pick the safe reader and kill the other three:</b><br>A) <code>aws_cloudwatch_log_group.v[0].arn</code> &nbsp; B) <code>one(aws_cloudwatch_log_group.v[*].arn)</code> &nbsp; C) <code>aws_cloudwatch_log_group.v[*].arn[0]</code> &nbsp; D) <code>length(...) &gt; 0 ? v[0].arn : null</code></p>
+  <div class="code">resource "aws_cloudwatch_log_group" "v" {
+  count = var.enable_monitoring ? 1 : 0   # OFF → empty list
+  name = "/app/verbose"
+}
+output "log_group" { value = ??? }</div></div>
+  <div class="mark m-tip"><span class="tag">💡 HINT</span>Empty list breaks every index — except the function built for exactly-one-or-null. D works but says in four lines what one function says. (<b>Book 1, Chapter 20</b>.)</div>
+  <div class="mark m-ok"><span class="tag">✅ BAND CHECKPOINT</span>You finish drills when your solutions match on <b>WHY</b>, not just the answer. If ex-20's index logic or ex-21's identity catch still feels fuzzy, re-read <b>Book 1, Chapter 20</b> before bosses — everything red ahead assumes keys.</div>
+  <p class="small center">→ <a class="tlink" href="#sol-30">Solution sol-30</a></p>
+  <div class="panel"><div class="ptitle">🔁 Follow-up rep — lookup with fallback</div><p class="small">The log-group output must read <code>"none"</code> (not null) when monitoring is off, and the real ARN when on. <b>Write it two ways:</b> with <code>one()</code> + fallback logic, and with <code>lookup()</code> over a one-entry map — then state which you'd keep and why.</p>
+  <div class="code">output "log_group" {
+  value = ???   # "none" when count = 0, ARN when count = 1
+}</div></div>
+  <div class="mark m-exam"><span class="tag">🎓 EXAM LENS</span>0/1 resources read via <code>one()</code> — never bare <code>[0]</code>. Tainted resources rebuild next apply; the exam asks what taint schedules.</div>
+  <div class="folio"><span>🏋️ Practice Lab</span><span class="fnum">— Page 19 —</span><span><a class="backtoc" href="#toc">▤ TOC</a> <a class="tlink" href="#ex-28">prev</a> | <a class="tlink" href="#ex-31">next</a></span></div>
+</div>
+<div class="sheet" id="ex-31">
+  <div class="pghead"><div class="hrow"><div><div class="kick">EXERCISE 31–32 · RACE + DEBUG</div><h1 class="t">🔴 ex-31 · ex-32 bosses</h1></div><span class="hmeta">Book 1 Ch 11 + 14</span></div></div>
+  <div class="panel"><div class="ptitle">🎯 ex-31 THE TASK (T7 · Trace the race)</div><p class="small">Two engineers share one bucket, one lock table. A applies (holds lock ID <code>a1b2</code>); B's apply starts 10s later; A's laptop dies mid-apply. <b>Narrate minute by minute:</b> what B sees, what the table holds, the exact 4-step recovery in order — and the one thing nobody is allowed to do.</p>
+  <div class="code"># t+0  A: apply (lock a1b2)   # t+10s B: apply → ???
+# t+60s A laptop dead. State: half-written. Lock: held by a ghost.
+# recover: read → confirm → release → prove. Never: _______</div></div>
+  <div class="mark m-tip"><span class="tag">💡 HINT</span>WHO holds it, WHEN, WHAT operation — then confirm death via human/CI/<code>ps</code>, release by ID, prove health. The forbidden move deletes a row by hand. (<b>Book 1, Chapter 11</b>.)</div>
+  <div class="panel"><div class="ptitle">🎯 ex-32 THE TASK (T3 · Wrong value, live debug)</div><p class="small"><code>env</code> should be <code>prod</code> but the plan shows <code>staging</code>. Layers present: default <code>dev</code>, <code>terraform.tfvars</code> (<code>staging</code>), <code>z.auto.tfvars</code> (<code>qa</code>), <code>TF_VAR_env=prod</code>, and NO <code>-var</code> flag. <b>Which layer won and why — then the two commands that prove the resolution order and the fix.</b></p>
+  <div class="code">$ terraform plan   # shows: env = "staging"   ← expected prod!</div></div>
+  <div class="mark m-tip"><span class="tag">💡 HINT</span>Someone's mental ladder is upside down: files beat env vars; only CLI beats files. Which file outranks which? (<b>Book 1, Chapter 14</b>.)</div>
+  <p class="small center">→ <a class="tlink" href="#sol-31">Solutions sol-31 · sol-32</a></p>
+  <div class="panel"><div class="ptitle">🔁 Follow-up rep — separate the locks</div><p class="small">Ex-31's team is tired of one shared lock serializing three envs. <b>Design the escape:</b> which backend argument changes per env, what the three resulting state keys look like, and what new operational cost this buys them (there is always a cost).</p>
+  <div class="code"># backend "s3" { bucket = ???   key = ??? }
+# dev → ???   staging → ???   prod → ??? (+ lock tables?)</div></div>
+  <div class="mark m-exam"><span class="tag">🎓 EXAM LENS</span>Locking questions always hide a live holder. Read WHO/WHEN/WHAT, confirm death, release by ID — and remote backends + tfstate-never-in-git ride along.</div>
+  <div class="folio"><span>🏋️ Practice Lab</span><span class="fnum">— Page 20 —</span><span><a class="backtoc" href="#toc">▤ TOC</a> <a class="tlink" href="#ex-30">prev</a> | <a class="tlink" href="#ex-33">next</a></span></div>
+</div>
+<div class="sheet" id="ex-33">
+  <div class="pghead"><div class="hrow"><div><div class="kick">EXERCISE 33–34 · SCALE + FAILURE</div><h1 class="t">🔴 ex-33 · ex-34 bosses</h1></div><span class="hmeta">Book 1 Ch 20 + 22</span></div></div>
+  <div class="panel"><div class="ptitle">🎯 ex-33 THE TASK (T6 · Rename at scale)</div><p class="small">50 <code>count</code>-indexed workers must become a for_each map keyed by hostname — same 50 machines, zero rebuilds, downstream <code>values(...)[*].id</code> keeps working. <b>Write the migration:</b> new block, the ledger command pattern (one example + "repeat ×50" strategy), and the downstream reference rewrite.</p>
+  <div class="code"># before: aws_instance.worker[0..49] (count)
+# after:  aws_instance.worker["w-01"..] (for_each)
+# downstream today: aws_instance.worker[*].id</div></div>
+  <div class="mark m-tip"><span class="tag">💡 HINT</span>New keys mean new identities — plan screams rebuild. The ledger can adopt each address first; script the fifty moves, don't type them. (<b>Book 1, Chapters 12 + 20</b>.)</div>
+  <div class="panel"><div class="ptitle">🎯 ex-34 THE TASK (T3 · The half-built box)</div><p class="small">Apply failed INSIDE <code>remote-exec</code> (apt timeout). The instance exists; re-apply says <b>0/0/0</b>. <b>Diagnose the exact state of the world</b> (resource? software? plan's view?) and give the two recovery paths: the sledgehammer AND the architectural cure that ends this incident class.</p>
+  <div class="code">$ terraform apply
+aws_instance.web: Creating... Creation complete [id=i-012345]
+aws_instance.web (remote-exec): ... apt timeout ... Error.
+$ terraform apply   # → 0 to add, 0 to change, 0 to destroy. Box: half-configured.</div></div>
+  <div class="mark m-tip"><span class="tag">💡 HINT</span>Creation-only already fired; the plan sees a finished resource. Recovery re-creates; the cure removes the hook. (<b>Book 1, Chapter 22</b>.)</div>
+  <p class="small center">→ <a class="tlink" href="#sol-33">Solutions sol-33 · sol-34</a></p>
+  <div class="panel"><div class="ptitle">🔁 Follow-up rep — moved blocks</div><p class="small">Ex-33's team dislikes fifty hand-typed <code>state mv</code> commands. <b>Write the declarative alternative:</b> a <code>moved</code> block for ONE worker, state exactly when Terraform honors it (plan or apply), and the one condition under which the team must still prefer CLI <code>mv</code>.</p>
+  <div class="code">moved {
+  from = aws_instance.worker[0]
+  to   = ???   # keyed address for w-01
+}</div></div>
+  <div class="mark m-exam"><span class="tag">🎓 EXAM LENS</span>Identity lives in addresses: key change = new resource unless adopted. <code>moved</code> blocks and <code>state mv</code> are the same idea in two costumes.</div>
+  <div class="folio"><span>🏋️ Practice Lab</span><span class="fnum">— Page 21 —</span><span><a class="backtoc" href="#toc">▤ TOC</a> <a class="tlink" href="#ex-31">prev</a> | <a class="tlink" href="#ex-35">next</a></span></div>
+</div>
+<div class="sheet" id="ex-35">
+  <div class="pghead"><div class="hrow"><div><div class="kick">EXERCISE 35–36 · MODULES + TEARDOWN</div><h1 class="t">🔴 ex-35 · ex-36 bosses</h1></div><span class="hmeta">Book 1 Ch 23 + 13</span></div></div>
+  <div class="panel"><div class="ptitle">🎯 ex-35 THE TASK (T6 · Extract the module)</div><p class="small">Root <code>main.tf</code> holds a 60-line VPC+subnets block used nowhere else — yet. Two more envs land next quarter. <b>Extract it into <code>modules/vpc/</code> without changing any real resource:</b> the three files, which lines move where, the root call block, and the command that proves zero drift after the move.</p>
+  <div class="code"># root today: resource "aws_vpc" "main" + 3× aws_subnet (all live)
+# root tomorrow: module "vpc" { source = "./modules/vpc"   ... }
+# state tonight: aws_vpc.main, aws_subnet.public[0..2] — must NOT rebuild</div></div>
+  <div class="mark m-tip"><span class="tag">💡 HINT</span>Moving code changes addresses (<code>aws_vpc.main</code> → <code>module.vpc.aws_vpc.main</code>) — the ledger needs adoption per resource, same trick as ex-14 but namespaced. (<b>Book 1, Chapters 12 + 23</b>.)</div>
+  <div class="panel"><div class="ptitle">🎯 ex-36 THE TASK (T5 · Destroy with judgment)</div><p class="small">Friday cleanup: kill the dev env (VPC + instances, no state) but the shared <code>data</code> VPC in the SAME state must survive — and prod state must be untouchable by construction. <b>Give:</b> the scoped destroy command, the resource-level guard that would have saved you if prod were in scope, and the workspace check typed first.</p>
+  <div class="code"># one state: aws_vpc.dev + aws_instance.dev[*] + aws_vpc.data
+# goal: dev gone, data alive, prod never addressable from here</div></div>
+  <div class="mark m-tip"><span class="tag">💡 HINT</span>Scope by target, guard by lifecycle, isolate by workspace — three independent safeties. (<b>Book 1, Chapters 13 + 19</b>.)</div>
+  <p class="small center">→ <a class="tlink" href="#sol-35">Solutions sol-35 · sol-36</a></p>
+  <div class="panel"><div class="ptitle">🔁 Follow-up rep — prevent_destroy drill</div><p class="small">Ex-36's Friday cleanup gains a rule: the <code>data</code> VPC must be UNDESROYABLE by any command short of editing code. <b>Write the lifecycle guard, show the exact error a scoped destroy prints when it touches it, and state the two-step override</b> (edit + apply) for the day decommissioning is real.</p>
+  <div class="code">resource "aws_vpc" "data" {
+  cidr_block = "10.10.0.0/16"
+  lifecycle { ??? }
+}
+$ terraform destroy -target=aws_vpc.data
+# Error: ???</div></div>
+  <div class="mark m-exam"><span class="tag">🎓 EXAM LENS</span><code>prevent_destroy</code> fails the plan loudly — the exam's favorite guard. <code>-target</code> scopes; workspaces isolate; all three stack.</div>
+  <div class="folio"><span>🏋️ Practice Lab</span><span class="fnum">— Page 22 —</span><span><a class="backtoc" href="#toc">▤ TOC</a> <a class="tlink" href="#ex-33">prev</a> | <a class="tlink" href="#ex-37">next</a></span></div>
+</div>
+<div class="sheet" id="ex-37">
+  <div class="pghead"><div class="hrow"><div><div class="kick">EXERCISE 37–38 · PEERING + STACKS</div><h1 class="t">🔴 ex-37 · ex-38 bosses</h1></div><span class="hmeta">Book 1 Ch 6 + 21</span></div></div>
+  <div class="panel"><div class="ptitle">🎯 ex-37 THE TASK (T1 · The cross-VPC SG bug)</div><p class="small">App VPC peers to data VPC. The app SG references the DB SG by ID across the peering — apply fails. <b>Explain why SG references die across peerings, write the working ingress block</b> (CIDR-based), and add the DNS flag both sides need or the app still can't resolve the DB hostname.</p>
+  <div class="code">resource "aws_security_group_rule" "app_to_db" {
+  security_group_id = aws_security_group.app.id
+  source_security_group_id = aws_security_group.db.id   # ← dies across peering
+  from_port = 5432   to_port = 5432   protocol = "tcp"
+}</div></div>
+  <div class="mark m-tip"><span class="tag">💡 HINT</span>SG identity doesn't cross the peering; CIDR does. And resolution needs an explicit opt-in per side. (<b>Book 1, Chapters 6 + 20</b>… and the silent-DNS section.)</div>
+  <div class="panel"><div class="ptitle">🎯 ex-38 THE TASK (T4 · Wire two stacks)</div><p class="small">Network stack exports <code>vpc_id</code> + <code>private_subnet_ids</code>; app stack needs both, separate states, network applies first. <b>Write both sides:</b> the two output blocks, the consumer data block, one resource consuming each value — and the CI ordering rule that makes it safe.</p>
+  <div class="code"># network/outputs.tf:  output "vpc_id" { ??? }  output "private_subnet_ids" { ??? }
+# app: data "terraform_remote_state" "network" { ??? }
+# app resource: subnet_id = ???   (first private subnet)</div></div>
+  <div class="mark m-tip"><span class="tag">💡 HINT</span>Outputs are the contract; the data source reads another state's exports; CI graphs network → app. (<b>Book 1, Chapter 21</b>.)</div>
+  <p class="small center">→ <a class="tlink" href="#sol-37">Solutions sol-37 · sol-38</a></p>
+  <div class="panel"><div class="ptitle">🔁 Follow-up rep — ephemeral outputs</div><p class="small">Ex-38's app stack needs a deploy token that must NEVER land in state. <b>Write the output block</b> with the flag that keeps it out of the ledger, then state the hard consequence: when can a LATER apply still read it — and what breaks if it tries?</p>
+  <div class="code">output "deploy_token" {
+  value = data.aws_secretsmanager_secret_version.cur.secret_string
+  ??? = true   # the flag — and its price
+}</div></div>
+  <div class="mark m-exam"><span class="tag">🎓 EXAM LENS</span>Cross-stack = outputs publish, <code>remote_state</code> subscribes, CI orders. Cross-peering SGs use CIDRs plus the both-sides DNS flag.</div>
+  <div class="folio"><span>🏋️ Practice Lab</span><span class="fnum">— Page 23 —</span><span><a class="backtoc" href="#toc">▤ TOC</a> <a class="tlink" href="#ex-35">prev</a> | <a class="tlink" href="#ex-39">next</a></span></div>
+</div>
+<div class="sheet" id="ex-39">
+  <div class="pghead"><div class="hrow"><div><div class="kick">EXERCISE 39 · UPGRADE TRACE</div><h1 class="t">🔴 ex-39 boss + the FINAL BOSS</h1></div><span class="hmeta">Book 1 Ch 4 + 24</span></div></div>
+  <div class="panel"><div class="ptitle">🎯 ex-39 THE TASK (T7 · Trace the provider bump)</div><p class="small">You widen <code>~&gt; 5.0</code> → <code>&gt;= 5.0</code>, run <code>plan</code> (not init), and wonder why nothing changed. <b>Narrate the full chain:</b> why plan ignores the edit, the command that re-resolves, what the lock file gains, and the one scenario where the widened range bites you at 3 AM.</p>
+  <div class="code"># versions.tf: version = ">= 5.0"   (was "~> 5.0")
+$ terraform plan   # → uses 5.31.0, the LOCKED binary. Why?</div></div>
+  <div class="mark m-tip"><span class="tag">💡 HINT</span>Constraints are wishes; the lock is law — until a specific command re-resolves. Uncapped ranges invite major-break surprises. (<b>Book 1, Chapters 7 + 17</b>.)</div>
+  <div id="ex-40"><div class="panel"><div class="ptitle">🎯 ex-40 FINAL BOSS (T4 · The full chain, cold)</div><p class="small">No starter code. <b>Build the Chapter 24 chain from memory:</b> provider → VPC → 2 subnets → 2 instances per subnet → SG (443) → outputs (private IPs) → provisioner → destroy. Staged hints unlock in order — read each only when stuck:</p>
+  <div class="code">HINT 1 (shape): for_each = toset(["a1","a2","b1","b2"]) + startswith → subnet.
+HINT 2 (wiring): SG id into vpc_security_group_ids; map output over the instances.
+HINT 3 (proof): ips.txt via local-exec; output -json; destroy reverses all.</div></div>
+  <div class="mark m-tip"><span class="tag">💡 HINT 0</span>Scoring: chain applies clean + output maps 4 IPs + destroy empties state = black belt. Anything less → the hint you opened names your re-read chapter.</div>
+  <p class="small center"></div>→ <a class="tlink" href="#sol-39">Solutions sol-39 · sol-40</a></p>
+  <div class="panel"><div class="ptitle">🔁 Follow-up rep — timed run rules</div><p class="small">The final boss counts as passed only under exam conditions. <b>Copy this contract onto paper before starting:</b> 30 minutes, no Book 1, hints cost 5 minutes each, <code>plan</code> before every <code>apply</code>. Fail any clause and the run doesn't count — when you're done, the scorecard's last row is waiting.</p>
+  <div class="code"># black-belt run: 8 resources · 4 IPs in output · empty state after destroy
+# hints opened: ___ × 5 min   # total time: ___   # pass? ___</div></div>
+  <div class="mark m-exam"><span class="tag">🎓 EXAM LENS</span>The chain compresses the whole Associate blueprint: auth → graph → keys → outputs → teardown. Narrate it cold and the scenario section is paperwork.</div>
+  <div class="folio"><span>🏋️ Practice Lab</span><span class="fnum">— Page 24 —</span><span><a class="backtoc" href="#toc">▤ TOC</a> <a class="tlink" href="#ex-37">prev</a> | <a class="tlink" href="#answers">next</a></span></div>
+</div>
+<div class="sheet" id="answers">
+  <div class="pghead"><div class="hrow"><div><div class="kick">SOLUTIONS · WARM-UPS</div><h1 class="t">✅ sol-01 · sol-02 · sol-03</h1></div><span class="hmeta">🟢 BAND</span></div></div>
+  <div id="sol-01"><div class="sec"><span class="n">sol-01</span>Second apply: nothing to do</div><div class="code">Plan: 0 to add, 0 to change, 0 to destroy.
+<span class="s">No changes. Your infrastructure matches the configuration.</span></div>
+<p class="small">🧠 WHY — refresh found vpc-0ab123456 with the same CIDR, so desired == known == real. An empty diff is the healthy steady state, not a broken run.<br>⚠ TRAP — "0/0/0 means Terraform didn't run." It ran fully: refresh + compare, then correctly did nothing.<br>🎓 EXAM — idempotence: same code → same infra → empty plan.</p></div><div id="sol-02"><div class="sec"><span class="n">sol-02</span>CLI v1.9.8 · provider v5.31.0, locked</div><div class="code">Terraform v1.9.8  +  hashicorp/aws v5.31.0
+Lock: .terraform.lock.hcl  ← written by terraform init</div>
+<p class="small">🧠 WHY — <code>terraform version</code> prints both binaries; the lock pins exact builds + hashes so teammates download identical bits.<br>⚠ TRAP — reading only "v1.9.8" and ignoring the provider line. Version bugs live in providers, not the CLI.<br>🎓 EXAM — lock file committed, <code>.terraform/</code> ignored.</p></div><div id="sol-03"><div class="sec"><span class="n">sol-03</span>Pillar B, three kills</div><div class="code">✅ B) Platform-agnostic — one apply already spans AWS + GitHub.
+✗ A) best practices — true, but says nothing about second APIs.
+✗ C) community — nice, not the cost argument.  ✗ D) speed — irrelevant here.</div>
+<p class="small">🧠 WHY — CloudFormation cannot manage GitHub/Cloudflare; the moment a second API enters, "free and deep" loses to "one workflow everywhere".<br>⚠ TRAP — picking community: popular with managers, answers nothing about multi-cloud.<br>🎓 EXAM — "AWS-only?" → CloudFormation. "Multi-cloud?" → Terraform.</p></div>
+  <div class="panel"><div class="ptitle">🔁 Variation, worked — tainted steady state</div><p class="small">Same VPC, but someone ran <code>terraform taint aws_vpc.main</code> first. Morning <code>apply</code> now prints <b>1 to add, 0 to change, 1 to destroy</b> — destroy-then-create of the SAME config. Lesson: taint marks KNOWN as poisoned, so the empty diff becomes a replacement diff. Untaint (<code>untaint</code>) restores the 0/0/0.</p>
+  <div class="code">Plan: 1 to add, 0 to change, 1 to destroy.   # -/+ in disguise</div></div>
+  <div class="folio"><span>🏋️ Practice Lab</span><span class="fnum">— Page 25 —</span><span><a class="backtoc" href="#toc">▤ TOC</a> <a class="tlink" href="#ex-39">prev</a> | <a class="tlink" href="#sol-04">next</a></span></div>
+</div>
+<div class="sheet" id="sol-04">
+  <div class="pghead"><div class="hrow"><div><div class="kick">SOLUTIONS · WARM-UPS</div><h1 class="t">✅ sol-04 · sol-05 · sol-06</h1></div><span class="hmeta">🟢 BAND</span></div></div>
+  <div id="sol-04"><div class="sec"><span class="n">sol-04</span>Parse → graph → plan → auth → VPC → subnet</div><div class="code">1 HCL parsed · 2 Core builds graph (edge: subnet→VPC)
+3 plan diff computed · 4 provider authenticates
+5 VPC created · 6 subnet created (graph order, not file order)</div>
+<p class="small">🧠 WHY — Core reads everything first, derives order from references, and only then lets plugins touch APIs. Files are unordered; the graph is the order.<br>⚠ TRAP — putting auth first. Nothing authenticates before there's a plan worth executing.<br>🎓 EXAM — Core plans, plugins execute; order comes from references.</p></div><div id="sol-05"><div class="sec"><span class="n">sol-05</span>Leaked keys + hardcoded region</div><div class="code"># fixed provider.tf — no secrets, env-driven auth
+provider "aws" { region = "us-east-1" }
+# $ export AWS_ACCESS_KEY_ID=... AWS_SECRET_ACCESS_KEY=...
+# (or SSO profile / OIDC — never committed values)</div>
+<p class="small">🧠 WHY — committed keys get scraped in minutes; env vars/SSO keep secrets out of git while the block stays minimal and portable.<br>⚠ TRAP — "it's a private repo, fine." Private repos leak via clones, CI logs, and future-public flips.<br>🎓 EXAM — static keys ⚠ / env vars ✓ / CLI config ✓.</p></div><div id="sol-06"><div class="sec"><span class="n">sol-06</span>resource · aws_vpc · main</div><div class="code">resource "aws_vpc" "main" {   # singular, underscores, lowercase
+  cidr_block = "10.0.0.0/16"
+}   # → address aws_vpc.main.id resolves</div>
+<p class="small">🧠 WHY — anatomy is fixed: keyword <code>resource</code>, TYPE with underscores, quoted lowercase name. The address derives from exactly these three tokens.<br>⚠ TRAP — fixing two of three and re-running into the third error. Read all three tokens every time.<br>🎓 EXAM — <code>resource "TYPE" "NAME"</code>; address = <code>TYPE.NAME.attr</code>.</p></div>
+  <div class="panel"><div class="ptitle">🔁 Variation, worked — the graph behind the plan</div><p class="small">Ex-04's trace has a sequel: the subnet references <code>aws_vpc.main.id AND aws_internet_gateway.igw.id</code>. Draw the two edges, then state which resource the graph builds FIRST — and why file order (subnet written above VPC) still can't fool it.</p>
+  <div class="code"># edges: subnet → VPC, subnet → IGW. First built: VPC + IGW (any order),
+# subnet last. References are the only order that exists.</div></div>
+  <div class="folio"><span>🏋️ Practice Lab</span><span class="fnum">— Page 26 —</span><span><a class="backtoc" href="#toc">▤ TOC</a> <a class="tlink" href="#answers">prev</a> | <a class="tlink" href="#sol-07">next</a></span></div>
+</div>
+<div class="sheet" id="sol-07">
+  <div class="pghead"><div class="hrow"><div><div class="kick">SOLUTIONS · WARM-UPS</div><h1 class="t">✅ sol-07 · sol-08 · sol-09</h1></div><span class="hmeta">🟢 BAND</span></div></div>
+  <div id="sol-07"><div class="sec"><span class="n">sol-07</span>aws 5.31.0 + local 2.5.1 · lock commits · binaries ignored</div><div class="code">Providers: hashicorp/aws v5.31.0, hashicorp/local v2.5.1
+COMMIT: .terraform.lock.hcl   IGNORE: .terraform/ (binaries)</div>
+<p class="small">🧠 WHY — init output lists every installed plugin; the lock freezes exact builds; the directory is re-downloadable weight that never belongs in git.<br>⚠ TRAP — committing <code>.terraform/</code> (megabytes of binaries) while ignoring the tiny lock file. Exactly backwards.<br>🎓 EXAM — init downloads; lock pins; gitignore splits them.</p></div><div id="sol-08"><div class="sec"><span class="n">sol-08</span>1 add (type swap ~) · 1 destroy (web[2])</div><div class="code">  <span class="y">~ aws_instance.web[0]</span>  <span class="g"># t3.micro → t3.small, same ID</span>
+  <span class="y">~ aws_instance.web[1]</span>  <span class="g"># same</span>
+  <span class="r">- aws_instance.web[2]</span>   <span class="g"># count shrink kills LAST index</span>
+Plan: 0 to add, 2 to change, 1 to destroy.</div>
+<p class="small">🧠 WHY — type is in-place (~); count shrink always drops the highest index. Two change kinds, one tail.<br>⚠ TRAP — "web[0] dies" (count never kills the first) or missing the ~ lines entirely.<br>🎓 EXAM — ~ in-place · − destroy · count shrinks from the top.</p></div><div id="sol-09"><div class="sec"><span class="n">sol-09</span>B, three kills</div><div class="code">✅ B) "~> 5.0" — 5.x automatically, 6.0 never. The house default.
+✗ A) ">= 5.0" — uncapped: 6.0 surprise breaks at 3 AM.
+✗ C) "= 5.31.0" — frozen: safe but manual toil per bug-fix.
+✗ D) none — floating: every init is a lottery.</div>
+<p class="small">🧠 WHY — pessimistic pinning takes compatible fixes and refuses breaking majors: automation without surprises.<br>⚠ TRAP — exact pins feel "safest" but trade breakage risk for toil; uncapped feels "modern" but trades toil for breakage.<br>🎓 EXAM — <code>~&gt;</code> default · <code>=</code> freeze · bare <code>&gt;=</code> never.</p></div>
+  <div class="panel"><div class="ptitle">🔁 Variation, worked — type swap with two changes</div><p class="small">Ex-08's sequel: count stays 3, but the type changes AND one tag value changes on all three. The tail reads <b>0 to add, 3 to change, 0 to destroy</b> — three <code>~</code> lines, zero drama. Lesson: attribute edits are in-place across the whole set; only count edits kill indexes.</p>
+  <div class="code">  <span class="y">~ aws_instance.web[0]</span>   <span class="y">~ web[1]</span>   <span class="y">~ web[2]</span>
+Plan: 0 to add, 3 to change, 0 to destroy.</div></div>
+  <div class="folio"><span>🏋️ Practice Lab</span><span class="fnum">— Page 27 —</span><span><a class="backtoc" href="#toc">▤ TOC</a> <a class="tlink" href="#sol-04">prev</a> | <a class="tlink" href="#sol-10">next</a></span></div>
+</div>
+<div class="sheet" id="sol-10">
+  <div class="pghead"><div class="hrow"><div><div class="kick">SOLUTIONS · WARM-UPS</div><h1 class="t">✅ sol-10 · sol-11 · sol-12</h1></div><span class="hmeta">🟢 BAND</span></div></div>
+  <div id="sol-10"><div class="sec"><span class="n">sol-10</span>init → plan → apply tfplan</div><div class="code">1 terraform init (binaries first — nothing works without them)
+2 terraform plan -out=tfplan (read-only preview + saved contract)
+3 terraform apply tfplan (executes EXACTLY the reviewed plan)</div>
+<p class="small">🧠 WHY — each step's output is the next step's input: binaries → contract → execution. Skipping straight to apply merges preview and execution blind.<br>⚠ TRAP — <code>apply</code> before <code>init</code> (no plugins) or bare <code>apply</code> in prod (unreviewed changes).<br>🎓 EXAM — plan is read-only; <code>apply tfplan</code> = reviewed == executed.</p></div><div id="sol-11"><div class="sec"><span class="n">sol-11</span>Duplicate VPC — risk ①</div><div class="code"># before rm: config 1 · state 1 (vpc-0ab1) · AWS 1 → plan 0/0/0
+# after rm:  config 1 · state 0 · AWS 1 → plan: 1 to add (ghost!)
+# after apply: config 1 · state 1 (vpc-0cd2) · AWS 2 → DUPLICATE</div>
+<p class="small">🧠 WHY — with no ledger, desired-vs-known computes "everything is new." Terraform builds a second VPC beside the forgotten one.<br>⚠ TRAP — "apply will re-adopt it." Nothing re-adopts except <code>import</code>; apply creates.<br>🎓 EXAM — deleting tfstate → Terraform forgets everything → duplicates.</p></div><div id="sol-12"><div class="sec"><span class="n">sol-12</span>S3 backend, two keys, one rule</div><div class="code">terraform {
+  backend "s3" {
+    bucket = "tfstate"   # prod-grade: separate buckets per env
+    key    = "env/dev/terraform.tfstate"   # ← per-env key (staging: env/…)
+    region = "us-east-1"   dynamodb_table = "tfstate-locks"   encrypt = true
+  }
+}
+# RULE: one state per env — never two envs, one file.</div>
+<p class="small">🧠 WHY — separate keys give separate ledgers; separate buckets add IAM blast-radius isolation; locking serializes the team.<br>⚠ TRAP — same key + different tfvars (one ledger, two writers — the original incident).<br>🎓 EXAM — key per env minimum; bucket per env for prod.</p></div>
+  <div class="panel"><div class="ptitle">🔁 Variation, worked — backend keys for three envs</div><p class="small">Ex-12's client grows a staging env. The bucket stays one; the keys become <code>env/dev|staging|prod/terraform.tfstate</code>. One <code>backend "s3"</code> block CAN'T hold three keys — so each env gets its own <code>-backend-config</code> file (or workspace suffix). Same ledger math, three ledgers.</p>
+  <div class="code"># backend-dev.hcl → key = "env/dev/terraform.tfstate"
+# backend-staging.hcl → key = "env/staging/terraform.tfstate"</div></div>
+  <div class="folio"><span>🏋️ Practice Lab</span><span class="fnum">— Page 28 —</span><span><a class="backtoc" href="#toc">▤ TOC</a> <a class="tlink" href="#sol-07">prev</a> | <a class="tlink" href="#sol-13">next</a></span></div>
+</div>
+<div class="sheet" id="sol-13">
+  <div class="pghead"><div class="hrow"><div><div class="kick">SOLUTIONS · WARM-UPS</div><h1 class="t">✅ sol-13 · sol-14 · sol-15</h1></div><span class="hmeta">🟢 BAND</span></div></div>
+  <div id="sol-13"><div class="sec"><span class="n">sol-13</span>Held lock: verify, then force-unlock ID</div><div class="code"># 1 read: holder ci-runner-4, op apply, since 10:02
+# 2 confirm dead: CI run red / human says killed / ps empty
+# 3 release: terraform force-unlock a1b2-c3
+# 4 prove: plan clean before anyone re-applies</div>
+<p class="small">🧠 WHY — the lock is evidence, not the enemy: it names who/why. Release follows proof of death, never impatience.<br>⚠ TRAP — force-unlocking a LIVE holder (two writers, one ledger → corruption) or hand-deleting the DynamoDB row.<br>🎓 EXAM — read → confirm → release → prove. Never delete the row.</p></div><div id="sol-14"><div class="sec"><span class="n">sol-14</span>Ledger first, code second</div><div class="code">$ terraform state mv aws_instance.web aws_instance.app
+Move "aws_instance.web" to "aws_instance.app" — 1 moved.
+# then rename in main.tf → next plan: 0/0/0 (same box, new name)</div>
+<p class="small">🧠 WHY — identity lives in the address: move the ledger entry and the code rename becomes a no-op instead of destroy+create.<br>⚠ TRAP — renaming code first (plan shows −/+ on a live box) or using <code>rm</code> (orphans it).<br>🎓 EXAM — <code>mv</code> renames tracking; <code>rm</code> abandons; neither touches AWS.</p></div><div id="sol-15"><div class="sec"><span class="n">sol-15</span>Canonical form + the gate</div><div class="code">resource "aws_vpc" "main" {
+  cidr_block = "10.0.0.0/16"
+  tags       = { Name = "x" }
+}
+# gate: terraform fmt -check (exit 1 = unformatted, CI fails)</div>
+<p class="small">🧠 WHY — two-space indent, single spaces, aligned <code>=</code>: the machine enforces style so reviews stay about logic.<br>⚠ TRAP — "fmt changes behavior." It never does — pure whitespace. Fear of fmt is fear of nothing.<br>🎓 EXAM — <code>fmt</code> rewrites; <code>-check</code> gates; <code>-recursive</code> covers dirs.</p></div>
+  <div class="panel"><div class="ptitle">🔁 Variation, worked — mv across modules</div><p class="small">Ex-14's sequel: the instance moves into <code>module.cluster</code> instead of a plain rename. Same trick, namespaced address: <code>terraform state mv aws_instance.web 'module.cluster.aws_instance.web'</code>. The rule never changes — adopt first, edit code second, quiet plan proves it.</p>
+  <div class="code">$ terraform state mv aws_instance.web 'module.cluster.aws_instance.web'
+# then add the module block → plan 0/0/0.</div></div>
+  <div class="folio"><span>🏋️ Practice Lab</span><span class="fnum">— Page 29 —</span><span><a class="backtoc" href="#toc">▤ TOC</a> <a class="tlink" href="#sol-10">prev</a> | <a class="tlink" href="#answers-2">next</a></span></div>
+</div>
+<div class="sheet" id="answers-2">
+  <div class="pghead"><div class="hrow"><div><div class="kick">SOLUTIONS · DRILLS</div><h1 class="t">✅ sol-16 · sol-17 · sol-18</h1></div><span class="hmeta">🟡 BAND</span></div></div>
+  <div id="sol-16"><div class="sec"><span class="n">sol-16</span>Reference, not string + redraw</div><div class="code">resource "aws_subnet" "a" {
+  vpc_id = aws_vpc.main.id   # ← reference creates the edge
+  cidr_block = "10.0.1.0/24"
+}
+$ terraform graph | dot -Tsvg &gt; graph.svg   # edge reappears</div>
+<p class="small">🧠 WHY — the graph is built from references, not values: a pasted ID is data, a reference is an ordering edge. Same string, different meaning.<br>⚠ TRAP — adding <code>depends_on</code> to fix it. Works, but hides the real breakage: the subnet no longer follows VPC renames.<br>🎓 EXAM — references create edges; literals don't; graph proves it.</p></div><div id="sol-17"><div class="sec"><span class="n">sol-17</span>Four vars, validation on env</div><div class="code"># variables.tf
+variable "ami" { type = string }   # required: no default
+variable "instance_type" { type = string  default = "t3.micro" }
+variable "name" { type = string  default = "web-0" }
+variable "env" {
+  type = string
+  validation { condition = contains(["dev","staging","prod"], var.env)
+    error_message = "must be dev/staging/prod" }
+}</div>
+<p class="small">🧠 WHY — types catch shape errors at plan; required-ness forces callers to decide; validation rejects bad envs before anything builds.<br>⚠ TRAP — defaulting everything (prod silently inherits dev values) or validating nothing.<br>🎓 EXAM — type + default + description + validation = complete declaration.</p></div><div id="sol-18"><div class="sec"><span class="n">sol-18</span>qa wins — CLI beats all files</div><div class="code"># winner: env = "qa" (the -var flag)
+# proof experiment: set all four differently, plan, read the value —
+# change one layer at a time to map the full ladder.
+# fix: drop the -var flag (or set it to prod) to get prod.</div>
+<p class="small">🧠 WHY — ladder is <code>-var</code> &gt; tfvars &gt; env &gt; default: later-listed sources override. The stray flag outranks every file.<br>⚠ TRAP — "TF_VAR beats files" (upside-down ladder — the classic). Files always beat env vars.<br>🎓 EXAM — full ladder: default &lt; TF_VAR_* &lt; tfvars &lt; auto.tfvars &lt; -var-file &lt; -var.</p></div>
+  <div class="panel"><div class="ptitle">🔁 Variation, worked — auto.tfvars ambush</div><p class="small">Ex-18's sequel: a forgotten <code>z.auto.tfvars</code> setting <code>env = "qa"</code> sits in the repo. With NO <code>-var</code> flag, the winner is <b>qa</b> (auto.tfvars beats terraform.tfvars beats env). Lesson: when values surprise you, <code>grep -r auto.tfvars</code> before doubting the ladder.</p>
+  <div class="code"># no -var flag + z.auto.tfvars(env="qa") → winner: "qa"</div></div>
+  <div class="folio"><span>🏋️ Practice Lab</span><span class="fnum">— Page 30 —</span><span><a class="backtoc" href="#toc">▤ TOC</a> <a class="tlink" href="#sol-13">prev</a> | <a class="tlink" href="#sol-19">next</a></span></div>
+</div>
+<div class="sheet" id="sol-19">
+  <div class="pghead"><div class="hrow"><div><div class="kick">SOLUTIONS · DRILLS</div><h1 class="t">✅ sol-19 · sol-20 · sol-21</h1></div><span class="hmeta">🟡 BAND</span></div></div>
+  <div id="sol-19"><div class="sec"><span class="n">sol-19</span>Sizing map + three workspaces + typed check</div><div class="code">locals {
+  sizing = { dev = { count=1 type="t3.micro" }
+    staging = { count=2 type="t3.small" } prod = { count=3 type="t3.small" } }
+  current = local.sizing[terraform.workspace]
+}
+resource "aws_instance" "cluster" {
+  count = local.current.count   instance_type = local.current.type }
+# $ workspace new dev/staging/prod → select → apply each
+# RULE: type `workspace show` (or show) before EVERY apply.</div>
+<p class="small">🧠 WHY — the workspace name becomes a lookup key: same code, per-env shape, per-env state. The typed check defeats "wrong env" applies.<br>⚠ TRAP — <code>local.sizing[var.env]</code> with no workspace (one state, three liars) or forgetting the default-workspace entry.<br>🎓 EXAM — <code>terraform.workspace</code> keys maps; state isolation comes free.</p></div><div id="sol-20"><div class="sec"><span class="n">sol-20</span>web[2] dies, attachment errors</div><div class="code">  <span class="r">- aws_instance.web[2]</span>   <span class="g"># LAST index dies</span>
+Plan: 0 to add, 0 to change, 1 to destroy.
+# downstream: Error: Invalid index — web[2] no longer exists.
+# for_each wouldn't: keys hold, only the removed key dies.</div>
+<p class="small">🧠 WHY — count identity IS position: shrink drops the tail, and every <code>[2]</code> reference dangles. Keys decouple identity from position.<br>⚠ TRAP — "it destroys web[0]" or "references update themselves." Neither: tail dies, refs break.<br>🎓 EXAM — count shrinks from the top; dangling indexes error, never re-point.</p></div><div id="sol-21"><div class="sec"><span class="n">sol-21</span>AZ-keyed map + mv each address</div><div class="code">resource "aws_subnet" "public" {
+  for_each = { for i, az in var.azs : az =&gt; i }
+  cidr_block = cidrsubnet("10.0.0.0/16", 8, each.value)
+  availability_zone = each.key
+}
+$ terraform state mv 'aws_subnet.public[0]' 'aws_subnet.public["us-east-1a"]'
+# ×3 — then downstream: values(aws_subnet.public)[*].id</div>
+<p class="small">🧠 WHY — new keys mean new identities, so plan proposes rebuilds; adopting each address into its key first turns the refactor into a no-op.<br>⚠ TRAP — applying the rebuild ("it's just subnets" — new subnets means new IPs, new routes, moved workloads).<br>🎓 EXAM — key change = identity change; <code>mv</code> preserves, apply rebuilds.</p></div>
+  <div class="panel"><div class="ptitle">🔁 Variation, worked — splat after migration</div><p class="small">Ex-21's downstream ALB attachment also needs rewriting: <code>web[2].id</code> is dead. For a for_each map the single becomes <code>aws_instance.web["web-c"].id</code> and the whole fleet becomes <code>values(aws_instance.web)[*].id</code>. Brackets hold keys now, never positions.</p>
+  <div class="code"># single: aws_instance.web["web-c"].id
+# all:    values(aws_instance.web)[*].id</div></div>
+  <div class="folio"><span>🏋️ Practice Lab</span><span class="fnum">— Page 31 —</span><span><a class="backtoc" href="#toc">▤ TOC</a> <a class="tlink" href="#answers-2">prev</a> | <a class="tlink" href="#sol-22">next</a></span></div>
+</div>
+<div class="sheet" id="sol-22">
+  <div class="pghead"><div class="hrow"><div><div class="kick">SOLUTIONS · DRILLS</div><h1 class="t">✅ sol-22 · sol-23 · sol-24</h1></div><span class="hmeta">🟡 BAND</span></div></div>
+  <div id="sol-22"><div class="sec"><span class="n">sol-22</span>Flag it + pipe it, never print it</div><div class="code">output "db_password" { value = aws_db_instance.main.password
+  sensitive = true }   # hides CLI display
+$ terraform output -raw db_password | aws secretsmanager create-secret ...</div>
+<p class="small">🧠 WHY — <code>sensitive</code> masks display; piping moves the value machine-to-machine with no eyeballs. The two violations were unflagged output + human-readable transport.<br>⚠ TRAP — "sensitive encrypts state." Masking only — state stays plaintext; Vault/SSM is the encryption story.<br>🎓 EXAM — sensitive = display; secret store = transport; Vault = rest.</p></div><div id="sol-23"><div class="sec"><span class="n">sol-23</span>Creation-only fired long ago</div><div class="code"># why nothing ran: provisioner fired at creation; edits don't re-fire it.
+# recovery: terraform taint aws_instance.web → apply (rebuild + rerun)
+# cure: user_data / Packer AMI / Ansible — remove the hook entirely.</div>
+<p class="small">🧠 WHY — Terraform tracks the resource, not the script's effects: unchanged resource means no lifecycle event, so no hook. "Broken" is the design working.<br>⚠ TRAP — re-applying harder, or adding a second provisioner on top. Both preserve the half-configured box.<br>🎓 EXAM — provisioners: creation-only, last resort, state-blind.</p></div><div id="sol-24"><div class="sec"><span class="n">sol-24</span>main/variables/outputs + two inputs</div><div class="code"># modules/vpc/{ main.tf, variables.tf, outputs.tf }
+variable "cidr" { type = string }   # per-env CIDR in
+variable "azs" { type = list(string) }   # per-env AZs in
+module "prod_vpc" {
+  source = "../../modules/vpc"   # registry: source + version pin
+  cidr   = "10.20.0.0/16"   azs = ["us-east-1a","us-east-1b"]
+}</div>
+<p class="small">🧠 WHY — the interface (two inputs, documented outputs) kills the copy-paste drift class: every env consumes the same tested shape.<br>⚠ TRAP — unpinned git source (floating) or stuffing env logic INSIDE the module (unkillable coupling).<br>🎓 EXAM — modules package; inputs vary; pins freeze.</p></div>
+  <div class="panel"><div class="ptitle">🔁 Variation, worked — ephemeral token output</div><p class="small">Ex-22's sequel: a deploy token must NEVER persist. <code>ephemeral = true</code> keeps it out of state entirely — readable in the same apply, gone afterwards. Price: no later apply can re-read it. Secrets you re-read → <code>sensitive</code>; one-shot proofs → <code>ephemeral</code>.</p>
+  <div class="code">output "deploy_token" { value = data.aws_secretsmanager_secret_version.cur.secret_string
+  ephemeral = true }   # same-apply read only</div></div>
+  <div class="folio"><span>🏋️ Practice Lab</span><span class="fnum">— Page 32 —</span><span><a class="backtoc" href="#toc">▤ TOC</a> <a class="tlink" href="#sol-19">prev</a> | <a class="tlink" href="#sol-25">next</a></span></div>
+</div>
+<div class="sheet" id="sol-25">
+  <div class="pghead"><div class="hrow"><div><div class="kick">SOLUTIONS · DRILLS</div><h1 class="t">✅ sol-25 · sol-26 · sol-27</h1></div><span class="hmeta">🟡 BAND</span></div></div>
+  <div id="sol-25"><div class="sec"><span class="n">sol-25</span>~ on the SG, apply or revert</div><div class="code">  <span class="y">~ aws_security_group.web</span>  <span class="g"># ingress: +22-open-by-hand</span>
+Plan: 0 to add, 1 to change, 0 to destroy.
+# keep it: add 22 to code → apply. revert it: console-delete 22 → plan 0/0/0.</div>
+<p class="small">🧠 WHY — refresh imports REAL into the diff: hand edits surface as ~ changes against code. The plan is the drift report you didn't ask anyone to write.<br>⚠ TRAP — "plan will ignore console edits." Refresh exists precisely so it can't.<br>🎓 EXAM — drift shows as ~; resolve by code (apply) or console (revert).</p></div><div id="sol-26"><div class="sec"><span class="n">sol-26</span>B previews, C writes, A retires</div><div class="code">✅ job 1: plan -refresh-only -out=drift.plan (preview, zero writes)
+✅ job 2: apply -refresh-only (deliberate state sync)
+✗ A) refresh — legacy standalone; same engine, worse manners.</div>
+<p class="small">🧠 WHY — the flag form says what it does: preview vs write, each explicit and reviewable. Bare <code>refresh</code> writes silently with no plan artifact.<br>⚠ TRAP — refreshing to "fix" drift (it blesses the drift into state instead of removing it).<br>🎓 EXAM — <code>-refresh-only</code> previews or syncs; bare refresh is legacy.</p></div><div id="sol-27"><div class="sec"><span class="n">sol-27</span>Write → import → quiet plan</div><div class="code"># 1 resource "aws_vpc" "main" { cidr_block = "10.0.0.0/16" }
+$ terraform import aws_vpc.main vpc-0ab123456
+Import successful!
+$ terraform plan   # → 0 to add, 0 to change, 0 to destroy ✔</div>
+<p class="small">🧠 WHY — import binds identity only: config declares intent, import points at reality, the quiet plan proves they describe the same object.<br>⚠ TRAP — importing before writing config (binds, then plan proposes to fill the missing attributes destructively).<br>🎓 EXAM — write → import ADDR ID → plan 0/0/0.</p></div>
+  <div class="panel"><div class="ptitle">🔁 Variation, worked — JSON plan interrogation</div><p class="small">Ex-25's drift deserves a machine-readable proof for CI: <code>terraform show -json drift.plan | jq '.resource_changes[] | select(.change.actions != ["no-op"]) | .address'</code> lists every drifted address. Empty output = clean bill; any line = page the human who owns that resource.</p>
+  <div class="code">$ terraform show -json drift.plan | jq -r '.resource_changes[].address'
+aws_security_group.web   # ← the drifter, by address</div></div>
+  <div class="folio"><span>🏋️ Practice Lab</span><span class="fnum">— Page 33 —</span><span><a class="backtoc" href="#toc">▤ TOC</a> <a class="tlink" href="#sol-22">prev</a> | <a class="tlink" href="#sol-28">next</a></span></div>
+</div>
+<div class="sheet" id="sol-28">
+  <div class="pghead"><div class="hrow"><div><div class="kick">SOLUTIONS · DRILLS</div><h1 class="t">✅ sol-28 · sol-29 · sol-30</h1></div><span class="hmeta">🟡 BAND</span></div></div>
+  <div id="sol-28"><div class="sec"><span class="n">sol-28</span>provider = aws.eu on the DR block</div><div class="code">resource "aws_vpc" "dr" {
+  provider   = aws.eu   # ← the missing line: opt into the alias
+  cidr_block = "10.50.0.0/16"   # now lands eu-west-1, no overlap
+}</div>
+<p class="small">🧠 WHY — resources default to the un-aliased block; without the opt-in both VPCs share a region and the "clearly regional" code lies.<br>⚠ TRAP — "the alias on the provider is enough." Declaring <code>alias</code> creates the option; only <code>provider =</code> exercises it.<br>🎓 EXAM — alias declares, <code>provider =</code> selects, default is un-aliased.</p></div><div id="sol-29"><div class="sec"><span class="n">sol-29</span>Quote it as HCL, not shell</div><div class="code">$ export TF_VAR_tags='{"Env":"prod"}'   # single-quoted HCL map
+# rule: primitives auto-convert; lists/maps/objects need HCL syntax.</div>
+<p class="small">🧠 WHY — env vars arrive as raw strings: <code>5</code> converts cleanly but <code>{Env:prod}</code> parses as garbage the type system rejects.<br>⚠ TRAP — double quotes (shell eats them) or unquoted braces (shell expands them). Single-quote the HCL.<br>🎓 EXAM — TF_VAR_* = strings; complex types = single-quoted HCL.</p></div><div id="sol-30"><div class="sec"><span class="n">sol-30</span>B, three kills</div><div class="code">✅ B) one(v[*].arn) — empty → null, single → value. Built for this.
+✗ A) [0] — Invalid index on empty.  ✗ C) [*][0] — same crash, extra steps.
+~ D) length guard — correct but four lines for one function's job.</div>
+<p class="small">🧠 WHY — <code>one()</code> encodes exactly-one-or-null: the cardinality contract of every 0/1 resource in one call.<br>⚠ TRAP — C feels "splat-safe." Splat of empty is empty; indexing empty is still an error.<br>🎓 EXAM — 0/1 resources → <code>one()</code>; never bare <code>[0]</code>.</p></div>
+  <div class="panel"><div class="ptitle">🔁 Variation, worked — version pin in the fix</div><p class="small">Ex-28's sequel: the team pins the provider properly this time — <code>version = "~> 5.0"</code> in <code>required_providers</code> plus the alias block. Fresh <code>init</code> installs 5.x in both regions; the 6.0 morning from the follow-up rep can never recur. Pins are incident prevention.</p>
+  <div class="code"># required_providers: version = "~> 5.0" → 6.0 cannot install. Ever.</div></div>
+  <div class="folio"><span>🏋️ Practice Lab</span><span class="fnum">— Page 34 —</span><span><a class="backtoc" href="#toc">▤ TOC</a> <a class="tlink" href="#sol-25">prev</a> | <a class="tlink" href="#answers-3">next</a></span></div>
+</div>
+<div class="sheet" id="answers-3">
+  <div class="pghead"><div class="hrow"><div><div class="kick">SOLUTIONS · BOSSES</div><h1 class="t">✅ sol-31 · sol-32 · sol-33</h1></div><span class="hmeta">🔴 BAND</span></div></div>
+  <div id="sol-31"><div class="sec"><span class="n">sol-31</span>B waits, ghost released by the book</div><div class="code"># t+10s B: Error acquiring lock (held: a1b2, ci-runner... wait — A, human)
+# table: one row, LockID=state, holder A. B retries or stands down.
+# recovery: ① show/CI/ps confirm A dead ② force-unlock a1b2
+# ③ plan clean ④ B applies. NEVER: hand-delete the DynamoDB row.</div>
+<p class="small">🧠 WHY — the lock serializes writers: B's error IS the system working. Recovery re-establishes single-writer truth before anything proceeds.<br>⚠ TRAP — unlocking while A might be alive (split-brain ledger) or deleting the row (destroys the evidence AND the guard).<br>🎓 EXAM — one lock, one writer; ghosts released by ID after proof.</p></div><div id="sol-32"><div class="sec"><span class="n">sol-32</span>terraform.tfvars won (staging); env loses to files</div><div class="code"># winner: staging — terraform.tfvars outranks TF_VAR_env.
+# prove: TF_VAR_env=x plan → staging. rm terraform.tfvars → prod (env).
+# rm z.auto.tfvars too → still prod (env beats default dev).
+# fix: set -var="env=prod" (CLI beats all) or correct the tfvars.</div>
+<p class="small">🧠 WHY — the ladder never inverts: files always outrank env vars, CLI outranks files. "Expected prod" assumed env-first; the machine is file-first.<br>⚠ TRAP — deleting tfvars AND auto.tfvars and expecting dev (env still stands between files and default).<br>🎓 EXAM — debug values by removing layers top-down: -var, files, env, default.</p></div><div id="sol-33"><div class="sec"><span class="n">sol-33</span>Adopt fifty addresses, rewrite one reference</div><div class="code">$ for i in $(seq -w 1 50); do
+  terraform state mv "aws_instance.worker[$((10#$i-1))]" "aws_instance.worker[\"w-$i\"]"
+done
+# downstream: values(aws_instance.worker)[*].id
+# plan after: 0/0/0 — same boxes, keyed identities.</div>
+<p class="small">🧠 WHY — identity moves with adoption: each mv re-points one address before the code switch, so the refactor never proposes a rebuild.<br>⚠ TRAP — hand-typing fifty moves (typo = orphan + duplicate) or applying the rebuild ("faster" — fifty new boxes, fifty dead ones).<br>🎓 EXAM — bulk renames are scripted mvs, verified by a quiet plan.</p></div>
+  <div class="panel"><div class="ptitle">🔁 Variation, worked — lock table per env</div><p class="small">Ex-31's sequel at scale: three envs, three DynamoDB tables (<code>tfstate-locks-dev|staging|prod</code>). Dev's stuck apply can no longer block prod's deploy — at the price of three tables to guard and three lock rows to read during incidents. Isolation always invoices.</p>
+  <div class="code"># dynamodb_table = "tfstate-locks-${terraform.workspace}" — per-env guard</div></div>
+  <div class="folio"><span>🏋️ Practice Lab</span><span class="fnum">— Page 35 —</span><span><a class="backtoc" href="#toc">▤ TOC</a> <a class="tlink" href="#sol-28">prev</a> | <a class="tlink" href="#sol-34">next</a></span></div>
+</div>
+<div class="sheet" id="sol-34">
+  <div class="pghead"><div class="hrow"><div><div class="kick">SOLUTIONS · BOSSES</div><h1 class="t">✅ sol-34 · sol-35 · sol-36</h1></div><span class="hmeta">🔴 BAND</span></div></div>
+  <div id="sol-34"><div class="sec"><span class="n">sol-34</span>Taint the box, bake the cure</div><div class="code"># world: resource EXISTS (i-012345, half-configured) · plan sees done.
+# sledgehammer: terraform taint aws_instance.web → apply (rebuild + rerun)
+# cure: Packer AMI / user_data / Ansible — delete the provisioner.</div>
+<p class="small">🧠 WHY — creation-only fired once and will never refire: the plan is green because the RESOURCE is complete; the software was never Terraform's to track.<br>⚠ TRAP — re-applying expectantly, or <code>on_failure = continue</code> as a fix (hides the next failure too).<br>🎓 EXAM — green plan + broken box = fired hook; taint recovers, baking cures.</p></div><div id="sol-35"><div class="sec"><span class="n">sol-35</span>Move code, adopt namespaced addresses</div><div class="code"># modules/vpc/{ main.tf ← block, variables.tf ← cidr/azs, outputs.tf }
+module "vpc" { source = "./modules/vpc"   cidr = "10.0.0.0/16" ... }
+$ terraform state mv aws_vpc.main 'module.vpc.aws_vpc.main'
+$ terraform state mv 'aws_subnet.public[0]' 'module.vpc.aws_subnet.public["us-east-1a"]'
+# …per resource, then plan 0/0/0.</div>
+<p class="small">🧠 WHY — module addresses namespace everything: adoption re-points each ledger entry ahead of the code move, so extraction is bookkeeping, not rebuild.<br>⚠ TRAP — moving code first (plan proposes destroy+create of the network — downtime by refactor).<br>🎓 EXAM — extraction = move code + mv each address + quiet plan.</p></div><div id="sol-36"><div class="sec"><span class="n">sol-36</span>Show, target, guard — prod unreachable</div><div class="code">$ terraform workspace show   # → dev. If prod: STOP.
+$ terraform destroy -target=aws_vpc.dev -target='aws_instance.dev[*]'
+# guard (already in code, hopefully):
+resource "aws_vpc" "data" { ... lifecycle { prevent_destroy = true } }</div>
+<p class="small">🧠 WHY — three independent safeties: eyes (show), scope (target), code (prevent_destroy). Prod lives in another workspace/state, unreachable from here by construction.<br>⚠ TRAP — naked <code>destroy -auto-approve</code> in a shared state (takes data with dev) or trusting memory over <code>show</code>.<br>🎓 EXAM — show → target → guard; prod isolation is structural, not carefulness.</p></div>
+  <div class="panel"><div class="ptitle">🔁 Variation, worked — user_data instead</div><p class="small">Ex-34's box gets rebuilt the right way: the apt lines move into <code>user_data</code>, which re-runs from a clean image on every replacement and shows in the plan as config — tracked, reviewable, retryable. Compare: provisioner (blind, once) vs user_data (visible, every boot).</p>
+  <div class="code">user_data = &lt;&lt;-EOT
+  #!/bin/bash
+  apt-get install -y nginx   # ← runs EVERY boot, visible in config
+  EOT</div></div>
+  <div class="folio"><span>🏋️ Practice Lab</span><span class="fnum">— Page 36 —</span><span><a class="backtoc" href="#toc">▤ TOC</a> <a class="tlink" href="#answers-3">prev</a> | <a class="tlink" href="#sol-37">next</a></span></div>
+</div>
+<div class="sheet" id="sol-37">
+  <div class="pghead"><div class="hrow"><div><div class="kick">SOLUTIONS · BOSSES</div><h1 class="t">✅ sol-37 · sol-38 · sol-39</h1></div><span class="hmeta">🔴 BAND</span></div></div>
+  <div id="sol-37"><div class="sec"><span class="n">sol-37</span>CIDR, not SG refs + both-side DNS</div><div class="code">ingress {
+  from_port = 5432   to_port = 5432   protocol = "tcp"
+  cidr_blocks = ["10.20.0.0/16"]   # ← data VPC CIDR, not the SG id
+}
+# + aws_vpc_peering_connection_options BOTH sides:
+# allow_remote_vpc_dns_resolution = true</div>
+<p class="small">🧠 WHY — SG identity stops at the peering boundary, but routes carry CIDRs fine; DNS needs its own explicit opt-in per side or names stay dark.<br>⚠ TRAP — opening <code>0.0.0.0/0</code> "to make it work" (works, and invites the internet to the database).<br>🎓 EXAM — cross-peering: CIDR sources + both-side DNS flag.</p></div><div id="sol-38"><div class="sec"><span class="n">sol-38</span>Contract out, data source in, graph ordered</div><div class="code"># network/outputs.tf
+output "vpc_id" { value = aws_vpc.main.id }
+output "private_subnet_ids" { value = aws_subnet.private[*].id }
+# app/data.tf
+data "terraform_remote_state" "network" {
+  backend = "s3"
+  config = { bucket = "tfstate-prod"  key = "network/terraform.tfstate" }
+}
+resource "aws_instance" "app" {
+  subnet_id = data.terraform_remote_state.network.outputs.private_subnet_ids[0]
+}
+# CI: network job → app job (needs: network).</div>
+<p class="small">🧠 WHY — outputs publish the contract, the data source subscribes, and the pipeline orders what Terraform cannot: separate states have no shared graph.<br>⚠ TRAP — applying app first (null reads) or hardcoding the VPC ID (drift-proof coupling).<br>🎓 EXAM — outputs publish · remote_state subscribes · CI orders.</p></div><div id="sol-39"><div class="sec"><span class="n">sol-39</span>Lock rules until init -upgrade</div><div class="code"># why plan ignored it: 5.31.0 satisfies ">= 5.0" — lock still valid.
+$ terraform init -upgrade   # re-resolves → lock gains 5.x newest + hashes
+# 3 AM scenario: provider 6.0 ships breaking rename → next -upgrade
+# (or fresh clone) pulls it silently. Cap stays off only with "~>".</div>
+<p class="small">🧠 WHY — constraints are consulted at resolve time (init), not plan time: a satisfied lock means zero re-resolution, whatever the file says.<br>⚠ TRAP — editing versions.tf and expecting plan to notice. Files wish; locks command.<br>🎓 EXAM — constraints resolve at init; <code>-upgrade</code> re-resolves; caps prevent majors.</p></div>
+  <div class="panel"><div class="ptitle">🔁 Variation, worked — outputs for the app tier</div><p class="small">Ex-38's network stack grows a third export — <code>rds_endpoint</code> — and the app's DB config reads it the same way: <code>data.terraform_remote_state.network.outputs.rds_endpoint</code>. Rule of the contract: every new cross-stack need is a new output + a new consumer line, never a pasted string.</p>
+  <div class="code">output "rds_endpoint" { value = aws_db_instance.main.endpoint }</div></div>
+  <div class="folio"><span>🏋️ Practice Lab</span><span class="fnum">— Page 37 —</span><span><a class="backtoc" href="#toc">▤ TOC</a> <a class="tlink" href="#sol-34">prev</a> | <a class="tlink" href="#sol-40">next</a></span></div>
+</div>
+<div class="sheet" id="sol-40">
+  <div class="pghead"><div class="hrow"><div><div class="kick">SOLUTION · FINAL BOSS</div><h1 class="t">✅ sol-40 — the full chain, worked</h1></div><span class="hmeta">🔴 BLACK BELT</span></div></div>
+  <div id="sol-40"><div class="code">provider "aws" { region = "us-east-1" }   # (+ emulator creds/endpoints)
+resource "aws_vpc" "main" { cidr_block = "10.0.0.0/16" }
+resource "aws_subnet" "a" { vpc_id = aws_vpc.main.id
+  cidr_block = "10.0.1.0/24"   availability_zone = "us-east-1a" }
+resource "aws_subnet" "b" { vpc_id = aws_vpc.main.id
+  cidr_block = "10.0.2.0/24"   availability_zone = "us-east-1b" }
+resource "aws_security_group" "web" {   # 443 in, all out
+  vpc_id = aws_vpc.main.id
+  ingress { from_port=443 to_port=443 protocol="tcp" cidr_blocks=["0.0.0.0/0"] }
+  egress { from_port=0 to_port=0 protocol="-1" cidr_blocks=["0.0.0.0/0"] } }
+resource "aws_instance" "web" {
+  for_each = toset(["a1","a2","b1","b2"])
+  subnet_id = startswith(each.key,"a") ? aws_subnet.a.id : aws_subnet.b.id
+  vpc_security_group_ids = [aws_security_group.web.id]
+  provisioner "local-exec" { command = "echo ${each.key}=${self.private_ip} >> ips.txt" } }
+output "ips" { value = { for k,i in aws_instance.web : k =&gt; i.private_ip } }
+# $ init → plan (8 add) → apply → output shows 4 IPs → destroy → state empty</div>
+  <p class="small">🧠 WHY — every chapter fires once: provider auth, graph-ordered VPC→subnets, SG by reference, keyed fleet, map output, creation-only hook, reverse-order teardown. The chain is the course.<br>⚠ TRAP — <code>count</code> instead of <code>for_each</code> (works until anything renames), SG by CIDR inside one VPC (works, and teaches nothing), skipping destroy ("done" with live orphans).<br>🎓 EXAM — narrate this chain cold: 8 resources, 4 IPs, empty state at the end.</p></div>
+  <div class="panel"><div class="ptitle">🔁 Variation, worked — destroy in reverse</div><p class="small">Ex-40's finale deserves its mirror: <code>destroy</code> runs the chain backwards — instances, SG, subnets, VPC — each <code>Destroying… Destruction complete</code> in reverse dependency order. The empty state afterwards is the second proof (the first was the 4 mapped IPs). Both proofs, or it didn't happen.</p>
+  <div class="code">aws_instance.web["b2"]: Destruction complete → … → aws_vpc.main: Destruction complete
+Destroy complete! Resources: 8 destroyed.</div></div>
+  <div class="folio"><span>🏋️ Practice Lab</span><span class="fnum">— Page 38 —</span><span><a class="backtoc" href="#toc">▤ TOC</a> <a class="tlink" href="#sol-37">prev</a> | <a class="tlink" href="#scorecard">next</a></span></div>
+</div>
+<div class="sheet" id="scorecard">
+  <div class="pghead"><div class="hrow"><div><div class="kick">SELF-ASSESSMENT</div><h1 class="t">🏁 Scorecard — band × topic grid</h1></div><span class="hmeta">THE END 🎬</span></div></div>
+  <p class="lead">Tick honestly: <b>green</b> solved cold · <b>amber</b> needed the hint · <b>red</b> read the solution. Any red returns to next week's rotation with its Book 1 chapter.</p>
+  <table class="tb"><tr><th>Ex</th><th>Topic (Book 1 ch)</th><th>Type</th><th>🟢</th><th>🟡</th><th>🔴</th></tr>
+  <tr><td>01–05</td><td>IaC · facts · pillars · core · creds</td><td>T2 T3 T5 T7 T1</td><td>☐</td><td>☐</td><td>☐</td></tr>
+  <tr><td>06–10</td><td>VPC · init · plan · pins · CLI order</td><td>T1 T3 T2 T5 T5</td><td>☐</td><td>☐</td><td>☐</td></tr>
+  <tr><td>11–15</td><td>state · backend · lock · mv · fmt</td><td>T7 T4 T3 T6 T1</td><td>☐</td><td>☐</td><td>☐</td></tr>
+  <tr><td>16–20</td><td>graph · vars · precedence · envs · count</td><td>T3 T6 T2 T4 T2</td><td>☐</td><td>☐</td><td>☐</td></tr>
+  <tr><td>21–25</td><td>keys · secrets · modules · drift · refresh</td><td>T6 T3 T4 T7 T5</td><td>☐</td><td>☐</td><td>☐</td></tr>
+  <tr><td>26–30</td><td>import · alias · env types · one()</td><td>T5 T4 T1 T3 T5</td><td>☐</td><td>☐</td><td>☐</td></tr>
+  <tr><td>31–35</td><td>race · debug · scale · failure · module</td><td>T7 T3 T6 T3 T6</td><td>☐</td><td>☐</td><td>☐</td></tr>
+  <tr><td>36–40</td><td>destroy · peering · stacks · bump · CHAIN</td><td>T5 T1 T4 T7 T4</td><td>☐</td><td>☐</td><td>☐</td></tr></table>
+  <div class="mark m-ok"><span class="tag">💚 GRADUATION BAR</span>Warm-ups 13/15 cold · drills match on WHY · bosses all green · final chain from memory with 4 IPs and an emptied state. Then the Associate exam is paperwork.</div>
+  <p class="small center">Back to <a class="tlink" href="#toc">Training map</a> · <a class="tlink" href="#ex-01">Re-train warm-ups</a> · <a class="tlink" href="#ex-40">Re-fight the boss</a></p>
+  <div class="folio"><span>🏋️ Practice Lab</span><span class="fnum">— Page 39 · The End 🎬 —</span><span><a class="backtoc" href="#toc">▤ TOC</a></span></div></div>
+</div>
+</body>
+</html>
