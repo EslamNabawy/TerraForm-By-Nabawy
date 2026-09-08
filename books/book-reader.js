@@ -1,8 +1,10 @@
 /**
- * TERRAFORM BY NABAWY — BOOK READER ENGINE (book-reader.js)
+ * TERRAFORM BY NABAWY — ADVANCED BOOK READER ENGINE (book-reader.js)
  * Zero-dependency reader controller:
- * - Syncs theme (Parchment & Obsidian) with main website
+ * - Syncs theme (Parchment, Obsidian Dark, Sepia) with localStorage
  * - Multi-level font sizing (90%, 100%, 115%, 130%, 145%)
+ * - Serif / Sans-Serif typography toggle
+ * - Fluid Web continuous mode vs Paginated A4 sheets mode
  * - Scroll-aware live page indicator ("Page X of Y")
  * - Tactile keyboard navigation
  */
@@ -18,16 +20,23 @@
     { key: 'huge', label: '145%' }
   ];
 
+  const THEMES = ['light', 'dark', 'sepia'];
+
   const STATE = {
     theme: localStorage.getItem('tf_theme') || 'light',
     fontSizeIndex: parseInt(localStorage.getItem('tf_book_font_idx') || '1', 10),
+    fontFamily: localStorage.getItem('tf_book_font_family') || 'sans',
+    layout: localStorage.getItem('tf_book_layout') || 'paginated',
     totalSheets: 0,
     currentSheet: 1
   };
 
-  // Ensure index bounds
+  // Ensure bounds
   if (STATE.fontSizeIndex < 0 || STATE.fontSizeIndex >= FONT_LEVELS.length) {
     STATE.fontSizeIndex = 1;
+  }
+  if (!THEMES.includes(STATE.theme)) {
+    STATE.theme = 'light';
   }
 
   function applyTheme(theme) {
@@ -37,14 +46,23 @@
 
     const themeBtn = document.getElementById('reader-theme-btn');
     if (themeBtn) {
-      themeBtn.innerHTML = theme === 'dark' ? '☀️ <span class="btn-text">Parchment</span>' : '🌙 <span class="btn-text">Obsidian</span>';
-      themeBtn.title = theme === 'dark' ? 'Switch to Parchment Mode' : 'Switch to Obsidian Dark Mode';
+      if (theme === 'dark') {
+        themeBtn.innerHTML = '🌙 <span class="btn-text">Obsidian</span>';
+        themeBtn.title = 'Current: Obsidian Dark. Click for Sepia';
+      } else if (theme === 'sepia') {
+        themeBtn.innerHTML = '📜 <span class="btn-text">Sepia</span>';
+        themeBtn.title = 'Current: Sepia. Click for Parchment';
+      } else {
+        themeBtn.innerHTML = '☀️ <span class="btn-text">Parchment</span>';
+        themeBtn.title = 'Current: Parchment Light. Click for Obsidian Dark';
+      }
     }
   }
 
-  function toggleTheme() {
-    const next = STATE.theme === 'dark' ? 'light' : 'dark';
-    applyTheme(next);
+  function cycleTheme() {
+    const currentIdx = THEMES.indexOf(STATE.theme);
+    const nextTheme = THEMES[(currentIdx + 1) % THEMES.length];
+    applyTheme(nextTheme);
   }
 
   function applyFontSize() {
@@ -64,6 +82,40 @@
       STATE.fontSizeIndex = newIdx;
       applyFontSize();
     }
+  }
+
+  function applyFontFamily(family) {
+    document.documentElement.setAttribute('data-font-family', family);
+    STATE.fontFamily = family;
+    localStorage.setItem('tf_book_font_family', family);
+
+    const fontBtn = document.getElementById('reader-font-family-btn');
+    if (fontBtn) {
+      fontBtn.innerHTML = family === 'serif' ? '🔤 <span class="btn-text">Serif</span>' : '🔤 <span class="btn-text">Sans</span>';
+      fontBtn.title = `Switch to ${family === 'serif' ? 'Sans-Serif' : 'Serif'} typography`;
+    }
+  }
+
+  function toggleFontFamily() {
+    const next = STATE.fontFamily === 'serif' ? 'sans' : 'serif';
+    applyFontFamily(next);
+  }
+
+  function applyLayout(layout) {
+    document.documentElement.setAttribute('data-layout', layout);
+    STATE.layout = layout;
+    localStorage.setItem('tf_book_layout', layout);
+
+    const layoutBtn = document.getElementById('reader-layout-btn');
+    if (layoutBtn) {
+      layoutBtn.innerHTML = layout === 'continuous' ? '📜 <span class="btn-text">Fluid</span>' : '📄 <span class="btn-text">Sheets</span>';
+      layoutBtn.title = `Switch to ${layout === 'continuous' ? 'Paginated Sheets' : 'Continuous Fluid'} reading mode`;
+    }
+  }
+
+  function toggleLayout() {
+    const next = STATE.layout === 'continuous' ? 'paginated' : 'continuous';
+    applyLayout(next);
   }
 
   function deriveBookTitle() {
@@ -91,18 +143,37 @@
       </a>
       <span class="reader-title-badge">${deriveBookTitle()}</span>
       <div class="reader-divider"></div>
+      
+      <!-- Font Size -->
       <div class="reader-font-group">
         <button class="reader-btn reader-font-btn" id="reader-font-dec" title="Decrease Font (Ctrl -)">A−</button>
         <span class="reader-font-label" id="reader-font-label">${FONT_LEVELS[STATE.fontSizeIndex].label}</span>
         <button class="reader-btn reader-font-btn" id="reader-font-inc" title="Increase Font (Ctrl +)">A+</button>
       </div>
-      <div class="reader-divider"></div>
-      <button class="reader-btn" id="reader-theme-btn">
-        ${STATE.theme === 'dark' ? '☀️ <span class="btn-text">Parchment</span>' : '🌙 <span class="btn-text">Obsidian</span>'}
+
+      <!-- Typography -->
+      <button class="reader-btn" id="reader-font-family-btn" title="Toggle Serif / Sans typography">
+        🔤 <span class="btn-text">${STATE.fontFamily === 'serif' ? 'Serif' : 'Sans'}</span>
       </button>
+
+      <!-- Layout: Continuous vs Paginated -->
+      <button class="reader-btn reader-layout-btn" id="reader-layout-btn" title="Toggle Fluid Continuous vs Paginated Sheets">
+        ${STATE.layout === 'continuous' ? '📜 <span class="btn-text">Fluid</span>' : '📄 <span class="btn-text">Sheets</span>'}
+      </button>
+
+      <div class="reader-divider"></div>
+
+      <!-- Theme Switcher -->
+      <button class="reader-btn" id="reader-theme-btn">
+        ${STATE.theme === 'dark' ? '🌙 <span class="btn-text">Obsidian</span>' : STATE.theme === 'sepia' ? '📜 <span class="btn-text">Sepia</span>' : '☀️ <span class="btn-text">Parchment</span>'}
+      </button>
+
+      <!-- Print Trigger -->
       <button class="reader-btn reader-print-btn" id="reader-print-btn" title="Print or Save as PDF (Ctrl+P)">
         🖨️ <span class="btn-text">Print</span>
       </button>
+
+      <!-- Page Indicator -->
       <div class="reader-page-indicator" id="reader-page-indicator">
         Page 1 of ${STATE.totalSheets}
       </div>
@@ -111,9 +182,11 @@
     document.body.prepend(toolbar);
 
     // Event listeners
-    document.getElementById('reader-theme-btn').addEventListener('click', toggleTheme);
+    document.getElementById('reader-theme-btn').addEventListener('click', cycleTheme);
     document.getElementById('reader-font-dec').addEventListener('click', () => changeFontSize(-1));
     document.getElementById('reader-font-inc').addEventListener('click', () => changeFontSize(1));
+    document.getElementById('reader-font-family-btn').addEventListener('click', toggleFontFamily);
+    document.getElementById('reader-layout-btn').addEventListener('click', toggleLayout);
     document.getElementById('reader-print-btn').addEventListener('click', () => window.print());
   }
 
@@ -144,7 +217,6 @@
   // Keyboard navigation
   function setupKeyboard() {
     document.addEventListener('keydown', (e) => {
-      // Ignore if focus is in an input
       if (['INPUT', 'TEXTAREA'].includes(document.activeElement.tagName)) return;
 
       if ((e.key === '+' || e.key === '=') && (e.ctrlKey || e.metaKey)) {
@@ -158,7 +230,9 @@
         STATE.fontSizeIndex = 1;
         applyFontSize();
       } else if (e.key === 't' && !e.ctrlKey && !e.metaKey) {
-        toggleTheme();
+        cycleTheme();
+      } else if (e.key === 'f' && !e.ctrlKey && !e.metaKey) {
+        toggleLayout();
       } else if (e.key === 'Escape') {
         window.location.href = '../index.html';
       }
@@ -169,6 +243,8 @@
   function init() {
     applyTheme(STATE.theme);
     applyFontSize();
+    applyFontFamily(STATE.fontFamily);
+    applyLayout(STATE.layout);
     createToolbar();
     setupKeyboard();
 

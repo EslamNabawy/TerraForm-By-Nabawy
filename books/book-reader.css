@@ -1,27 +1,28 @@
 /* ══════════════════════════════════════════════════════════════════════════
-   TERRAFORM BY NABAWY — BOOK READER ENGINE (book-reader.css)
-   Dual Theme (Parchment / Obsidian), Font Scaling, Mobile Responsive Layout,
-   and Tactile Floating Reading Toolbar. Zero dependencies.
+   TERRAFORM BY NABAWY — ADVANCED BOOK READER ENGINE (book-reader.css)
+   Themes: Parchment (Light), Obsidian (Dark), Warm Sepia
+   Customization: Font Size Scaling, Typography Switching, Fluid/Paginated Modes
    ══════════════════════════════════════════════════════════════════════════ */
 
 /* ── 1. FLOATING READER TOOLBAR ── */
 .reader-toolbar {
   position: fixed;
-  top: 14px;
+  top: 10px;
   left: 50%;
   transform: translateX(-50%);
-  z-index: 9999;
+  z-index: 99999;
   background: var(--paper, #faf7f1);
-  border: 2.5px solid var(--ink, #26201a);
+  border: 2px solid var(--ink, #26201a);
   border-radius: 999px;
   box-shadow: 4px 4px 0 rgba(38,32,26,0.9);
-  padding: 6px 16px;
+  padding: 5px 12px;
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: 7px;
   font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
   transition: all 0.2s ease;
-  backdrop-filter: blur(8px);
+  backdrop-filter: blur(12px);
+  max-width: 98vw;
 }
 
 .reader-toolbar:hover {
@@ -31,30 +32,30 @@
 .reader-btn {
   background: var(--card, #fffdf9);
   color: var(--ink, #26201a);
-  border: 2px solid var(--ink, #26201a);
+  border: 1.5px solid var(--ink, #26201a);
   border-radius: 999px;
-  padding: 5px 12px;
-  font-size: 12.5px;
+  padding: 4px 9px;
+  font-size: 11.5px;
   font-weight: 700;
   cursor: pointer;
   font-family: inherit;
   text-decoration: none;
   display: inline-flex;
   align-items: center;
-  gap: 5px;
+  gap: 4px;
   box-shadow: 2px 2px 0 rgba(38,32,26,0.85);
-  transition: transform 0.12s, box-shadow 0.12s, background 0.12s;
+  transition: transform 0.1s, box-shadow 0.1s, background 0.1s;
   white-space: nowrap;
 }
 
 .reader-btn:hover {
   background: var(--t-amber, #fdf1de);
-  transform: translate(-1px, -1px);
+  transform: translateY(-1px);
   box-shadow: 3px 3px 0 rgba(38,32,26,0.9);
 }
 
 .reader-btn:active {
-  transform: translate(2px, 2px);
+  transform: translateY(1px);
   box-shadow: 0 0 0;
 }
 
@@ -72,65 +73,71 @@
 .reader-title-badge {
   font-family: Georgia, serif;
   font-weight: 700;
-  font-size: 13.5px;
+  font-size: 12.5px;
   color: var(--ink, #26201a);
   padding: 0 4px;
   white-space: nowrap;
-  max-width: 220px;
+  max-width: 170px;
   overflow: hidden;
   text-overflow: ellipsis;
 }
 
 .reader-divider {
   width: 1px;
-  height: 22px;
+  height: 20px;
   background: var(--line, #e7e0d2);
-  margin: 0 2px;
+  margin: 0 1px;
 }
 
 .reader-font-group {
   display: flex;
   align-items: center;
-  gap: 4px;
+  gap: 2px;
 }
 
 .reader-font-btn {
-  padding: 4px 9px;
-  font-size: 12px;
+  padding: 3px 7px;
+  font-size: 11px;
   font-weight: 800;
-  min-width: 28px;
+  min-width: 24px;
   justify-content: center;
 }
 
 .reader-font-label {
-  font-size: 11px;
+  font-size: 10.5px;
   font-weight: 800;
   color: var(--muted, #7c7264);
-  min-width: 38px;
+  min-width: 32px;
   text-align: center;
   user-select: none;
 }
 
 .reader-page-indicator {
-  font-size: 11.5px;
+  font-size: 11px;
   font-weight: 800;
   color: var(--amber-d, #b45309);
   background: var(--t-amber, #fdf1de);
   border: 1.5px solid var(--ink, #26201a);
   border-radius: 999px;
-  padding: 3px 9px;
+  padding: 3px 8px;
   white-space: nowrap;
 }
 
-/* ── 2. DARK THEME (OBSIDIAN & AMBER) FOR BOOKS ── */
+/* ── 2. THEMES ── */
+/* Parchment Light (Default) */
+:root, [data-theme="light"] {
+  --desk: #e9e2d6 !important;
+}
+
+/* Obsidian Dark */
 [data-theme="dark"] {
-  --paper: #1e1a17 !important;
-  --card: #27221e !important;
-  --ink: #f0e9df !important;
-  --line: #403730 !important;
-  --rule: #403730 !important;
+  --paper: #1b1714 !important;
+  --card: #241f1a !important;
+  --ink: #f2ece2 !important;
+  --line: #3d352e !important;
+  --rule: #3d352e !important;
   --muted: #a69b8f !important;
-  --desk: #14110f !important;
+  --desk: #100e0c !important;
   --amber: #f59e0b !important;
   --amber-d: #fbbf24 !important;
   --teal: #14b8a6 !important;
@@ -138,30 +145,31 @@
   --plum: #a78bfa !important;
   --green: #4ade80 !important;
   --rose: #fb7185 !important;
-  --t-amber: rgba(245, 158, 11, 0.16) !important;
-  --t-teal: rgba(20, 184, 166, 0.16) !important;
-  --t-crimson: rgba(248, 113, 113, 0.18) !important;
-  --t-plum: rgba(167, 139, 250, 0.18) !important;
-  --t-green: rgba(74, 222, 128, 0.16) !important;
-  --t-paper: #302a24 !important;
+  --t-amber: rgba(245, 158, 11, 0.18) !important;
+  --t-teal: rgba(20, 184, 166, 0.18) !important;
+  --t-crimson: rgba(248, 113, 113, 0.2) !important;
+  --t-plum: rgba(167, 139, 250, 0.2) !important;
+  --t-green: rgba(74, 222, 128, 0.18) !important;
+  --t-paper: #2d2620 !important;
   --t-stone: #57534e !important;
 }
 
+[data-theme="dark"] html,
 [data-theme="dark"] body {
-  background: #14110f !important;
-  color: #f0e9df !important;
+  background: #100e0c !important;
+  color: #f2ece2 !important;
 }
 
 [data-theme="dark"] .reader-toolbar {
-  background: #1e1a17 !important;
-  border-color: #403730 !important;
+  background: #1b1714 !important;
+  border-color: #3d352e !important;
   box-shadow: 4px 4px 0 #000000 !important;
 }
 
 [data-theme="dark"] .reader-btn {
-  background: #27221e !important;
-  color: #f0e9df !important;
-  border-color: #403730 !important;
+  background: #241f1a !important;
+  color: #f2ece2 !important;
+  border-color: #3d352e !important;
   box-shadow: 2px 2px 0 #000000 !important;
 }
 
@@ -172,64 +180,66 @@
 }
 
 [data-theme="dark"] .reader-back-btn {
-  background: #f0e9df !important;
-  color: #1e1a17 !important;
-  border-color: #f0e9df !important;
+  background: #f2ece2 !important;
+  color: #1b1714 !important;
+  border-color: #f2ece2 !important;
 }
 
 [data-theme="dark"] .reader-back-btn:hover {
   background: #f59e0b !important;
-  color: #12100e !important;
+  color: #100e0c !important;
 }
 
 [data-theme="dark"] .reader-divider {
-  background: #403730 !important;
+  background: #3d352e !important;
 }
 
 [data-theme="dark"] .reader-title-badge {
-  color: #f0e9df !important;
+  color: #f2ece2 !important;
 }
 
 [data-theme="dark"] .reader-page-indicator {
-  background: #302a24 !important;
-  border-color: #403730 !important;
+  background: #2d2620 !important;
+  border-color: #3d352e !important;
   color: #fbbf24 !important;
 }
 
 [data-theme="dark"] .sheet {
-  background: #1e1a17 !important;
-  box-shadow: 0 10px 32px rgba(0, 0, 0, 0.8) !important;
-  border: 1px solid #403730 !important;
+  background: #1b1714 !important;
+  box-shadow: 0 10px 32px rgba(0, 0, 0, 0.85) !important;
+  border: 1px solid #3d352e !important;
+  color: #f2ece2 !important;
 }
 
 [data-theme="dark"] .code,
 [data-theme="dark"] .tree,
 [data-theme="dark"] .termbody,
-[data-theme="dark"] .termwin {
-  background: #12100e !important;
-  border-color: #403730 !important;
-  color: #efe9dd !important;
+[data-theme="dark"] .termwin,
+[data-theme="dark"] pre {
+  background: #100e0c !important;
+  border-color: #3d352e !important;
+  color: #f2ece2 !important;
 }
 
 [data-theme="dark"] table.tb {
-  background: #27221e !important;
-  border-color: #403730 !important;
+  background: #241f1a !important;
+  border-color: #3d352e !important;
 }
 
 [data-theme="dark"] .tb td {
-  background: #27221e !important;
-  border-color: #403730 !important;
-  color: #ded7ce !important;
+  background: #241f1a !important;
+  border-color: #3d352e !important;
+  color: #e2dacf !important;
 }
 
 [data-theme="dark"] .tb tr:nth-child(even) td {
-  background: #201c19 !important;
+  background: #1b1714 !important;
 }
 
 [data-theme="dark"] .tb th {
-  background: #14110f !important;
-  color: #f0e9df !important;
-  border-bottom: 2px solid #403730 !important;
+  background: #100e0c !important;
+  color: #f2ece2 !important;
+  border-bottom: 2px solid #3d352e !important;
 }
 
 [data-theme="dark"] .panel,
@@ -240,9 +250,9 @@
 [data-theme="dark"] .stepitem,
 [data-theme="dark"] .chipr,
 [data-theme="dark"] .m-exam {
-  background: #27221e !important;
-  border-color: #403730 !important;
-  color: #f0e9df !important;
+  background: #241f1a !important;
+  border-color: #3d352e !important;
+  color: #f2ece2 !important;
 }
 
 [data-theme="dark"] .blk small,
@@ -253,8 +263,8 @@
 }
 
 [data-theme="dark"] a.backtoc {
-  background: #27221e !important;
-  border-color: #403730 !important;
+  background: #241f1a !important;
+  border-color: #3d352e !important;
   color: #ded7ce !important;
 }
 
@@ -265,22 +275,60 @@
 
 [data-theme="dark"] .folio::before,
 [data-theme="dark"] .folio::after {
-  border-top-color: #403730 !important;
+  border-top-color: #3d352e !important;
 }
 
 [data-theme="dark"] .folio .fnum {
-  color: #f0e9df !important;
+  color: #f2ece2 !important;
 }
 
 [data-theme="dark"] .cover .stamp {
-  background: #27221e !important;
-  border-color: #f0e9df !important;
+  background: #241f1a !important;
+  border-color: #f2ece2 !important;
   box-shadow: 5px 5px 0 #f59e0b !important;
 }
 
-/* ── 3. FONT SCALING ENGINE ── */
+/* Sepia Theme */
+[data-theme="sepia"] {
+  --paper: #f4ebd9 !important;
+  --card: #faf3e5 !important;
+  --ink: #3b2d1d !important;
+  --line: #ded1ba !important;
+  --rule: #ded1ba !important;
+  --muted: #7d6b54 !important;
+  --desk: #e3d6be !important;
+  --amber: #c2781b !important;
+  --amber-d: #9e5b0b !important;
+  --t-amber: #faecd5 !important;
+  --t-paper: #ece0ca !important;
+}
+
+[data-theme="sepia"] html,
+[data-theme="sepia"] body {
+  background: #e3d6be !important;
+  color: #3b2d1d !important;
+}
+
+[data-theme="sepia"] .sheet {
+  background: #f4ebd9 !important;
+  border-color: #ded1ba !important;
+  box-shadow: 0 6px 20px rgba(59, 45, 29, 0.18) !important;
+}
+
+/* ── 3. FONT SCALING & TYPOGRAPHY ── */
 @media screen {
-  /* Prevent sheet overflow clipping when font is enlarged */
+  body {
+    padding-top: 55px !important;
+  }
+
+  /* Font Scaling */
+  html[data-font-size="small"] .sheet { zoom: 0.92; }
+  html[data-font-size="normal"] .sheet { zoom: 1.0; }
+  html[data-font-size="large"] .sheet { zoom: 1.14; }
+  html[data-font-size="xlarge"] .sheet { zoom: 1.28; }
+  html[data-font-size="huge"] .sheet { zoom: 1.42; }
+
+  /* Ensure enlarged sheets expand naturally */
   html[data-font-size="large"] .sheet,
   html[data-font-size="xlarge"] .sheet,
   html[data-font-size="huge"] .sheet {
@@ -291,25 +339,32 @@
     padding-bottom: 25mm !important;
   }
 
-  html[data-font-size="small"] .sheet {
-    zoom: 0.92;
-  }
-  html[data-font-size="normal"] .sheet {
-    zoom: 1.0;
-  }
-  html[data-font-size="large"] .sheet {
-    zoom: 1.12;
-  }
-  html[data-font-size="xlarge"] .sheet {
-    zoom: 1.25;
-  }
-  html[data-font-size="huge"] .sheet {
-    zoom: 1.40;
+  /* Typography mode: Serif */
+  html[data-font-family="serif"] body,
+  html[data-font-family="serif"] .sheet {
+    font-family: Georgia, 'Times New Roman', serif !important;
   }
 
-  /* Target body spacing with top toolbar */
-  body {
-    padding-top: 55px !important;
+  /* Fluid Continuous Web Reading Mode */
+  html[data-layout="continuous"] .sheet {
+    width: min(920px, 94vw) !important;
+    max-width: 920px !important;
+    min-width: 0 !important;
+    height: auto !important;
+    min-height: auto !important;
+    max-height: none !important;
+    overflow: visible !important;
+    padding: clamp(20px, 4vw, 36px) !important;
+    margin: 20px auto !important;
+    border-radius: 14px !important;
+    zoom: 1.0 !important;
+  }
+  html[data-layout="continuous"] .folio {
+    position: relative !important;
+    bottom: auto !important;
+    left: auto !important;
+    right: auto !important;
+    margin-top: 28px !important;
   }
 }
 
@@ -321,11 +376,11 @@
   }
 
   .reader-toolbar {
-    top: 10px;
-    width: calc(100vw - 20px);
+    top: 8px;
+    width: calc(100vw - 16px);
     justify-content: space-between;
-    padding: 6px 10px;
-    gap: 6px;
+    padding: 5px 8px;
+    gap: 4px;
   }
 
   .reader-title-badge {
@@ -333,11 +388,12 @@
   }
 
   .reader-btn {
-    padding: 4px 8px;
-    font-size: 11.5px;
+    padding: 4px 7px;
+    font-size: 11px;
   }
 
-  .reader-print-btn {
+  .reader-print-btn,
+  .reader-layout-btn {
     display: none;
   }
 
@@ -372,12 +428,12 @@
   }
 
   .cover h1 {
-    font-size: 32px !important;
+    font-size: 30px !important;
   }
 
   .cover .stamp {
-    font-size: 26px !important;
-    padding: 8px 14px !important;
+    font-size: 24px !important;
+    padding: 8px 12px !important;
   }
 }
 
