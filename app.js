@@ -1,6 +1,6 @@
 /**
  * TERRAFORM BY NABAWY — APPLICATION ENGINE (app.js)
- * Zero-dependency, 100% offline-ready client-side features:
+ * Zero-dependency, client-side features with file:// data fallbacks:
  * - Dual Theme (Parchment & Amber / Obsidian & Amber)
  * - Synthesized Tactile Web Audio
  * - Universal Spotlight Search with Category Filters & Highlighting
@@ -22,10 +22,25 @@
     DRILL_STATS: 'tf_drill_stats'
   };
 
+  const DEFAULT_DRILL_STATS = { answered: 0, correct: 0, streak: 0 };
+
+  function loadDrillStats() {
+    try {
+      const saved = JSON.parse(localStorage.getItem(STORAGE_KEYS.DRILL_STATS) || 'null');
+      if (!saved || !Number.isFinite(saved.answered) || !Number.isFinite(saved.correct) || !Number.isFinite(saved.streak)) {
+        return { ...DEFAULT_DRILL_STATS };
+      }
+      return saved;
+    } catch (error) {
+      console.warn('Ignoring malformed saved drill statistics.', error);
+      return { ...DEFAULT_DRILL_STATS };
+    }
+  }
+
   const APP_STATE = {
     theme: localStorage.getItem(STORAGE_KEYS.THEME) || 'light',
     soundEnabled: localStorage.getItem(STORAGE_KEYS.SOUND) === 'true',
-    drillStats: JSON.parse(localStorage.getItem(STORAGE_KEYS.DRILL_STATS) || '{"answered": 0, "correct": 0, "streak": 0}'),
+    drillStats: loadDrillStats(),
     searchIndex: [],
     searchFilter: 'all',
     examDrills: [],
@@ -45,6 +60,62 @@
       { id: 'note-26', file: 'notes/26-capstone-hands-on-chain.md', num: '26', title: 'Capstone Chain', topic: '8-Resource End-to-End Build' }
     ]
   };
+
+  function escapeHtml(value) {
+    return String(value ?? '').replace(/[&<>"']/g, char => ({
+      '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'
+    }[char]));
+  }
+
+  function safeLink(url) {
+    try {
+      const parsed = new URL(url, window.location.href);
+      return ['http:', 'https:'].includes(parsed.protocol) ? escapeHtml(parsed.href) : '#';
+    } catch (error) {
+      return '#';
+    }
+  }
+
+  function safeNavigationUrl(url) {
+    try {
+      const parsed = new URL(url, window.location.href);
+      const isLocalFile = window.location.protocol === 'file:' && parsed.protocol === 'file:';
+      const isSameOrigin = parsed.origin === window.location.origin;
+      return isLocalFile || isSameOrigin ? escapeHtml(parsed.href) : '#';
+    } catch (error) {
+      return '#';
+    }
+  }
+
+  function getOfflineData(key) {
+    return window.TERRAFORM_OFFLINE_DATA?.[key] || null;
+  }
+
+  function loadJson(url, fallbackKey) {
+    return fetch(url)
+      .then(response => {
+        if (!response.ok) throw new Error(`HTTP error ${response.status}`);
+        return response.json();
+      })
+      .catch(error => {
+        const fallback = getOfflineData(fallbackKey);
+        if (fallback) return fallback;
+        throw error;
+      });
+  }
+
+  function loadText(url, fallbackKey) {
+    return fetch(url)
+      .then(response => {
+        if (!response.ok) throw new Error(`HTTP error ${response.status}`);
+        return response.text();
+      })
+      .catch(error => {
+        const fallback = getOfflineData(fallbackKey)?.[url];
+        if (typeof fallback === 'string') return fallback;
+        throw error;
+      });
+  }
 
   // =========================================================================
   // 2. TACTILE AUDIO SYNTHESIZER (Web Audio API)
@@ -156,8 +227,7 @@
   // 5. UNIVERSAL SPOTLIGHT SEARCH
   // =========================================================================
   function loadSearchIndex() {
-    fetch('search_index.json')
-      .then(res => res.json())
+    loadJson('search_index.json', 'searchIndex')
       .then(data => {
         APP_STATE.searchIndex = data;
         updateSearchFilterCounts();
@@ -232,21 +302,21 @@
     out.classList.add('on');
 
     if (matches.length === 0) {
-      out.innerHTML = `<div class="nores">🔍 No matches found for “${rawQuery}” in category <b>${filter.toUpperCase()}</b>.<br><small>Try searching for “state lock”, “count”, “for_each”, “ALB”, or “backend”.</small></div>`;
+      out.innerHTML = `<div class="nores">🔍 No matches found for “${escapeHtml(rawQuery)}” in category <b>${escapeHtml(filter.toUpperCase())}</b>.<br><small>Try searching for “state lock”, “count”, “for_each”, “ALB”, or “backend”.</small></div>`;
       return;
     }
 
     let html = `<div class="res-count">Found ${matches.length} matching entries:</div>`;
     matches.forEach(item => {
       const isNote = item.u && item.u.startsWith('notes/');
-      const onclickAttr = isNote ? `onclick="window.openNoteModal('${item.u}'); return false;"` : '';
+      const noteDataAttr = isNote ? `data-note-path="${escapeHtml(item.u)}"` : '';
       const snippet = (item.k || '').replace(item.t, '').slice(0, 160) + '…';
 
       html += `
-        <a class="res" href="${item.u}" ${onclickAttr}>
+        <a class="res" href="${safeNavigationUrl(item.u)}" ${noteDataAttr}>
           <div class="res-header">
             <b>${highlightMatches(item.t, words)}</b>
-            <span class="res-badge">${item.s}</span>
+            <span class="res-badge">${escapeHtml(item.s)}</span>
           </div>
           <div class="res-snippet">${highlightMatches(snippet, words)}</div>
         </a>
@@ -254,6 +324,12 @@
     });
 
     out.innerHTML = html;
+    out.querySelectorAll('[data-note-path]').forEach(link => {
+      link.addEventListener('click', event => {
+        event.preventDefault();
+        openNoteModal(link.dataset.notePath);
+      });
+    });
   }
 
   // =========================================================================
@@ -261,7 +337,7 @@
   // =========================================================================
   function parseMarkdown(md) {
     // Zero-dependency offline markdown parser tailored for technical study notes
-    let html = md;
+    let html = escapeHtml(md);
 
     // Normalize newlines
     html = html.replace(/\r\n/g, '\n');
@@ -269,7 +345,7 @@
     // Code blocks with syntax copy buttons
     html = html.replace(/```([a-zA-Z0-9_\-]+)?\n([\s\S]*?)```/g, function (match, lang, code) {
       const language = lang || 'bash';
-      const cleanCode = code.replace(/[<>&]/g, m => ({ '<': '&lt;', '>': '&gt;', '&': '&amp;' }[m]));
+      const cleanCode = code;
       return `
         <div class="code-block-wrapper">
           <div class="code-block-header">
@@ -316,7 +392,7 @@
     html = html.replace(/`([^`]+)`/g, '<code>$1</code>');
 
     // Links
-    html = html.replace(/\[([^\]]+)\]\(([^)]+)\)/g, '<a href="$2" target="_blank" class="inline">$1</a>');
+    html = html.replace(/\[([^\]]+)\]\(([^)]+)\)/g, (match, label, url) => `<a href="${safeLink(url)}" target="_blank" rel="noopener noreferrer" class="inline">${label}</a>`);
 
     // Unordered lists
     html = html.replace(/^\s*-\s+(.*$)/gim, '<li>$1</li>');
@@ -341,8 +417,10 @@
   function openNoteModal(filePath) {
     playSound('click');
     const noteIdx = APP_STATE.notesCatalog.findIndex(n => n.file === filePath || filePath.includes(n.file));
-    APP_STATE.currentNoteIndex = noteIdx >= 0 ? noteIdx : 0;
+    if (noteIdx < 0) return;
+    APP_STATE.currentNoteIndex = noteIdx;
     const noteMeta = APP_STATE.notesCatalog[APP_STATE.currentNoteIndex];
+    filePath = noteMeta.file;
 
     const overlay = document.getElementById('note-modal-overlay');
     const modalTitle = document.getElementById('modal-note-title');
@@ -366,11 +444,7 @@
     overlay.classList.add('active');
     document.body.style.overflow = 'hidden';
 
-    fetch(filePath)
-      .then(r => {
-        if (!r.ok) throw new Error(`HTTP error ${r.status}`);
-        return r.text();
-      })
+    loadText(filePath, 'notes')
       .then(markdown => {
         const words = markdown.split(/\s+/).length;
         const readTimeMin = Math.max(1, Math.round(words / 180));
@@ -381,7 +455,7 @@
         modalBody.innerHTML = `
           <div style="text-align:center; padding: 30px; color: var(--crimson);">
             <h3>Could not load note</h3>
-            <p>Error: ${err.message}</p>
+            <p>Error: ${escapeHtml(err.message)}</p>
             <p><a href="${filePath}" target="_blank" class="btn solid">Open Raw File Directly</a></p>
           </div>
         `;
@@ -407,8 +481,7 @@
   // 8. INTERACTIVE EXAM PRACTICE DRILL ARENA
   // =========================================================================
   function loadExamDrills() {
-    fetch('exam_drills.json')
-      .then(res => res.json())
+    loadJson('exam_drills.json', 'examDrills')
       .then(data => {
         APP_STATE.examDrills = data;
         renderDrillQuestion(0);
@@ -443,20 +516,23 @@
     }
 
     if (examLinkEl) {
-      examLinkEl.href = drill.url;
+      examLinkEl.href = safeNavigationUrl(drill.url);
     }
 
     // Build options
     let optHtml = '';
     drill.options.forEach(opt => {
       optHtml += `
-        <button class="drill-opt-btn" data-letter="${opt.label}" onclick="window.checkDrillAnswer(this, '${opt.label}', '${drill.answer}')">
-          <span class="drill-opt-letter">${opt.label}</span>
-          <span class="drill-opt-text">${opt.text}</span>
+        <button class="drill-opt-btn" data-letter="${escapeHtml(opt.label)}">
+          <span class="drill-opt-letter">${escapeHtml(opt.label)}</span>
+          <span class="drill-opt-text">${escapeHtml(opt.text)}</span>
         </button>
       `;
     });
     optionsEl.innerHTML = optHtml;
+    optionsEl.querySelectorAll('.drill-opt-btn').forEach((button, optionIndex) => {
+      button.addEventListener('click', () => checkDrillAnswer(button, drill.options[optionIndex].label, drill.answer));
+    });
   }
 
   function checkDrillAnswer(button, selected, correct) {
@@ -494,7 +570,7 @@
     if (expEl && drill.explanation) {
       expEl.innerHTML = `
         <div class="drill-explanation-title">${isCorrect ? '✅ Well Done!' : '⚠️ Key Takeaway'}: Official Answer &amp; Intel</div>
-        <div style="white-space: pre-line; line-height: 1.6;">${drill.explanation}</div>
+        <div style="white-space: pre-line; line-height: 1.6;">${escapeHtml(drill.explanation)}</div>
       `;
       expEl.classList.add('visible');
     }
