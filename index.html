@@ -1,140 +1,660 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>TerraForm by Nabawy — INK &amp; AMBER Study Library</title>
-<style>
-:root{--paper:#faf7f1;--card:#fffdf9;--ink:#26201a;--line:#e7e0d2;--muted:#7c7264;--amber:#d97706;--amber-d:#b45309;--teal:#0f766e;--crimson:#b91c1c;--plum:#7c3aed;--green:#15803d;--t-amber:#fdf1de;--t-teal:#e8f4f2;--t-crimson:#fbeaea;--t-plum:#f3eefb;--t-green:#eaf6ec;--t-paper:#f4eee1}
-*{box-sizing:border-box}body{margin:0;background:#e9e2d6;color:var(--ink);font-family:'Segoe UI',system-ui,Roboto,Arial,sans-serif}
-.wrap{max-width:1060px;margin:0 auto;padding:28px 20px 60px}
-.hero{background:var(--paper);border:3px solid var(--ink);border-radius:18px;box-shadow:7px 7px 0 rgba(38,32,26,.85);padding:44px 34px;text-align:center;position:relative;overflow:hidden}
-.hero::before{content:'';position:absolute;top:0;left:0;right:0;height:10px;background:linear-gradient(to bottom,var(--ink) 0 7px,var(--amber) 7px 10px)}
-.stamp{display:inline-block;border:3px solid var(--ink);border-radius:14px;box-shadow:4px 4px 0 var(--amber);background:var(--card);font-size:40px;padding:10px 16px;transform:rotate(-2deg)}
-.kick{font-size:12px;font-weight:800;letter-spacing:.32em;color:var(--amber-d);margin:18px 0 4px}
-h1{font-family:Georgia,serif;font-size:52px;margin:6px 0;line-height:1.05}
-.rule{width:90px;border-top:6px solid var(--amber);margin:16px auto}
-.sub{font-size:15px;color:#4a4238;max-width:640px;margin:0 auto;line-height:1.65}
-.chips{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-top:20px}
-.chip{background:var(--card);border:2px solid var(--ink);border-radius:999px;padding:5px 14px;font-size:12.5px;font-weight:800;box-shadow:2px 2px 0 rgba(38,32,26,.8)}
-.sec{font-family:Georgia,serif;font-size:24px;margin:38px 0 4px}
-.sec-sub{color:var(--muted);font-size:13.5px;margin:0 0 16px}
-.grid{display:grid;grid-template-columns:1fr 1fr;gap:18px}
-@media(max-width:760px){.grid{grid-template-columns:1fr}h1{font-size:36px}}
-.card{background:var(--card);border:2.5px solid var(--ink);border-radius:14px;box-shadow:5px 5px 0 rgba(38,32,26,.85);padding:20px 22px;display:flex;flex-direction:column}
-.card .num{font-size:11px;font-weight:800;letter-spacing:.2em;color:var(--amber-d)}
-.card h2{font-family:Georgia,serif;font-size:22px;margin:4px 0 6px}
-.card p{font-size:13.5px;line-height:1.6;color:#4a4238;margin:0 0 12px}
-.meta{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:14px}
-.tag{font-size:11px;font-weight:800;border:1.5px solid var(--ink);border-radius:7px;padding:2px 9px;background:var(--t-paper)}
-.btns{display:flex;gap:10px;margin-top:auto;flex-wrap:wrap}
-.btn{display:inline-block;text-decoration:none;font-weight:800;font-size:13.5px;border:2px solid var(--ink);border-radius:10px;padding:9px 18px;box-shadow:3px 3px 0 rgba(38,32,26,.85)}
-.btn.solid{background:var(--ink);color:var(--paper)}
-.btn.amber{background:var(--t-amber);color:var(--ink)}
-.btn small{font-weight:600;color:inherit;opacity:.7}
-.panel{background:var(--card);border:2px solid var(--ink);border-radius:12px;box-shadow:4px 4px 0 rgba(38,32,26,.85);padding:14px 18px;margin:14px 0;font-size:13.5px;line-height:1.65}
-.panel .tag2{display:block;font-size:10.5px;font-weight:800;letter-spacing:.14em;text-transform:uppercase;color:var(--amber-d);margin-bottom:4px}
-.notes{display:flex;flex-wrap:wrap;gap:9px}
-.note{font-size:12.5px;font-weight:700;text-decoration:none;color:var(--ink);background:var(--card);border:2px solid var(--ink);border-radius:9px;padding:6px 12px;box-shadow:2px 2px 0 rgba(38,32,26,.8)}
-.note:hover{background:var(--t-amber)}
-.route{display:flex;align-items:center;gap:8px;flex-wrap:wrap;font-size:13px;font-weight:700}
-.route span{background:var(--card);border:2px solid var(--ink);border-radius:9px;padding:5px 12px;box-shadow:2px 2px 0 rgba(38,32,26,.8)}
-footer{text-align:center;color:var(--muted);font-size:12px;margin-top:44px}
-a.inline{color:var(--amber-d);font-weight:700}
-.searchbar{max-width:620px;margin:22px auto 0;position:relative}
-.searchbar input{width:100%;font-size:16px;padding:13px 18px 13px 44px;border:2.5px solid var(--ink);border-radius:999px;background:var(--card);box-shadow:3px 3px 0 rgba(38,32,26,.85);outline:none;font-family:inherit}
-.searchbar input:focus{border-color:var(--amber-d)}
-.searchbar .mag{position:absolute;left:16px;top:50%;transform:translateY(-50%);font-size:18px}
-#results{max-width:620px;margin:10px auto 0;text-align:left;display:none}
-#results.on{display:block}
-#results .res{display:block;text-decoration:none;color:var(--ink);background:var(--card);border:2px solid var(--ink);border-radius:10px;padding:9px 13px;margin:7px 0;font-size:13px;box-shadow:2px 2px 0 rgba(38,32,26,.8)}
-#results .res:hover{background:var(--t-amber)}
-#results .res b{font-family:Georgia,serif;display:block;font-size:13.5px}
-#results .res small{color:var(--muted)}
-#results .nores{font-size:13px;color:var(--muted);text-align:center;padding:8px}
-@media(max-width:760px){.wrap{padding:16px 12px 44px}.hero{padding:30px 18px}.stamp{font-size:32px}.kick{letter-spacing:.2em}.sub{font-size:13.5px}.btns .btn{flex:1 1 100%;text-align:center}.card{padding:16px}.route span{flex:1 1 40%;text-align:center}.notes .note{flex:1 1 44%;text-align:center}}</style>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>TerraForm by Nabawy — INK &amp; AMBER Study Library</title>
+  <meta name="description" content="The complete INK &amp; AMBER Terraform study library — foundations, production, hands-on lab, and exam command center. Interactive study notes, exam drills, and cheatsheets.">
+  <meta name="theme-color" content="#d97706">
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
-<div class="wrap">
 
-<div class="hero">
-<div class="stamp">📚</div>
-<div class="kick">TERRAFORM MASTER SERIES</div>
-<h1>TerraForm by Nabawy</h1>
-<div class="rule"></div>
-<p class="sub">The complete INK &amp; AMBER study library — foundations, production, hands-on lab, and exam command center. Read every book online or download the print-ready PDFs.</p>
-<div class="chips"><span class="chip">📖 4 books</span><span class="chip">📄 219 pages</span><span class="chip">🎓 261 exam questions</span><span class="chip">🏋️ 40 lab drills</span><span class="chip">📝 11 study notes</span></div>
-<div class="searchbar"><span class="mag">🔍</span><input id="q" type="search" placeholder="Search all books &amp; notes — try “state lock”, “for_each”, “Sentinel”…" autocomplete="off"></div>
-<div id="results"></div>
-</div>
+  <!-- STICKY MINI NAVIGATION BAR -->
+  <header class="navbar">
+    <div class="nav-container">
+      <a href="#" class="nav-brand">
+        <span>📚</span>
+        <span>TerraForm by Nabawy</span>
+        <span class="brand-badge">INK &amp; AMBER</span>
+      </a>
+      <div class="nav-actions">
+        <span id="nav-progress-pill" class="nav-progress-pill">🎯 0% Completed</span>
+        <button class="nav-btn" onclick="document.getElementById('q').focus(); document.getElementById('q').scrollIntoView({behavior:'smooth', block:'center'});">
+          🔍 <span class="btn-text">Search</span>
+        </button>
+        <button class="nav-btn sound-toggle-btn" onclick="window.toggleSound()">
+          🔊 <span class="btn-text">Sound ON</span>
+        </button>
+        <button class="nav-btn theme-toggle-btn" onclick="window.toggleTheme()">
+          🌙 <span class="btn-text">Obsidian</span>
+        </button>
+      </div>
+    </div>
+  </header>
 
-<h2 class="sec">The learning route</h2>
-<p class="sec-sub">Follow the numbers — each volume assumes the previous one.</p>
-<div class="route"><span>① Foundations</span>→<span>② Production</span>→<span>③ Practice Lab</span>→<span>④ Exam Center</span></div>
+  <div class="wrap">
 
-<h2 class="sec">The books</h2>
-<p class="sec-sub">“Read online” opens the full print-ready book in your browser · “PDF” downloads the A4 version.</p>
-<div class="grid">
+    <!-- HERO SECTION -->
+    <section class="hero">
+      <div class="stamp">📚</div>
+      <div class="kick">TERRAFORM MASTER SERIES · INK &amp; AMBER LIBRARY</div>
+      <h1 class="hero-title">TerraForm by Nabawy</h1>
+      <div class="rule"></div>
+      <p class="sub">
+        The definitive study library and engineering command center for Terraform Associate certification and real-world production. Read every volume online in high-fidelity editorial format, download print-ready PDFs, practice interactive drills, and explore in-depth notes.
+      </p>
 
-<div class="card"><div class="num">VOLUME 1 · FOUNDATIONS</div><h2>Terraform Master I</h2>
-<p>Every core concept, anatomy, workflow, gotcha, and exam note — from IaC &amp; idempotence to variables, workspaces, provisioners, and the capstone chain. The reference volume.</p>
-<div class="meta"><span class="tag">25 pages</span><span class="tag">24 topics</span><span class="tag">5-layer notes</span></div>
-<div class="btns"><a class="btn solid" href="books/vol1-foundations.html">📖 Read online</a><a class="btn amber" href="books/vol1-foundations.pdf">⬇ PDF <small>5.2 MB</small></a></div></div>
+      <!-- Stats Chips -->
+      <div class="chips">
+        <span class="chip">📖 4 books</span>
+        <span class="chip">📄 219 pages</span>
+        <span class="chip">🎓 261 exam questions</span>
+        <span class="chip">🏋️ 40 lab drills</span>
+        <span class="chip">📝 11 study notes</span>
+      </div>
 
-<div class="card"><div class="num">VOLUME 2 · PRODUCTION</div><h2>Terraform Master II</h2>
-<p>Multi-environment layouts, workspaces, networking deep-dive, count &amp; for_each, outputs, full project walkthrough, and the ALB build. The production volume.</p>
-<div class="meta"><span class="tag">17 pages</span><span class="tag">incl. ALB build</span><span class="tag">real walkthrough</span></div>
-<div class="btns"><a class="btn solid" href="books/vol2-production.html">📖 Read online</a><a class="btn amber" href="books/vol2-production.pdf">⬇ PDF <small>4.2 MB</small></a></div></div>
+      <!-- Library Completion Tracker -->
+      <div class="progress-card">
+        <div class="progress-header">
+          <span>🎯 YOUR STUDY PROGRESS</span>
+          <span id="progress-pct" style="color: var(--amber-d);">0%</span>
+        </div>
+        <div class="progress-bar-bg">
+          <div id="progress-fill" class="progress-bar-fill"></div>
+        </div>
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 8px;">
+          <span id="progress-count" style="font-size: 11.5px; font-weight: 700; color: var(--muted);">0 of 15 completed</span>
+          <div class="progress-controls">
+            <button class="progress-btn-link" onclick="window.markAllCompleted()">Mark all done</button>
+            <span style="color: var(--line);">|</span>
+            <button class="progress-btn-link" onclick="window.resetProgress()">Reset tracker</button>
+          </div>
+        </div>
+      </div>
 
-<div class="card"><div class="num">VOLUME 3 · HANDS-ON LAB</div><h2>Terraform Practice Lab</h2>
-<p>40 exercises — 15 warm-ups, 15 drills, 10 bosses — every one with a full worked answer (WHY + TRAP + EXAM). Broken code, scenarios, output-reading, debugging.</p>
-<div class="meta"><span class="tag">39 pages</span><span class="tag">40 exercises</span><span class="tag">40 solutions</span></div>
-<div class="btns"><a class="btn solid" href="books/lab.html">📖 Read online</a><a class="btn amber" href="books/lab.pdf">⬇ PDF <small>14.9 MB</small></a></div></div>
+      <!-- Universal Search & Spotlight Palette -->
+      <div class="search-section">
+        <div class="search-filter-pills">
+          <button class="filter-pill active" data-filter="all" data-label="All">All <small>(482)</small></button>
+          <button class="filter-pill" data-filter="books" data-label="Books">Books</button>
+          <button class="filter-pill" data-filter="exam" data-label="Exam Drills">Exam Drills</button>
+          <button class="filter-pill" data-filter="lab" data-label="Lab Drills">Lab Drills</button>
+          <button class="filter-pill" data-filter="notes" data-label="Study Notes">Notes</button>
+        </div>
 
-<div class="card"><div class="num">VOLUME 4 · CERTIFICATION</div><h2>Exam Command Center</h2>
-<p>HashiCorp Certified: Terraform Associate (003) prep — exam intel, 9 domain reviews, 90 drills with deep keys, 3 full 57-question mocks with answer keys, score tracker.</p>
-<div class="meta"><span class="tag">138 pages</span><span class="tag">261 questions</span><span class="tag">3 mocks</span></div>
-<div class="btns"><a class="btn solid" href="books/exam-center.html">📖 Read online</a><a class="btn amber" href="books/exam-center.pdf">⬇ PDF <small>28 MB</small></a></div></div>
+        <div class="searchbar">
+          <span class="mag">🔍</span>
+          <input id="q" type="search" placeholder="Search library — try “state lock”, “for_each”, “ALB”, “Sentinel”…" autocomplete="off">
+          <span class="kbd-shortcut">Ctrl+K or /</span>
+        </div>
 
-</div>
+        <div class="quick-tags">
+          <span style="font-size: 11px; font-weight: 800; color: var(--muted); align-self: center;">Quick filters:</span>
+          <button class="quick-tag" data-tag="state lock">#state-lock</button>
+          <button class="quick-tag" data-tag="for_each">#for_each</button>
+          <button class="quick-tag" data-tag="remote backend">#remote-backend</button>
+          <button class="quick-tag" data-tag="ALB">#alb-build</button>
+          <button class="quick-tag" data-tag="precedence">#precedence</button>
+          <button class="quick-tag" data-tag="Sentinel">#sentinel</button>
+          <button class="quick-tag" data-tag="taint">#taint</button>
+          <button class="quick-tag" data-tag="import">#import</button>
+        </div>
 
-<h2 class="sec">Study notes</h2>
-<p class="sec-sub">The 11 gap-filler notes that took coverage to 24/24 — Markdown, free to download.</p>
-<div class="panel"><span class="tag2">📝 Notes vault</span>
-<div class="notes">
-<a class="note" href="notes/09-alb-walkthrough.md">09 · ALB walkthrough</a>
-<a class="note" href="notes/17-what-is-terraform-facts.md">17 · Terraform facts</a>
-<a class="note" href="notes/18-terraform-init.md">18 · init</a>
-<a class="note" href="notes/19-providers-catalog.md">19 · providers</a>
-<a class="note" href="notes/20-core-cli-commands.md">20 · core CLI</a>
-<a class="note" href="notes/21-state-file-what-why.md">21 · state what &amp; why</a>
-<a class="note" href="notes/22-state-commands.md">22 · state commands</a>
-<a class="note" href="notes/23-fmt-and-destroy.md">23 · fmt &amp; destroy</a>
-<a class="note" href="notes/24-more-cli-commands.md">24 · more CLI</a>
-<a class="note" href="notes/25-provisioners-doctrine.md">25 · provisioners</a>
-<a class="note" href="notes/26-capstone-hands-on-chain.md">26 · capstone chain</a>
-</div></div>
+        <div id="results"></div>
+      </div>
+    </section>
 
-<div class="panel"><span class="tag2">🖨 Print any book</span>
-Open the online version → <b>Ctrl/Cmd+P → Save as PDF → Background graphics ON</b>. Links stay clickable in the PDF.</div>
+    <!-- THE LEARNING ROUTE -->
+    <div class="section-header">
+      <h2 class="sec"><span>🗺️</span> The learning route</h2>
+      <span class="sec-sub">Follow the recommended sequence — each volume builds upon the last. Click a step to jump to it.</span>
+    </div>
 
-<footer>Built from Eng. Mohamed Magdy's Terraform course · INK &amp; AMBER style · TerraForm by Nabawy · <a class="inline" href="https://github.com/EslamNabawy">GitHub</a></footer>
+    <div class="route-container">
+      <div class="route-steps">
+        <div class="route-step-card active" data-step="1" onclick="window.selectRouteStep(1)">
+          <div class="route-step-num">Step ①</div>
+          <div class="route-step-title">Foundations</div>
+          <div class="route-step-desc">Core concepts, AWS provider, state ledger, locking, variables, and Day 1 capstone.</div>
+        </div>
 
-</div>
-<script>
-// Search renders only our own static index.json titles (never the user query) — no XSS surface.
-let IDX=[];
-fetch('search_index.json').then(r=>r.json()).then(j=>{IDX=j;});
-const box=document.getElementById('q'), out=document.getElementById('results');
-box.addEventListener('input',()=>{
-  const s=box.value.trim().toLowerCase();
-  if(s.length<2){out.classList.remove('on');out.innerHTML='';return;}
-  const words=s.split(/\s+/);
-  const hits=IDX.filter(e=>{const t=(e.t+' '+e.k).toLowerCase();return words.every(w=>t.includes(w));}).slice(0,14);
-  out.classList.add('on');
-  out.innerHTML=hits.length?hits.map(e=>'<a class="res" href="'+e.u+'"><b>'+e.t+'</b><small>'+e.s+'</small></a>').join('')
-    :'<div class="nores">No matches — try “state”, “module”, “plan”, “Sentinel”…</div>';
-});
-</script>
+        <div class="route-step-card" data-step="2" onclick="window.selectRouteStep(2)">
+          <div class="route-step-num">Step ②</div>
+          <div class="route-step-title">Production</div>
+          <div class="route-step-desc">Workspaces, 3-VPC networking, count vs for_each, and two-tier ALB walkthrough.</div>
+        </div>
+
+        <div class="route-step-card" data-step="3" onclick="window.selectRouteStep(3)">
+          <div class="route-step-num">Step ③</div>
+          <div class="route-step-title">Practice Lab</div>
+          <div class="route-step-desc">40 hands-on exercises: warmups, multi-concept drills, and incident refactoring bosses.</div>
+        </div>
+
+        <div class="route-step-card" data-step="4" onclick="window.selectRouteStep(4)">
+          <div class="route-step-num">Step ④</div>
+          <div class="route-step-title">Exam Center</div>
+          <div class="route-step-desc">Certification command center: 9 domain reviews, 90 drills, 3 full 57-question mocks.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- THE BOOKS SECTION -->
+    <div class="section-header">
+      <h2 class="sec"><span>📖</span> The four master books</h2>
+      <span class="sec-sub">Read full print-fidelity editions online or download A4 print-ready PDFs.</span>
+    </div>
+
+    <div class="grid" id="books">
+
+      <!-- BOOK 1: FOUNDATIONS -->
+      <article class="card" id="book-card-1">
+        <div class="card-top">
+          <div class="num">VOLUME 1 · FOUNDATIONS</div>
+          <label class="mark-read-toggle" title="Toggle read status">
+            <input type="checkbox" class="book-progress-check" data-id="vol1" onchange="window.toggleItemProgress('vol1', this.checked)">
+            <span>Finished</span>
+          </label>
+        </div>
+        <h2>Terraform Master I</h2>
+        <p>Every core concept, anatomy, workflow, gotcha, and exam note — from IaC &amp; idempotence to variables, workspaces, provisioners, and the capstone chain. The fundamental reference volume.</p>
+        <div class="meta">
+          <span class="tag">📄 25 pages</span>
+          <span class="tag">🧩 24 topics</span>
+          <span class="tag">📑 5-layer notes</span>
+        </div>
+        <div class="btns">
+          <a class="btn solid" href="books/vol1-foundations.html">📖 Read online</a>
+          <a class="btn amber" href="books/vol1-foundations.pdf">⬇ PDF <small>5.2 MB</small></a>
+        </div>
+        <details class="chapters-preview-toggle">
+          <summary>📑 Preview Chapters &amp; Topics</summary>
+          <div class="chapters-preview-list">
+            <a href="books/vol1-foundations.html#summary">🗺️ The Route — One Page, Whole Book</a>
+            <a href="books/vol1-foundations.html#ch-01">Ch 01 · What is Infrastructure as Code?</a>
+            <a href="books/vol1-foundations.html#ch-02">Ch 02 · What is Terraform + The 6 Pillars</a>
+            <a href="books/vol1-foundations.html#ch-03">Ch 03 · How Terraform Works: Core vs Plugins</a>
+            <a href="books/vol1-foundations.html#ch-04">Ch 04 · AWS Provider: 3 Auth Patterns</a>
+            <a href="books/vol1-foundations.html#ch-05">Ch 05 · Your First Resource: aws_vpc</a>
+            <a href="books/vol1-foundations.html#ch-06">Ch 06 · Subnets, Route Tables, IGW, NAT</a>
+            <a href="books/vol1-foundations.html#ch-07">Ch 07 · terraform init: What It Really Does</a>
+            <a href="books/vol1-foundations.html#ch-08">Ch 08 · plan · apply · tfstate: The Core Loop</a>
+            <a href="books/vol1-foundations.html#ch-09">Ch 09 · 3-State Model: code · state · reality</a>
+            <a href="books/vol1-foundations.html#ch-10">Ch 10 · State Risks &amp; Remote S3 + DynamoDB</a>
+            <a href="books/vol1-foundations.html#ch-11">Ch 11 · State Locking &amp; Mutex Lifecycle</a>
+            <a href="books/vol1-foundations.html#ch-12">Ch 12 · State Subcommands (mv, rm, import)</a>
+            <a href="books/vol1-foundations.html#ch-14">Ch 14 · Variables &amp; The Precedence Ladder</a>
+            <a href="books/vol1-foundations.html#lab-1">Lab 1 · Full Build Chain Capstone</a>
+          </div>
+        </details>
+      </article>
+
+      <!-- BOOK 2: PRODUCTION -->
+      <article class="card" id="book-card-2">
+        <div class="card-top">
+          <div class="num">VOLUME 2 · PRODUCTION</div>
+          <label class="mark-read-toggle" title="Toggle read status">
+            <input type="checkbox" class="book-progress-check" data-id="vol2" onchange="window.toggleItemProgress('vol2', this.checked)">
+            <span>Finished</span>
+          </label>
+        </div>
+        <h2>Terraform Master II</h2>
+        <p>Multi-environment layouts, workspaces, networking deep-dive, count &amp; for_each, outputs, full project walkthrough, and the complete two-tier ALB build. The production-grade engineering volume.</p>
+        <div class="meta">
+          <span class="tag">📄 17 pages</span>
+          <span class="tag">⚖️ incl. ALB build</span>
+          <span class="tag">🏗️ Real walkthrough</span>
+        </div>
+        <div class="btns">
+          <a class="btn solid" href="books/vol2-production.html">📖 Read online</a>
+          <a class="btn amber" href="books/vol2-production.pdf">⬇ PDF <small>4.2 MB</small></a>
+        </div>
+        <details class="chapters-preview-toggle">
+          <summary>📑 Preview Chapters &amp; Topics</summary>
+          <div class="chapters-preview-list">
+            <a href="books/vol2-production.html#summary">🗺️ The Route — One Page, Whole Book</a>
+            <a href="books/vol2-production.html#ch-01a">Ch 01A · Variables: Precedence, Types, Validation</a>
+            <a href="books/vol2-production.html#ch-01b">Ch 01B · Functions, Dynamic Blocks, Secrets</a>
+            <a href="books/vol2-production.html#ch-02a">Ch 02A · Networking: Protocols, CIDR, Routing</a>
+            <a href="books/vol2-production.html#ch-02b">Ch 02B · SG vs NACL, DNS, Endpoints, Peering</a>
+            <a href="books/vol2-production.html#ch-03a">Ch 03A · Workspaces: CLI, Patterns, Proof</a>
+            <a href="books/vol2-production.html#ch-03b">Ch 03B · Workspaces in Production &amp; CI/CD</a>
+            <a href="books/vol2-production.html#ch-04a">Ch 04A · Multi-Env: Workspaces vs Folders vs Buckets</a>
+            <a href="books/vol2-production.html#ch-04b">Ch 04B · Multi-VPC: The 3-VPC Architecture</a>
+            <a href="books/vol2-production.html#ch-05">Ch 05 · count vs for_each: The Rename Trap</a>
+            <a href="books/vol2-production.html#ch-06">Ch 06 · Outputs: The Production Contract</a>
+            <a href="books/vol2-production.html#ch-08">Ch 08 · ALB Walkthrough: Two Tiers, One Codebase</a>
+          </div>
+        </details>
+      </article>
+
+      <!-- BOOK 3: PRACTICE LAB -->
+      <article class="card" id="book-card-3">
+        <div class="card-top">
+          <div class="num">VOLUME 3 · HANDS-ON LAB</div>
+          <label class="mark-read-toggle" title="Toggle read status">
+            <input type="checkbox" class="book-progress-check" data-id="lab" onchange="window.toggleItemProgress('lab', this.checked)">
+            <span>Finished</span>
+          </label>
+        </div>
+        <h2>Terraform Practice Lab</h2>
+        <p>40 comprehensive exercises — 15 warm-ups, 15 multi-concept drills, and 10 production bosses — each with a full worked answer (WHY + TRAP + EXAM). Broken configs, plan predictions, and debugging drills.</p>
+        <div class="meta">
+          <span class="tag">📄 39 pages</span>
+          <span class="tag">🏋️ 40 exercises</span>
+          <span class="tag">💡 40 worked solutions</span>
+        </div>
+        <div class="btns">
+          <a class="btn solid" href="books/lab.html">📖 Read online</a>
+          <a class="btn amber" href="books/lab.pdf">⬇ PDF <small>14.9 MB</small></a>
+        </div>
+        <details class="chapters-preview-toggle">
+          <summary>📑 Preview Chapters &amp; Topics</summary>
+          <div class="chapters-preview-list">
+            <a href="books/lab.html#summary">🗺️ Training Route: Warm-ups → Drills → Bosses</a>
+            <a href="books/lab.html#howto">Rules, Bands &amp; The 7 Drill Types</a>
+            <a href="books/lab.html#ex-01">ex-01 &amp; ex-02 · Idempotence &amp; Toolchain</a>
+            <a href="books/lab.html#ex-05">ex-05 &amp; ex-06 · Provider &amp; VPC Traps</a>
+            <a href="books/lab.html#ex-07">ex-07 &amp; ex-08 · Init &amp; Plan Reading</a>
+            <a href="books/lab.html#ex-11">ex-11 &amp; ex-12 · State &amp; Backend Recovery</a>
+            <a href="books/lab.html#ex-13">ex-13 to ex-15 · Locking, Rename &amp; fmt</a>
+            <a href="books/lab.html#ex-16">ex-16 · Graph &amp; Variable Edges</a>
+            <a href="books/lab.html#ex-20">ex-20 · count vs keys: Downstream Target Trap</a>
+            <a href="books/lab.html#ex-26">ex-26 · refresh vs plan -refresh-only</a>
+            <a href="books/lab.html#ex-31">ex-31 · BOSS: Race Condition &amp; Mutex Recovery</a>
+          </div>
+        </details>
+      </article>
+
+      <!-- BOOK 4: EXAM CENTER -->
+      <article class="card" id="book-card-4">
+        <div class="card-top">
+          <div class="num">VOLUME 4 · CERTIFICATION</div>
+          <label class="mark-read-toggle" title="Toggle read status">
+            <input type="checkbox" class="book-progress-check" data-id="exam" onchange="window.toggleItemProgress('exam', this.checked)">
+            <span>Finished</span>
+          </label>
+        </div>
+        <h2>Exam Command Center</h2>
+        <p>HashiCorp Certified: Terraform Associate (003) prep — complete exam intel, 9 domain reviews, 90 domain drills with deep answer keys, 3 full 57-question mocks, and diagnostic score tracker.</p>
+        <div class="meta">
+          <span class="tag">📄 138 pages</span>
+          <span class="tag">🎓 261 questions</span>
+          <span class="tag">🎯 3 full mocks</span>
+        </div>
+        <div class="btns">
+          <a class="btn solid" href="books/exam-center.html">📖 Read online</a>
+          <a class="btn amber" href="books/exam-center.pdf">⬇ PDF <small>28 MB</small></a>
+        </div>
+        <details class="chapters-preview-toggle">
+          <summary>📑 Preview Chapters &amp; Topics</summary>
+          <div class="chapters-preview-list">
+            <a href="books/exam-center.html#summary">🎯 Exam Intel, Blueprint &amp; Passing Strategy</a>
+            <a href="books/exam-center.html#ch-d1">Domain 1 · Understand IaC Concepts</a>
+            <a href="books/exam-center.html#ch-d2">Domain 2 · Understand Terraform Purpose</a>
+            <a href="books/exam-center.html#ch-d3">Domain 3 · Understand Terraform Basics</a>
+            <a href="books/exam-center.html#ch-d4">Domain 4 · Use Terraform Outside Core Workflow</a>
+            <a href="books/exam-center.html#ch-d5">Domain 5 · Interact with Terraform Modules</a>
+            <a href="books/exam-center.html#ch-d6">Domain 6 · Use Core Terraform CLI Workflow</a>
+            <a href="books/exam-center.html#ch-d7">Domain 7 · Implement &amp; Maintain State</a>
+            <a href="books/exam-center.html#ch-d8">Domain 8 · Read, Generate &amp; Modify Config</a>
+            <a href="books/exam-center.html#ch-d9">Domain 9 · Terraform Cloud &amp; Enterprise</a>
+            <a href="books/exam-center.html#mock-1">Mock Exam 1 · 57 Official Practice Questions</a>
+            <a href="books/exam-center.html#mock-2">Mock Exam 2 · 57 Practice Questions</a>
+            <a href="books/exam-center.html#mock-3">Mock Exam 3 · 57 Practice Questions</a>
+          </div>
+        </details>
+      </article>
+
+    </div>
+
+    <!-- INTERACTIVE EXAM PRACTICE DRILL ARENA -->
+    <section class="drill-arena" id="practice-arena">
+      <div class="drill-arena-header">
+        <div class="drill-title-group">
+          <h3>⚡ Exam Practice Drill Arena</h3>
+          <p>Instant quiz &amp; flashcards powered by the 261 Associate (003) exam questions.</p>
+        </div>
+        <div class="drill-stats">
+          <div class="drill-stat-box">
+            <span id="stat-answered">0</span>
+            <small>Answered</small>
+          </div>
+          <div class="drill-stat-box">
+            <span id="stat-accuracy">0%</span>
+            <small>Accuracy</small>
+          </div>
+          <div class="drill-stat-box">
+            <span id="stat-streak">🔥 0</span>
+            <small>Streak</small>
+          </div>
+        </div>
+      </div>
+
+      <div class="drill-card">
+        <div class="drill-meta-bar">
+          <span id="drill-domain" class="drill-domain-badge">Domain 1: IaC Concepts</span>
+          <span id="drill-qid" class="drill-qid">Q-D1-01</span>
+        </div>
+        <div id="drill-prompt" class="drill-prompt">
+          Same config applied twice with no edits. The second plan reports…
+        </div>
+        <div id="drill-options" class="drill-options">
+          <!-- Options rendered dynamically by app.js -->
+        </div>
+        <div id="drill-explanation" class="drill-explanation"></div>
+      </div>
+
+      <div class="drill-footer">
+        <div style="display: flex; gap: 8px;">
+          <button class="btn solid" onclick="window.nextDrill()">Next Question →</button>
+          <button class="btn outline" onclick="window.randomDrill()">🔀 Random Drill</button>
+        </div>
+        <a id="drill-exam-link" class="inline" href="books/exam-center.html#Q-D1-01" target="_blank" style="font-size: 13px;">
+          Open in Exam Command Center ↗
+        </a>
+      </div>
+    </section>
+
+    <!-- STUDY NOTES VAULT -->
+    <div class="section-header">
+      <h2 class="sec"><span>📝</span> The study notes vault</h2>
+      <span class="sec-sub">The 11 high-yield gap-filler notes. Click any note to read in the In-Browser Reader!</span>
+    </div>
+
+    <div class="panel">
+      <span class="tag2">📝 11 Reference Notes (Click to read online)</span>
+      <div class="notes">
+        <div class="note-card" onclick="window.openNoteModal('notes/09-alb-walkthrough.md')">
+          <div class="note-info">
+            <span class="note-num">09 · ALB Walkthrough</span>
+            <span class="note-title">Two-Tier Load Balancer Stack</span>
+          </div>
+          <input type="checkbox" class="note-check" data-id="note-09" onclick="event.stopPropagation(); window.toggleItemProgress('note-09', this.checked)">
+        </div>
+
+        <div class="note-card" onclick="window.openNoteModal('notes/17-what-is-terraform-facts.md')">
+          <div class="note-info">
+            <span class="note-num">17 · Terraform Facts</span>
+            <span class="note-title">License, Ecosystem &amp; 6 Pillars</span>
+          </div>
+          <input type="checkbox" class="note-check" data-id="note-17" onclick="event.stopPropagation(); window.toggleItemProgress('note-17', this.checked)">
+        </div>
+
+        <div class="note-card" onclick="window.openNoteModal('notes/18-terraform-init.md')">
+          <div class="note-info">
+            <span class="note-num">18 · terraform init</span>
+            <span class="note-title">.terraform Tree, Lock &amp; .gitignore</span>
+          </div>
+          <input type="checkbox" class="note-check" data-id="note-18" onclick="event.stopPropagation(); window.toggleItemProgress('note-18', this.checked)">
+        </div>
+
+        <div class="note-card" onclick="window.openNoteModal('notes/19-providers-catalog.md')">
+          <div class="note-info">
+            <span class="note-num">19 · Providers Catalog</span>
+            <span class="note-title">IaaS, PaaS, SaaS Translators</span>
+          </div>
+          <input type="checkbox" class="note-check" data-id="note-19" onclick="event.stopPropagation(); window.toggleItemProgress('note-19', this.checked)">
+        </div>
+
+        <div class="note-card" onclick="window.openNoteModal('notes/20-core-cli-commands.md')">
+          <div class="note-info">
+            <span class="note-num">20 · Core CLI Commands</span>
+            <span class="note-title">init, plan, apply, destroy Loop</span>
+          </div>
+          <input type="checkbox" class="note-check" data-id="note-20" onclick="event.stopPropagation(); window.toggleItemProgress('note-20', this.checked)">
+        </div>
+
+        <div class="note-card" onclick="window.openNoteModal('notes/21-state-file-what-why.md')">
+          <div class="note-info">
+            <span class="note-num">21 · State What &amp; Why</span>
+            <span class="note-title">terraform.tfstate Ledger &amp; Secrets</span>
+          </div>
+          <input type="checkbox" class="note-check" data-id="note-21" onclick="event.stopPropagation(); window.toggleItemProgress('note-21', this.checked)">
+        </div>
+
+        <div class="note-card" onclick="window.openNoteModal('notes/22-state-commands.md')">
+          <div class="note-info">
+            <span class="note-num">22 · State Commands</span>
+            <span class="note-title">list, show, mv, rm, pull, import</span>
+          </div>
+          <input type="checkbox" class="note-check" data-id="note-22" onclick="event.stopPropagation(); window.toggleItemProgress('note-22', this.checked)">
+        </div>
+
+        <div class="note-card" onclick="window.openNoteModal('notes/23-fmt-and-destroy.md')">
+          <div class="note-info">
+            <span class="note-num">23 · fmt &amp; destroy</span>
+            <span class="note-title">Canonical Style &amp; Safe Teardown</span>
+          </div>
+          <input type="checkbox" class="note-check" data-id="note-23" onclick="event.stopPropagation(); window.toggleItemProgress('note-23', this.checked)">
+        </div>
+
+        <div class="note-card" onclick="window.openNoteModal('notes/24-more-cli-commands.md')">
+          <div class="note-info">
+            <span class="note-num">24 · More CLI Commands</span>
+            <span class="note-title">fmt, graph, console, refresh-only</span>
+          </div>
+          <input type="checkbox" class="note-check" data-id="note-24" onclick="event.stopPropagation(); window.toggleItemProgress('note-24', this.checked)">
+        </div>
+
+        <div class="note-card" onclick="window.openNoteModal('notes/25-provisioners-doctrine.md')">
+          <div class="note-info">
+            <span class="note-num">25 · Provisioners Doctrine</span>
+            <span class="note-title">Last-Resort Rules &amp; Caveats</span>
+          </div>
+          <input type="checkbox" class="note-check" data-id="note-25" onclick="event.stopPropagation(); window.toggleItemProgress('note-25', this.checked)">
+        </div>
+
+        <div class="note-card" onclick="window.openNoteModal('notes/26-capstone-hands-on-chain.md')">
+          <div class="note-info">
+            <span class="note-num">26 · Capstone Build Chain</span>
+            <span class="note-title">8 Resources in One Tested Config</span>
+          </div>
+          <input type="checkbox" class="note-check" data-id="note-26" onclick="event.stopPropagation(); window.toggleItemProgress('note-26', this.checked)">
+        </div>
+      </div>
+    </div>
+
+    <!-- COMMAND DECK & CHEATSHEET -->
+    <div class="section-header" id="cheatsheet">
+      <h2 class="sec"><span>⚡</span> Terraform quick command deck</h2>
+      <span class="sec-sub">1-click copy reference for daily production terminal commands.</span>
+    </div>
+
+    <div class="panel">
+      <div class="cheatsheet-tabs">
+        <button class="cheatsheet-tab active" data-tab="core" onclick="window.switchCheatTab('core')">Core Loop</button>
+        <button class="cheatsheet-tab" data-tab="state" onclick="window.switchCheatTab('state')">State Operations</button>
+        <button class="cheatsheet-tab" data-tab="inspection" onclick="window.switchCheatTab('inspection')">Inspection &amp; Flags</button>
+        <button class="cheatsheet-tab" data-tab="precedence" onclick="window.switchCheatTab('precedence')">Precedence Ladder</button>
+      </div>
+
+      <!-- TAB 1: CORE LOOP -->
+      <div id="cheat-core" class="cheatsheet-content command-deck-grid" style="display: grid;">
+        <div class="cmd-item">
+          <span class="cmd-badge">SETUP</span>
+          <div class="cmd-code-row">
+            <code>terraform init -upgrade</code>
+            <button class="cmd-copy-btn" onclick="window.copyCommand('terraform init -upgrade')">Copy</button>
+          </div>
+          <p class="cmd-desc">Downloads provider binaries, configures remote backend, and updates version locks (~>).</p>
+        </div>
+
+        <div class="cmd-item">
+          <span class="cmd-badge">PREVIEW</span>
+          <div class="cmd-code-row">
+            <code>terraform plan -out=tfplan</code>
+            <button class="cmd-copy-btn" onclick="window.copyCommand('terraform plan -out=tfplan')">Copy</button>
+          </div>
+          <p class="cmd-desc">Compares Desired vs Known vs Real. Guarantees: what you review is exactly what executes.</p>
+        </div>
+
+        <div class="cmd-item">
+          <span class="cmd-badge">EXECUTE</span>
+          <div class="cmd-code-row">
+            <code>terraform apply tfplan</code>
+            <button class="cmd-copy-btn" onclick="window.copyCommand('terraform apply tfplan')">Copy</button>
+          </div>
+          <p class="cmd-desc">Executes the exact saved binary plan contract without prompt, eliminating concurrency drift.</p>
+        </div>
+
+        <div class="cmd-item">
+          <span class="cmd-badge">TEARDOWN</span>
+          <div class="cmd-code-row">
+            <code>terraform destroy</code>
+            <button class="cmd-copy-btn" onclick="window.copyCommand('terraform destroy')">Copy</button>
+          </div>
+          <p class="cmd-desc">Executes apply in reverse: destroys all managed infrastructure safely with confirmation.</p>
+        </div>
+      </div>
+
+      <!-- TAB 2: STATE OPS -->
+      <div id="cheat-state" class="cheatsheet-content command-deck-grid" style="display: none;">
+        <div class="cmd-item">
+          <span class="cmd-badge">LIST</span>
+          <div class="cmd-code-row">
+            <code>terraform state list</code>
+            <button class="cmd-copy-btn" onclick="window.copyCommand('terraform state list')">Copy</button>
+          </div>
+          <p class="cmd-desc">Lists all resource addresses currently recorded in the state ledger without calling AWS APIs.</p>
+        </div>
+
+        <div class="cmd-item">
+          <span class="cmd-badge">RENAME (ZERO REBUILD)</span>
+          <div class="cmd-code-row">
+            <code>terraform state mv aws_instance.web aws_instance.app</code>
+            <button class="cmd-copy-btn" onclick="window.copyCommand('terraform state mv aws_instance.web aws_instance.app')">Copy</button>
+          </div>
+          <p class="cmd-desc">Renames an address inside the state file. Zero cloud rebuild or downtime!</p>
+        </div>
+
+        <div class="cmd-item">
+          <span class="cmd-badge">DETACH</span>
+          <div class="cmd-code-row">
+            <code>terraform state rm aws_vpc.legacy</code>
+            <button class="cmd-copy-btn" onclick="window.copyCommand('terraform state rm aws_vpc.legacy')">Copy</button>
+          </div>
+          <p class="cmd-desc">Stops managing the resource without deleting it from the cloud. Perfect for unlinking.</p>
+        </div>
+
+        <div class="cmd-item">
+          <span class="cmd-badge">UNLOCK</span>
+          <div class="cmd-code-row">
+            <code>terraform force-unlock &lt;LOCK_ID&gt;</code>
+            <button class="cmd-copy-btn" onclick="window.copyCommand('terraform force-unlock ')">Copy</button>
+          </div>
+          <p class="cmd-desc">Releases an orphaned DynamoDB lock row after confirming the previous runner process is dead.</p>
+        </div>
+      </div>
+
+      <!-- TAB 3: INSPECTION -->
+      <div id="cheat-inspection" class="cheatsheet-content command-deck-grid" style="display: none;">
+        <div class="cmd-item">
+          <span class="cmd-badge">FORMATTING</span>
+          <div class="cmd-code-row">
+            <code>terraform fmt -recursive -check</code>
+            <button class="cmd-copy-btn" onclick="window.copyCommand('terraform fmt -recursive -check')">Copy</button>
+          </div>
+          <p class="cmd-desc">Pre-commit CI gate checking if all .tf files meet canonical indentation standards.</p>
+        </div>
+
+        <div class="cmd-item">
+          <span class="cmd-badge">DRIFT AUDIT</span>
+          <div class="cmd-code-row">
+            <code>terraform plan -refresh-only</code>
+            <button class="cmd-copy-btn" onclick="window.copyCommand('terraform plan -refresh-only')">Copy</button>
+          </div>
+          <p class="cmd-desc">Modern replacement for `terraform refresh`. Previews real cloud drift without altering code.</p>
+        </div>
+
+        <div class="cmd-item">
+          <span class="cmd-badge">TARGETED RECREATE</span>
+          <div class="cmd-code-row">
+            <code>terraform apply -replace="aws_instance.web[0]"</code>
+            <button class="cmd-copy-btn" onclick="window.copyCommand('terraform apply -replace=\"aws_instance.web[0]\"')">Copy</button>
+          </div>
+          <p class="cmd-desc">Modern replacement for `terraform taint`. Recreates a specific instance in the next plan.</p>
+        </div>
+
+        <div class="cmd-item">
+          <span class="cmd-badge">INTERACTIVE REPL</span>
+          <div class="cmd-code-row">
+            <code>terraform console</code>
+            <button class="cmd-copy-btn" onclick="window.copyCommand('terraform console')">Copy</button>
+          </div>
+          <p class="cmd-desc">Opens interactive evaluation prompt for testing functions, CIDR math, and variable lookups.</p>
+        </div>
+      </div>
+
+      <!-- TAB 4: PRECEDENCE -->
+      <div id="cheat-precedence" class="cheatsheet-content" style="display: none;">
+        <div class="cmd-item" style="grid-column: 1 / -1;">
+          <span class="cmd-badge">THE 7-TIER VARIABLE PRECEDENCE LADDER (HIGHEST WINS)</span>
+          <div style="margin-top: 10px; font-size: 13px; line-height: 1.8;">
+            <div><b>1. CLI `-var` and `-var-file` flags</b> <small style="color: var(--amber-d); font-weight: 800;">(Highest — wins everything)</small></div>
+            <div><b>2. `*.auto.tfvars` or `*.auto.tfvars.json`</b> <small>(Loaded alphabetically)</small></div>
+            <div><b>3. `terraform.tfvars.json`</b></div>
+            <div><b>4. `terraform.tfvars`</b> <small>(Auto-loaded by default)</small></div>
+            <div><b>5. Environment variables `TF_VAR_name`</b> <small>(Ideal for CI/CD and secrets)</small></div>
+            <div><b>6. Variable `default` values</b> <small>(Fallback if nothing above is set)</small></div>
+            <div><i>7. Missing value</i> <small style="color: var(--crimson); font-weight: 700;">(Prompts interactively at CLI or errors in CI)</small></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- PRINT PANEL -->
+    <div class="panel">
+      <span class="tag2">🖨 Print &amp; PDF Guide</span>
+      <div>
+        To export any book or note into a crisp PDF directly from your browser: open the online version &rarr; 
+        <b>Ctrl/Cmd+P &rarr; Save as PDF &rarr; Enable "Background graphics"</b>. All intra-document anchor links remain 100% clickable.
+      </div>
+    </div>
+
+    <!-- FOOTER -->
+    <footer>
+      Built from Eng. Mohamed Magdy's Terraform curriculum &middot; INK &amp; AMBER design style &middot;
+      TerraForm by Nabawy &middot;
+      <a class="inline" href="https://github.com/EslamNabawy" target="_blank">GitHub</a>
+    </footer>
+
+  </div>
+
+  <!-- IN-BROWSER MARKDOWN NOTE READER MODAL -->
+  <div id="note-modal-overlay" class="modal-overlay">
+    <div class="modal-container">
+      <div class="modal-header">
+        <div class="modal-header-info">
+          <h3 id="modal-note-title">Study Note</h3>
+          <div class="modal-meta-tags">
+            <span id="modal-note-badge">Topic</span>
+            <span>&middot;</span>
+            <span id="modal-note-time">⏱️ 5 min read</span>
+          </div>
+        </div>
+        <div class="modal-header-actions">
+          <a id="modal-download-raw" class="nav-btn" href="#" download title="Download raw markdown">⬇ .md</a>
+          <button class="modal-close-btn" onclick="window.closeNoteModal()" title="Close note (Esc)">&times;</button>
+        </div>
+      </div>
+
+      <div id="modal-note-body" class="modal-body">
+        <!-- Markdown content rendered dynamically by app.js -->
+      </div>
+
+      <div class="modal-footer">
+        <button class="btn outline" onclick="window.navigateNote(-1)">← Previous Note</button>
+        <span style="font-size: 11px; font-weight: 700; color: var(--muted);">Use Esc to close</span>
+        <button class="btn solid" onclick="window.navigateNote(1)">Next Note →</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- TOAST NOTIFICATION -->
+  <div id="app-toast" class="toast"></div>
+
+  <!-- APPLICATION JAVASCRIPT -->
+  <script src="app.js"></script>
 </body>
 </html>

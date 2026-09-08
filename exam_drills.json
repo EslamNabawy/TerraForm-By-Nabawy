@@ -1,0 +1,2432 @@
+[
+  {
+    "id": "Q-D1-01",
+    "qNum": "Q-D1-01",
+    "domain": "Domain 1: IaC Concepts",
+    "qText": "Same config applied twice with no edits. The second plan reports…",
+    "options": [
+      {
+        "label": "A",
+        "text": "No changes — Terraform skips planning"
+      },
+      {
+        "label": "B",
+        "text": "1 to add, 0 to change, 0 to destroy"
+      },
+      {
+        "label": "C",
+        "text": "0 to add, 1 to change, 0 to destroy"
+      },
+      {
+        "label": "D",
+        "text": "0 to add, 0 to change, 0 to destroy"
+      }
+    ],
+    "answer": "D",
+    "explanation": "0 to add, 0 to change, 0 to destroy — plus the \"No changes\" line.\n🧠 WHY — Refresh re-read reality, compare found zero drift: desired == known == real. An empty diff is the healthy steady state, not a skipped run. Idempotence means the second apply is a no-op by design.\n❌ A/B/C — any nonzero count claims changes that do not exist\n❌ D — \"skips planning\" mistakes the outcome for the process — Terraform planned fully, then did nothing\n🎓 EXAM — Same code twice → 0/0/0. Any nonzero number needs a cause (edits, drift, taint).",
+    "url": "books/exam-center.html#Q-D1-01"
+  },
+  {
+    "id": "Q-D1-02",
+    "qNum": "Q-D1-02",
+    "domain": "Domain 1: IaC Concepts",
+    "qText": "Which is the BEST definition of idempotence?",
+    "options": [
+      {
+        "label": "A",
+        "text": "Code runs faster on repeat"
+      },
+      {
+        "label": "B",
+        "text": "Same code → same infra, re-apply changes nothing"
+      },
+      {
+        "label": "C",
+        "text": "Plans are always empty"
+      },
+      {
+        "label": "D",
+        "text": "State is optional"
+      }
+    ],
+    "answer": "B",
+    "explanation": "Idempotence = same code → same infra, re-apply changes nothing.\n🧠 WHY — It is a property of the RESULT across runs, not of speed, plans, or state files. \"Faster on repeat\" describes caching; \"plans always empty\" ignores first applies and real changes.\n❌ A — speed is irrelevant — a slow idempotent apply is still idempotent\n❌ C — first applies and drifted states produce full diffs\n❌ D — state is the mechanism that MAKES idempotence possible\n🎓 EXAM — When a stem says \"twice, unchanged\", answer idempotence before finishing the sentence.",
+    "url": "books/exam-center.html#Q-D1-02"
+  },
+  {
+    "id": "Q-D1-03",
+    "qNum": "Q-D1-03",
+    "domain": "Domain 1: IaC Concepts",
+    "qText": "Your team reviews infra changes in PRs before they happen. Which IaC benefit is this?",
+    "options": [
+      {
+        "label": "A",
+        "text": "Automation"
+      },
+      {
+        "label": "B",
+        "text": "Repeatability"
+      },
+      {
+        "label": "C",
+        "text": "Peer review"
+      },
+      {
+        "label": "D",
+        "text": "Speed"
+      }
+    ],
+    "answer": "C",
+    "explanation": "Reviewing infra in PRs before it happens = peer review.\n🧠 WHY — IaC puts infrastructure into reviewable text, so the same PR machinery that guards app code guards prod. Automation runs it; repeatability stabilizes it; neither involves human judgment.\n❌ A — automation executes — it does not judge\n❌ B — repeatability is about identical outcomes, not approval\n❌ D — speed is never the point of a review gate\n🎓 EXAM — PR + infra + \"before\" → peer review. \"Same every time\" → repeatability.",
+    "url": "books/exam-center.html#Q-D1-03"
+  },
+  {
+    "id": "Q-D1-04",
+    "qNum": "Q-D1-04",
+    "domain": "Domain 1: IaC Concepts",
+    "qText": "Declarative vs imperative: which pair is correct?",
+    "options": [
+      {
+        "label": "A",
+        "text": "Terraform declares WHAT; scripted playbooks describe HOW"
+      },
+      {
+        "label": "B",
+        "text": "Terraform scripts HOW; playbooks declare WHAT"
+      },
+      {
+        "label": "C",
+        "text": "Both ignore state"
+      },
+      {
+        "label": "D",
+        "text": "Both are imperative"
+      }
+    ],
+    "answer": "A",
+    "explanation": "Declarative states WHAT (Terraform); imperative scripts HOW (playbooks).\n🧠 WHY — Terraform describes end-state and derives ordering plus API calls; Ansible-style playbooks list steps to execute. The exam pairs the paradigm with the tool without exception.\n❌ B — exact inversion — the exam's favorite trap shape\n❌ C — playbooks are the imperative half of the pair\n❌ D — state is central to Terraform; playbooks simply lack it\n🎓 EXAM — WHAT=HCL/Terraform, HOW=steps/playbooks. Inverted options are always wrong.",
+    "url": "books/exam-center.html#Q-D1-04"
+  },
+  {
+    "id": "Q-D1-05",
+    "qNum": "Q-D1-05",
+    "domain": "Domain 1: IaC Concepts",
+    "qText": "A junior hand-edits production in the console, then runs apply. What does Terraform do?",
+    "options": [
+      {
+        "label": "A",
+        "text": "Detects drift via refresh and proposes to revert it"
+      },
+      {
+        "label": "B",
+        "text": "Ignores console edits forever"
+      },
+      {
+        "label": "C",
+        "text": "Deletes the state file"
+      },
+      {
+        "label": "D",
+        "text": "Locks the console out"
+      }
+    ],
+    "answer": "A",
+    "explanation": "Console tag appears as a ~ change; refresh caught the drift.\n🧠 WHY — Refresh imports REAL into the diff, so hand edits surface as update-in-place lines against code. The plan is the drift report nobody asked anyone to write.\n❌ B — nothing is invisible to refresh — that is its entire job\n❌ C — state is read, never deleted, by planning\n❌ D — no console can lock Terraform out of reading APIs\n🎓 EXAM — Hand edit + next plan = ~ line. Resolve by code (apply) or console (revert).",
+    "url": "books/exam-center.html#Q-D1-05"
+  },
+  {
+    "id": "Q-D1-06",
+    "qNum": "Q-D1-06",
+    "domain": "Domain 1: IaC Concepts",
+    "qText": "Which file must NEVER be committed to version control?",
+    "options": [
+      {
+        "label": "A",
+        "text": "main.tf"
+      },
+      {
+        "label": "B",
+        "text": ".terraform.lock.hcl"
+      },
+      {
+        "label": "C",
+        "text": "versions.tf"
+      },
+      {
+        "label": "D",
+        "text": "terraform.tfstate"
+      }
+    ],
+    "answer": "D",
+    "explanation": "Never commit terraform.tfstate.\n🧠 WHY — State holds secrets in plaintext plus the keys to everything. versions.tf and the lock file SHOULD commit (reproducibility); main.tf is the whole point of version control.\n❌ A — main.tf is exactly what VCS is for\n❌ C — versions.tf pins belong in git\n❌ D — lock file guarantees identical providers\n🎓 EXAM — State + secrets + git = breach. tfstate, tfvars values, and keys stay local.",
+    "url": "books/exam-center.html#Q-D1-06"
+  },
+  {
+    "id": "Q-D2-01",
+    "qNum": "Q-D2-01",
+    "domain": "Domain 2: Terraform Purpose",
+    "qText": "Terraform is BEST described as…",
+    "options": [
+      {
+        "label": "A",
+        "text": "A tool for building, changing, and versioning infrastructure"
+      },
+      {
+        "label": "B",
+        "text": "A configuration manager for OS packages"
+      },
+      {
+        "label": "C",
+        "text": "An AWS-only deployment service"
+      },
+      {
+        "label": "D",
+        "text": "A container orchestrator"
+      }
+    ],
+    "answer": "A",
+    "explanation": "Build, change, version — the three verbs.\n🧠 WHY — Terraform exists to take infrastructure through its whole lifecycle under version control. \"Configuration manager\" describes Ansible; \"AWS-only\" describes CloudFormation; \"orchestrator\" describes Nomad/K8s.\n❌ B — OS packages = config management, wrong layer\n❌ C — AWS-only contradicts multi-provider universality\n❌ D — containers are someone else's job\n🎓 EXAM — Purpose stems answer with the three verbs, every time.",
+    "url": "books/exam-center.html#Q-D2-01"
+  },
+  {
+    "id": "Q-D2-02",
+    "qNum": "Q-D2-02",
+    "domain": "Domain 2: Terraform Purpose",
+    "qText": "Your stack spans AWS, Cloudflare, and GitHub in one apply. Which pillar explains why Terraform fits?",
+    "options": [
+      {
+        "label": "A",
+        "text": "Speed and reliability"
+      },
+      {
+        "label": "B",
+        "text": "Platform-agnostic"
+      },
+      {
+        "label": "C",
+        "text": "Coding best practices"
+      },
+      {
+        "label": "D",
+        "text": "Massive community"
+      }
+    ],
+    "answer": "B",
+    "explanation": "Platform-agnostic wins the moment a second API enters.\n🧠 WHY — AWS + Cloudflare + GitHub in one apply is impossible for CloudFormation and pointless to split across tools. Community, speed, and practices are all true of Terraform and all miss the question asked.\n❌ A — speed never answers a scope question\n❌ C — practices govern HOW, not WHERE\n❌ D — community is real and irrelevant here\n🎓 EXAM — Second API in the stem → platform-agnostic. Always.",
+    "url": "books/exam-center.html#Q-D2-02"
+  },
+  {
+    "id": "Q-D2-03",
+    "qNum": "Q-D2-03",
+    "domain": "Domain 2: Terraform Purpose",
+    "qText": "A question asks which tool versions infrastructure across clouds. The answer is…",
+    "options": [
+      {
+        "label": "A",
+        "text": "Packer"
+      },
+      {
+        "label": "B",
+        "text": "Ansible"
+      },
+      {
+        "label": "C",
+        "text": "Terraform"
+      },
+      {
+        "label": "D",
+        "text": "Consul"
+      }
+    ],
+    "answer": "C",
+    "explanation": "Versions-infrastructure-across-clouds = Terraform.\n🧠 WHY — Packer bakes images, Ansible configures hosts, Consul discovers services. Only one tool on the list versions heterogeneous infrastructure.\n❌ A — Packer builds AMIs; it manages no live infra\n❌ B — Ansible has no state/plan for infrastructure\n❌ D — Consul is service discovery, not provisioning\n🎓 EXAM — Tool-fit questions eliminate by layer: provision, configure, bake, discover.",
+    "url": "books/exam-center.html#Q-D2-03"
+  },
+  {
+    "id": "Q-D2-04",
+    "qNum": "Q-D2-04",
+    "domain": "Domain 2: Terraform Purpose",
+    "qText": "\"Configure Nginx and users on 200 existing servers.\" Best fit?",
+    "options": [
+      {
+        "label": "A",
+        "text": "Terraform"
+      },
+      {
+        "label": "B",
+        "text": "Terraform Cloud"
+      },
+      {
+        "label": "C",
+        "text": "CloudFormation"
+      },
+      {
+        "label": "D",
+        "text": "Ansible"
+      }
+    ],
+    "answer": "D",
+    "explanation": "200 existing servers needing users and Nginx = Ansible.\n🧠 WHY — The work is OS-level configuration of long-lived hosts — the config-management layer, where idempotent modules beat provisioning tools. Terraform provisions; it does not babysit fleets.\n❌ A — Terraform would need a provider per package manager — absurd\n❌ B — CloudFormation is AWS-only AND provisioning-layer\n❌ C — TFC runs Terraform; wrong tool, fancier venue\n🎓 EXAM — \"Existing hosts + packages/users\" → Ansible. \"New infra + lifecycle\" → Terraform.",
+    "url": "books/exam-center.html#Q-D2-04"
+  },
+  {
+    "id": "Q-D2-05",
+    "qNum": "Q-D2-05",
+    "domain": "Domain 2: Terraform Purpose",
+    "qText": "Which statement about the Terraform binary is TRUE?",
+    "options": [
+      {
+        "label": "A",
+        "text": "It is a single Go executable with no runtime dependencies"
+      },
+      {
+        "label": "B",
+        "text": "It requires a Java runtime"
+      },
+      {
+        "label": "C",
+        "text": "It runs only on Linux"
+      },
+      {
+        "label": "D",
+        "text": "It embeds an AWS account"
+      }
+    ],
+    "answer": "A",
+    "explanation": "Single Go executable, zero runtime dependencies.\n🧠 WHY — One static binary is the whole distribution story: download, run, no interpreter, no agents. Java runtimes, Linux-only limits, and embedded AWS accounts are all fictions.\n❌ B — Go compiles statically — no JVM anywhere\n❌ C — all major OSes ship builds\n❌ D — it calls AWS APIs; it contains no account\n🎓 EXAM — Distribution questions test \"single binary, Go, no runtime\" — one fused fact.",
+    "url": "books/exam-center.html#Q-D2-05"
+  },
+  {
+    "id": "Q-D2-06",
+    "qNum": "Q-D2-06",
+    "domain": "Domain 2: Terraform Purpose",
+    "qText": "Why is HCL declarative an advantage for infrastructure?",
+    "options": [
+      {
+        "label": "A",
+        "text": "It executes faster than binaries"
+      },
+      {
+        "label": "B",
+        "text": "You state end-state; ordering and API calls are derived"
+      },
+      {
+        "label": "C",
+        "text": "It needs no state"
+      },
+      {
+        "label": "D",
+        "text": "It skips planning"
+      }
+    ],
+    "answer": "B",
+    "explanation": "Declare end-state; ordering and API calls derive.\n🧠 WHY — HCL says WHAT the world should look like; the graph derives creation order and providers translate intent into calls. Nothing executes faster, stateless, or plan-less.\n❌ A — speed is not a semantic property\n❌ C — state is what makes declaration work\n❌ D — planning is the derivation step itself\n🎓 EXAM — Declarative = describe the destination, let the machine route.",
+    "url": "books/exam-center.html#Q-D2-06"
+  },
+  {
+    "id": "Q-D2-07",
+    "qNum": "Q-D2-07",
+    "domain": "Domain 2: Terraform Purpose",
+    "qText": "A provider for your in-house platform with a REST API. What do you know?",
+    "options": [
+      {
+        "label": "A",
+        "text": "Impossible — only HashiCorp writes providers"
+      },
+      {
+        "label": "B",
+        "text": "Requires forking Terraform"
+      },
+      {
+        "label": "C",
+        "text": "Possible — providers are plugins; anyone can write one"
+      },
+      {
+        "label": "D",
+        "text": "Only via Sentinel"
+      }
+    ],
+    "answer": "C",
+    "explanation": "Anyone can write a provider — plugins over RPC.\n🧠 WHY — Providers are separate processes behind a defined interface; HashiCorp owns some, the community and vendors own hundreds more, and your team can own one for internal APIs.\n❌ A — the registry alone disproves exclusivity\n❌ B — no fork needed — that is what the plugin boundary is for\n❌ D — Sentinel governs policy, not APIs\n🎓 EXAM — In-house API + \"can we manage it\" → yes, custom provider.",
+    "url": "books/exam-center.html#Q-D2-07"
+  },
+  {
+    "id": "Q-D2-08",
+    "qNum": "Q-D2-08",
+    "domain": "Domain 2: Terraform Purpose",
+    "qText": "\"AWS-only shop, deepest AWS integration wanted.\" You recommend…",
+    "options": [
+      {
+        "label": "A",
+        "text": "Terraform, for multi-cloud"
+      },
+      {
+        "label": "B",
+        "text": "Packer, for AMIs"
+      },
+      {
+        "label": "C",
+        "text": "Ansible, for agents"
+      },
+      {
+        "label": "D",
+        "text": "CloudFormation, for native depth"
+      }
+    ],
+    "answer": "D",
+    "explanation": "Deepest AWS-native integration = CloudFormation.\n🧠 WHY — Single-cloud depth is CloudFormation's entire value proposition: free, native, StackSets, auto-rollback — at the price of every other cloud. The stem asked for depth, not breadth.\n❌ A — multi-cloud is the opposite of the ask\n❌ B — AMIs don't integrate CloudFormation deeper\n❌ C — agents solve configuration, not nativeness\n🎓 EXAM — Ask what the stem prices: depth → CFN, breadth → Terraform, fleet config → Ansible.",
+    "url": "books/exam-center.html#Q-D2-08"
+  },
+  {
+    "id": "Q-D3-01",
+    "qNum": "Q-D3-01",
+    "domain": "Domain 3: Terraform Basics",
+    "qText": "Fresh laptop, first day. Which command sequence installs plugins for a new clone?",
+    "options": [
+      {
+        "label": "A",
+        "text": "terraform init"
+      },
+      {
+        "label": "B",
+        "text": "terraform plan"
+      },
+      {
+        "label": "C",
+        "text": "terraform console"
+      },
+      {
+        "label": "D",
+        "text": "terraform fmt"
+      }
+    ],
+    "answer": "A",
+    "explanation": "New clone needs terraform init first.\n🧠 WHY — No plugins, no modules, no backend — nothing works until init downloads and wires them. Plan, console, and fmt all assume init already ran.\n❌ B — plan needs providers to refresh anything\n❌ C — console evaluates against installed providers\n❌ D — fmt works but proves nothing about readiness\n🎓 EXAM — Empty dir + \"first\" → init. Always.",
+    "url": "books/exam-center.html#Q-D3-01"
+  },
+  {
+    "id": "Q-D3-02",
+    "qNum": "Q-D3-02",
+    "domain": "Domain 3: Terraform Basics",
+    "qText": "Where do downloaded provider binaries live, and do they belong in git?",
+    "options": [
+      {
+        "label": "A",
+        "text": ".terraform/ — committed"
+      },
+      {
+        "label": "B",
+        "text": ".terraform/ — ignored"
+      },
+      {
+        "label": "C",
+        "text": "terraform.tfstate — ignored"
+      },
+      {
+        "label": "D",
+        "text": "/usr/bin — committed"
+      }
+    ],
+    "answer": "B",
+    "explanation": ".terraform/ holds binaries and is ignored.\n🧠 WHY — Downloaded plugins are re-fetchable weight: identical bytes return on every init via the lock file. Committing them bloats the repo for zero reproducibility gain.\n❌ A — committed binaries are megabytes of regret\n❌ C — state is a different file with different rules\n❌ D — /usr/bin is outside the project entirely\n🎓 EXAM — Binaries ignored, lock committed — the split never inverts.",
+    "url": "books/exam-center.html#Q-D3-02"
+  },
+  {
+    "id": "Q-D3-03",
+    "qNum": "Q-D3-03",
+    "domain": "Domain 3: Terraform Basics",
+    "qText": "Values set in defaults, TF_VAR_env, terraform.tfvars, and -var. Which wins?",
+    "options": [
+      {
+        "label": "A",
+        "text": "defaults"
+      },
+      {
+        "label": "B",
+        "text": "TF_VAR_env"
+      },
+      {
+        "label": "C",
+        "text": "-var"
+      },
+      {
+        "label": "D",
+        "text": "terraform.tfvars"
+      }
+    ],
+    "answer": "C",
+    "explanation": "-var wins over everything below it.\n🧠 WHY — The ladder resolves top-down at plan time: CLI flags outrank every file, files outrank env vars, everything outranks defaults. The stray flag is always the prime suspect.\n❌ A — defaults lose to literally everything\n❌ B — env vars sit BELOW files, not above\n❌ D — terraform.tfvars loses to auto overlays and CLI\n🎓 EXAM — Value surprise? Strip layers top-down: -var, files, env, default.",
+    "url": "books/exam-center.html#Q-D3-03"
+  },
+  {
+    "id": "Q-D3-04",
+    "qNum": "Q-D3-04",
+    "domain": "Domain 3: Terraform Basics",
+    "qText": "terraform workspace show prints…",
+    "options": [
+      {
+        "label": "A",
+        "text": "the AWS region"
+      },
+      {
+        "label": "B",
+        "text": "all workspaces with resources"
+      },
+      {
+        "label": "C",
+        "text": "the backend bucket"
+      },
+      {
+        "label": "D",
+        "text": "the active workspace name only"
+      }
+    ],
+    "answer": "D",
+    "explanation": "workspace show prints only the active name.\n🧠 WHY — One word, no metadata — it answers \"where am I\", not \"what exists\". Resource lists come from state list; backends from config.\n❌ A — regions live in provider blocks\n❌ B — list shows names; show shows ONE name\n❌ C — buckets live in backend blocks\n🎓 EXAM — show = where am I. list = what exists. Never confuse them.",
+    "url": "books/exam-center.html#Q-D3-04"
+  },
+  {
+    "id": "Q-D3-05",
+    "qNum": "Q-D3-05",
+    "domain": "Domain 3: Terraform Basics",
+    "qText": "Which workspace CANNOT be deleted?",
+    "options": [
+      {
+        "label": "A",
+        "text": "default"
+      },
+      {
+        "label": "B",
+        "text": "staging"
+      },
+      {
+        "label": "C",
+        "text": "dev"
+      },
+      {
+        "label": "D",
+        "text": "prod"
+      }
+    ],
+    "answer": "A",
+    "explanation": "default survives every delete attempt — it is implicit and permanent.\n🧠 WHY — Every backend has a default workspace whether you asked for one or not; deleting it would strand unscoped state. Migrate away from it, never remove it.\n❌ B/C/D — named workspaces delete freely once empty — only default is special\n🎓 EXAM — Delete-default questions answer themselves: the implicit one is immortal.",
+    "url": "books/exam-center.html#Q-D3-05"
+  },
+  {
+    "id": "Q-D3-06",
+    "qNum": "Q-D3-06",
+    "domain": "Domain 3: Terraform Basics",
+    "qText": "In code, terraform.workspace gives you…",
+    "options": [
+      {
+        "label": "A",
+        "text": "the backend address"
+      },
+      {
+        "label": "B",
+        "text": "the active workspace name for lookups"
+      },
+      {
+        "label": "C",
+        "text": "a list of resources"
+      },
+      {
+        "label": "D",
+        "text": "the provider version"
+      }
+    ],
+    "answer": "B",
+    "explanation": "terraform.workspace returns the active name for lookups.\n🧠 WHY — It is a read-only string, most often the key into per-env maps for sizing, CIDRs, and tags. It never lists, versions, or addresses anything.\n❌ A — backends come from blocks, not expressions\n❌ C — resources come from state list\n❌ D — versions come from the lock file\n🎓 EXAM — workspace in code = a string key. Nothing more, exactly enough.",
+    "url": "books/exam-center.html#Q-D3-06"
+  },
+  {
+    "id": "Q-D3-07",
+    "qNum": "Q-D3-07",
+    "domain": "Domain 3: Terraform Basics",
+    "qText": "terraform validate does what?",
+    "options": [
+      {
+        "label": "A",
+        "text": "Refreshes state"
+      },
+      {
+        "label": "B",
+        "text": "Deploys to a sandbox"
+      },
+      {
+        "label": "C",
+        "text": "Checks syntax + consistency without touching the cloud"
+      },
+      {
+        "label": "D",
+        "text": "Formats files"
+      }
+    ],
+    "answer": "C",
+    "explanation": "validate checks syntax and consistency with zero cloud contact.\n🧠 WHY — It parses configuration, resolves references, and type-checks — all locally. Anything requiring AWS (refresh, plan diffs, costs) is outside its universe.\n❌ A — refresh needs credentials and APIs\n❌ B — sandboxes don't exist in Terraform\n❌ D — formatting is fmt's job\n🎓 EXAM — Validate = syntax gate. No credentials, no network, no excuses for skipping it.",
+    "url": "books/exam-center.html#Q-D3-07"
+  },
+  {
+    "id": "Q-D3-08",
+    "qNum": "Q-D3-08",
+    "domain": "Domain 3: Terraform Basics",
+    "qText": "Two teams need different instance sizes from one config. The primitive is…",
+    "options": [
+      {
+        "label": "A",
+        "text": "a second repository"
+      },
+      {
+        "label": "B",
+        "text": "console edits"
+      },
+      {
+        "label": "C",
+        "text": "hardcoded locals"
+      },
+      {
+        "label": "D",
+        "text": "variables with per-team values"
+      }
+    ],
+    "answer": "D",
+    "explanation": "Per-team sizes come from variables, not copies.\n🧠 WHY — One variable with per-team values (or per-workspace maps) keeps a single codebase honest. Second repos, console edits, and hardcoded locals all fork the truth.\n❌ A — repos multiply drift\n❌ B — console edits evaporate at next apply\n❌ C — hardcoded locals can't vary per caller\n🎓 EXAM — Vary by input, never by copy. That sentence ends whole interview threads.",
+    "url": "books/exam-center.html#Q-D3-08"
+  },
+  {
+    "id": "Q-D3-09",
+    "qNum": "Q-D3-09",
+    "domain": "Domain 3: Terraform Basics",
+    "qText": "A provider release 6.0.0 must never install; 5.x bug-fixes may. Correct constraint?",
+    "options": [
+      {
+        "label": "A",
+        "text": "version = \"~> 5.0\""
+      },
+      {
+        "label": "B",
+        "text": "version = \">= 5.0\""
+      },
+      {
+        "label": "C",
+        "text": "version = \"= 5.31.0\""
+      },
+      {
+        "label": "D",
+        "text": "no version key"
+      }
+    ],
+    "answer": "A",
+    "explanation": "~> 5.0 means 5.x automatically, 6.0 never.\n🧠 WHY — Pessimistic pinning takes compatible fixes and refuses breaking majors: automation without 3 AM surprises. Bare >= invites the major; exact pins toil on every patch.\n❌ B — uncapped ranges install breaking majors silently\n❌ C — exact pins freeze bug-fixes too\n❌ D — no key floats every release\n🎓 EXAM — ~> is the house default. Quote it by expansion: minor-flex, major-freeze.",
+    "url": "books/exam-center.html#Q-D3-09"
+  },
+  {
+    "id": "Q-D4-01",
+    "qNum": "Q-D4-01",
+    "domain": "Domain 4: Using Providers",
+    "qText": "CI must fail on unformatted HCL without rewriting. Command?",
+    "options": [
+      {
+        "label": "A",
+        "text": "terraform fmt -check"
+      },
+      {
+        "label": "B",
+        "text": "terraform fmt"
+      },
+      {
+        "label": "C",
+        "text": "terraform validate"
+      },
+      {
+        "label": "D",
+        "text": "terraform plan"
+      }
+    ],
+    "answer": "A",
+    "explanation": "terraform fmt -check fails the build on unformatted HCL.\n🧠 WHY — Exit 1 on any unformatted file, zero writes — the perfect CI gate. Bare fmt rewrites (for laptops), validate checks syntax (different job), plan previews infra (different universe).\n❌ B — rewrites locally — gates must not mutate\n❌ C — syntax gate, not style gate\n❌ D — previews infrastructure, says nothing about style\n🎓 EXAM — Gate = -check. Fix = bare fmt. Different verbs, different jobs.",
+    "url": "books/exam-center.html#Q-D4-01"
+  },
+  {
+    "id": "Q-D4-02",
+    "qNum": "Q-D4-02",
+    "domain": "Domain 4: Using Providers",
+    "qText": "Where does terraform login store the token?",
+    "options": [
+      {
+        "label": "A",
+        "text": "credentials.tfrc.json"
+      },
+      {
+        "label": "B",
+        "text": "terraform.tfstate"
+      },
+      {
+        "label": "C",
+        "text": ".terraform.lock.hcl"
+      },
+      {
+        "label": "D",
+        "text": "An environment variable"
+      }
+    ],
+    "answer": "A",
+    "explanation": "Provider tokens live in credentials.tfrc.json.\n🧠 WHY — TFC/TFE API tokens are CLI credentials, not configuration: a home-directory JSON block completely outside the repo. Any repo file (tf, tfstate, lock) would leak secrets to every reader.\n❌ B — tfstate holds secrets it shouldn't — never ADD more\n❌ C — lock holds hashes, not tokens\n❌ D — env vars are the ALTERNATE path, not this file\n🎓 EXAM — Token + CLI + file → credentials.tfrc.json. Token + CLI + shell → env vars.",
+    "url": "books/exam-center.html#Q-D4-02"
+  },
+  {
+    "id": "Q-D4-03",
+    "qNum": "Q-D4-03",
+    "domain": "Domain 4: Using Providers",
+    "qText": "Which file tells you the EXACT provider builds in use?",
+    "options": [
+      {
+        "label": "A",
+        "text": "output.tf"
+      },
+      {
+        "label": "B",
+        "text": "versions.tf"
+      },
+      {
+        "label": "C",
+        "text": "terraform.tfstate"
+      },
+      {
+        "label": "D",
+        "text": ".terraform.lock.hcl"
+      }
+    ],
+    "answer": "D",
+    "explanation": ".terraform.lock.hcl pins EXACT builds for reproducibility.\n🧠 WHY — Hashes per platform mean every engineer and CI downloads byte-identical binaries. versions.tf declares ranges; the lock freezes them.\n❌ A — ranges declare INTENT, the lock freezes REALITY\n❌ B — tfstate versions infra, not plugins\n❌ C — outputs export values, pin nothing\n🎓 EXAM — Intent (versions.tf) vs frozen reality (lock). The exam lives in that gap.",
+    "url": "books/exam-center.html#Q-D4-03"
+  },
+  {
+    "id": "Q-D4-04",
+    "qNum": "Q-D4-04",
+    "domain": "Domain 4: Using Providers",
+    "qText": "Test a format() expression without applying. Command?",
+    "options": [
+      {
+        "label": "A",
+        "text": "terraform apply -target=null"
+      },
+      {
+        "label": "B",
+        "text": "echo expression | terraform console"
+      },
+      {
+        "label": "C",
+        "text": "terraform refresh"
+      },
+      {
+        "label": "D",
+        "text": "terraform show"
+      }
+    ],
+    "answer": "B",
+    "explanation": "echo expression | terraform console tests values without files.\n🧠 WHY — Console reads stdin, so piped expressions evaluate with zero project context. Writing a .tf for a one-line check is pure toil.\n❌ A — -target runs real changes — absurd for a syntax check\n❌ C — refresh mutates state — opposite of safe\n❌ D — show reads state — your expression isn't there\n🎓 EXAM — One-line check = pipe to console. If you touch a file, you overpaid.",
+    "url": "books/exam-center.html#Q-D4-04"
+  },
+  {
+    "id": "Q-D4-05",
+    "qNum": "Q-D4-05",
+    "domain": "Domain 4: Using Providers",
+    "qText": "Noisiest log level for a provider bug report?",
+    "options": [
+      {
+        "label": "A",
+        "text": "WARN"
+      },
+      {
+        "label": "B",
+        "text": "OFF"
+      },
+      {
+        "label": "C",
+        "text": "INFO"
+      },
+      {
+        "label": "D",
+        "text": "TRACE"
+      }
+    ],
+    "answer": "D",
+    "explanation": "TRACE drowns the log; re-run minimal first.\n🧠 WHY — Full TRACE of a big apply is thousands of lines of noise. Minimum reproduction (single resource, lower verbosity) isolates signal before you spend log-reading hours.\n❌ A — downgrading past the bug hides the evidence\n❌ B — secrets in logs are a DIFFERENT emergency\n❌ C — providers log through the same channel — same noise\n🎓 EXAM — Big log + weird bug → shrink the blast radius of the reproduction first.",
+    "url": "books/exam-center.html#Q-D4-05"
+  },
+  {
+    "id": "Q-D4-06",
+    "qNum": "Q-D4-06",
+    "domain": "Domain 4: Using Providers",
+    "qText": "Format-on-save in the editor plus what CI gate?",
+    "options": [
+      {
+        "label": "A",
+        "text": "terraform apply"
+      },
+      {
+        "label": "B",
+        "text": "terraform fmt -check"
+      },
+      {
+        "label": "C",
+        "text": "terraform init"
+      },
+      {
+        "label": "D",
+        "text": "terraform destroy"
+      }
+    ],
+    "answer": "B",
+    "explanation": "Format-on-save plus CI -check covers every angle.\n🧠 WHY — Prevention at the keyboard, enforcement at the gate: no human discipline required. Either half alone leaks eventually.\n❌ A — save-only leaks via web editors and scripts\n❌ C — validate checks syntax, not style\n❌ D — pre-commit is a THIRD layer, not the pair\n🎓 EXAM — Prevention + enforcement: name both halves or the answer is half.",
+    "url": "books/exam-center.html#Q-D4-06"
+  },
+  {
+    "id": "Q-D4-07",
+    "qNum": "Q-D4-07",
+    "domain": "Domain 4: Using Providers",
+    "qText": "AWS credentials for Terraform in CI come from…",
+    "options": [
+      {
+        "label": "A",
+        "text": "hardcoded provider blocks"
+      },
+      {
+        "label": "B",
+        "text": "terraform.tfstate"
+      },
+      {
+        "label": "C",
+        "text": "env vars / OIDC role (never committed)"
+      },
+      {
+        "label": "D",
+        "text": "the lock file"
+      }
+    ],
+    "answer": "C",
+    "explanation": "Keys leave the repo after one scare: env vars and OIDC.\n🧠 WHY — Secrets flow through the environment, never through git history. Vaults are the enterprise answer; the repo is never any answer.\n❌ A — hardcoded keys are the incident, not the fix\n❌ B — tfstate LEAKS secrets — it never stores them safely\n❌ D — lock holds hashes — wrong file, wrong job\n🎓 EXAM — Keys + repo = the incident. Keys + env/OIDC = the fix.",
+    "url": "books/exam-center.html#Q-D4-07"
+  },
+  {
+    "id": "Q-D4-08",
+    "qNum": "Q-D4-08",
+    "domain": "Domain 4: Using Providers",
+    "qText": "Wrap terraform in Python for a pipeline. What must the wrapper preserve?",
+    "options": [
+      {
+        "label": "A",
+        "text": "The .terraform directory in git"
+      },
+      {
+        "label": "B",
+        "text": "Colored output only"
+      },
+      {
+        "label": "C",
+        "text": "Exit codes and plan-file flow"
+      },
+      {
+        "label": "D",
+        "text": "Interactive prompts"
+      }
+    ],
+    "answer": "C",
+    "explanation": "Wrappers must preserve exit codes and plan-file flow.\n🧠 WHY — Automation decides (gate, notify, apply) by exit status and saved-plan artifacts. Colors, prompts, and committed .terraform dirs are interactive comforts that pipelines must shed, not keep.\n❌ A — committing binaries into automation images is bloat\n❌ B — color is the first thing pipes strip\n❌ D — prompts hang headless runners forever\n🎓 EXAM — Pipeline questions: machine-readable out (codes, files), machine-hostile in (prompts, color).",
+    "url": "books/exam-center.html#Q-D4-08"
+  },
+  {
+    "id": "Q-D5-01",
+    "qNum": "Q-D5-01",
+    "domain": "Domain 5: Terraform State",
+    "qText": "A registry module must stay on 5.x. Correct source block?",
+    "options": [
+      {
+        "label": "A",
+        "text": "local path with version key"
+      },
+      {
+        "label": "B",
+        "text": "source only"
+      },
+      {
+        "label": "C",
+        "text": "git URL with branch main"
+      },
+      {
+        "label": "D",
+        "text": "source + version = \"5.1.0\""
+      }
+    ],
+    "answer": "D",
+    "explanation": "Third-party module needs source AND version.\n🧠 WHY — Source says WHERE, version says WHICH — pinning without a source is a wish, sourcing without a pin is a gamble. Local paths take no version key because there is no registry to resolve.\n❌ A — local paths accept no version argument\n❌ B — source alone floats every release\n❌ C — git refs pin commits, not registry versions\n🎓 EXAM — Registry module = two keys or it is wrong. Count the keys in each option.",
+    "url": "books/exam-center.html#Q-D5-01"
+  },
+  {
+    "id": "Q-D5-02",
+    "qNum": "Q-D5-02",
+    "domain": "Domain 5: Terraform State",
+    "qText": "Valid module sources include…",
+    "options": [
+      {
+        "label": "A",
+        "text": "only the public registry"
+      },
+      {
+        "label": "B",
+        "text": "local path, registry, git, HTTP/S3 URLs"
+      },
+      {
+        "label": "C",
+        "text": "only local paths"
+      },
+      {
+        "label": "D",
+        "text": "Docker Hub"
+      }
+    ],
+    "answer": "B",
+    "explanation": "VPC module wiring is source, inputs, outputs.\n🧠 WHY — The contract is three parts: where the code lives, what you feed it, what it hands back. A fourth invented part (credentials inside, state inside) always marks the distractor.\n❌ A — extra invented fourth elements expose distractors\n❌ C — missing any of the three breaks the contract\n❌ D — provider config flows DOWN, never as module input\n🎓 EXAM — Three-part contract: source, in, out. Options with two or four parts die first.",
+    "url": "books/exam-center.html#Q-D5-02"
+  },
+  {
+    "id": "Q-D5-03",
+    "qNum": "Q-D5-03",
+    "domain": "Domain 5: Terraform State",
+    "qText": "Where do installed modules land after init?",
+    "options": [
+      {
+        "label": "A",
+        "text": "The registry cache in /tmp"
+      },
+      {
+        "label": "B",
+        "text": "terraform.tfstate"
+      },
+      {
+        "label": "C",
+        "text": ".terraform/modules"
+      },
+      {
+        "label": "D",
+        "text": "Inside main.tf"
+      }
+    ],
+    "answer": "C",
+    "explanation": "Init collision comes from .terraform/modules, never the registry.\n🧠 WHY — Installed modules cache locally; two copies of one source collide in that directory. The registry is remote and read-only — it cannot collide with anything.\n❌ A — the registry serves; it never installs twice\n❌ B — state tracks infra, not module code\n❌ D — the lock pins providers, not modules\n🎓 EXAM — Collision = two local things, one local path. Remote services are never the answer.",
+    "url": "books/exam-center.html#Q-D5-03"
+  },
+  {
+    "id": "Q-D5-04",
+    "qNum": "Q-D5-04",
+    "domain": "Domain 5: Terraform State",
+    "qText": "Root vs child module: which is true?",
+    "options": [
+      {
+        "label": "A",
+        "text": "Outputs flow downward only"
+      },
+      {
+        "label": "B",
+        "text": "Children call the root"
+      },
+      {
+        "label": "C",
+        "text": "Root calls children; children expose outputs the root consumes"
+      },
+      {
+        "label": "D",
+        "text": "There is no root module"
+      }
+    ],
+    "answer": "C",
+    "explanation": "Root calls children; children never call root.\n🧠 WHY — Composition flows one way: the root wires child modules together via their outputs. A child reaching upward would tangle every reuse — the exam tests this directionality relentlessly.\n❌ A — upward calls would make reuse impossible\n❌ B — siblings communicate only through the root\n❌ D — state files mirror the same hierarchy\n🎓 EXAM — Draw the arrow: root → child. Any option reversing it is wrong.",
+    "url": "books/exam-center.html#Q-D5-04"
+  },
+  {
+    "id": "Q-D5-05",
+    "qNum": "Q-D5-05",
+    "domain": "Domain 5: Terraform State",
+    "qText": "A module block is missing version on a registry source. Risk?",
+    "options": [
+      {
+        "label": "A",
+        "text": "Floating majors can break future runs"
+      },
+      {
+        "label": "B",
+        "text": "None — registry pins automatically"
+      },
+      {
+        "label": "C",
+        "text": "Init fails immediately"
+      },
+      {
+        "label": "D",
+        "text": "State is deleted"
+      }
+    ],
+    "answer": "A",
+    "explanation": "Init installs; apply only runs installed code.\n🧠 WHY — Module installation is init's job (download, unpack, record). Apply assumes everything is already on disk — new module code without init is invisible to it.\n❌ B — plan reads code; it never fetches it\n❌ C — validate parses local files only\n❌ D — refresh touches state, not module sources\n🎓 EXAM — New module + weird behavior → \"did you init?\" ends the thread.",
+    "url": "books/exam-center.html#Q-D5-05"
+  },
+  {
+    "id": "Q-D5-06",
+    "qNum": "Q-D5-06",
+    "domain": "Domain 5: Terraform State",
+    "qText": "Private registry vs public registry: the difference is…",
+    "options": [
+      {
+        "label": "A",
+        "text": "Language — private uses YAML"
+      },
+      {
+        "label": "B",
+        "text": "Cost — private is always paid"
+      },
+      {
+        "label": "C",
+        "text": "Speed — private skips init"
+      },
+      {
+        "label": "D",
+        "text": "Access scope — private hosts your org blessed modules"
+      }
+    ],
+    "answer": "D",
+    "explanation": "Module inputs arrive through variables; outputs leave through outputs.\n🧠 WHY — Access scope is the whole game: only declared outputs cross the module boundary. Functions compute, locals stay private, state files are never an interface.\n❌ A — functions transform — they transport nothing\n❌ B — locals are module-private by design\n❌ C — remote state reads STACKS, not modules\n🎓 EXAM — Boundary questions: variables in, outputs out. Everything else stays inside.",
+    "url": "books/exam-center.html#Q-D5-06"
+  },
+  {
+    "id": "Q-D5-07",
+    "qNum": "Q-D5-07",
+    "domain": "Domain 5: Terraform State",
+    "qText": "Provider blocks inside child modules: best practice?",
+    "options": [
+      {
+        "label": "A",
+        "text": "Only for AWS"
+      },
+      {
+        "label": "B",
+        "text": "Avoid — inherit from root"
+      },
+      {
+        "label": "C",
+        "text": "Required in every child"
+      },
+      {
+        "label": "D",
+        "text": "Mandatory for pinning"
+      }
+    ],
+    "answer": "B",
+    "explanation": "Chef-managed hosts are not module backends.\n🧠 WHY — Module sources are code locations (local, registry, git, HTTP, S3) — not configuration-management tools. Chef manages machines; it hosts no Terraform code.\n❌ A — S3 URLs serve modules fine\n❌ C — git is the canonical private source\n❌ D — the registry is the default source\n🎓 EXAM — Source = where CODE lives. Tools that manage MACHINES never qualify.",
+    "url": "books/exam-center.html#Q-D5-07"
+  },
+  {
+    "id": "Q-D5-08",
+    "qNum": "Q-D5-08",
+    "domain": "Domain 5: Terraform State",
+    "qText": "How does a stack consume module.vpc.private_subnets[0]?",
+    "options": [
+      {
+        "label": "A",
+        "text": "As a normal reference — outputs are values like any other"
+      },
+      {
+        "label": "B",
+        "text": "It cannot — outputs are display-only"
+      },
+      {
+        "label": "C",
+        "text": "Only in the console"
+      },
+      {
+        "label": "D",
+        "text": "Only via remote state"
+      }
+    ],
+    "answer": "A",
+    "explanation": "Child values surface as normal references.\n🧠 WHY — module.vpc.vpc_id behaves like any other value once outputs are declared — no special syntax, no data source needed. The boundary is crossed at declaration time, not at use time.\n❌ B — data sources read PROVIDERS, not child modules\n❌ C — remote state reads STACKS, not modules\n❌ D — re-declaring duplicates the boundary\n🎓 EXAM — If the output is declared, use it like any value. No ceremony.",
+    "url": "books/exam-center.html#Q-D5-08"
+  },
+  {
+    "id": "Q-D6-01",
+    "qNum": "Q-D6-01",
+    "domain": "Domain 6: Core CLI Workflow",
+    "qText": "The core workflow in order is…",
+    "options": [
+      {
+        "label": "A",
+        "text": "apply → plan → init → write"
+      },
+      {
+        "label": "B",
+        "text": "init → write → apply → plan"
+      },
+      {
+        "label": "C",
+        "text": "plan → write → init → apply"
+      },
+      {
+        "label": "D",
+        "text": "write → init → plan → apply"
+      }
+    ],
+    "answer": "D",
+    "explanation": "Write comes before init in the canonical workflow.\n🧠 WHY — Nothing initializes without files to initialize: write → init → plan → apply. Any option starting elsewhere describes a loop, not the lifecycle.\n❌ A — plan needs initialized providers\n❌ B — apply needs a plan or code\n❌ C — init needs SOMETHING to install for\n🎓 EXAM — First word of the workflow is write. Stems asking \"before init\" answer themselves.",
+    "url": "books/exam-center.html#Q-D6-01"
+  },
+  {
+    "id": "Q-D6-02",
+    "qNum": "Q-D6-02",
+    "domain": "Domain 6: Core CLI Workflow",
+    "qText": "\"Show drift, change nothing.\" Command?",
+    "options": [
+      {
+        "label": "A",
+        "text": "terraform refresh"
+      },
+      {
+        "label": "B",
+        "text": "terraform plan -refresh-only"
+      },
+      {
+        "label": "C",
+        "text": "terraform apply -auto-approve"
+      },
+      {
+        "label": "D",
+        "text": "terraform destroy"
+      }
+    ],
+    "answer": "B",
+    "explanation": "Empty plan with zero counts means clean success.\n🧠 WHY — No matching resources = no work = exit 0 with an empty diff. Missing providers, bad syntax, and dead backends all ERROR loudly instead.\n❌ A — credential failures error, never empty-plan\n❌ C — syntax failures halt before diffing\n❌ D — backend failures halt before refreshing\n🎓 EXAM — Empty diff + exit 0 = healthy no-op. Empty diff + error = broken. Read the exit code.",
+    "url": "books/exam-center.html#Q-D6-02"
+  },
+  {
+    "id": "Q-D6-03",
+    "qNum": "Q-D6-03",
+    "domain": "Domain 6: Core CLI Workflow",
+    "qText": "Why apply a saved plan file instead of bare apply?",
+    "options": [
+      {
+        "label": "A",
+        "text": "Faster downloads"
+      },
+      {
+        "label": "B",
+        "text": "Skips init"
+      },
+      {
+        "label": "C",
+        "text": "Executes exactly the reviewed plan, no drift"
+      },
+      {
+        "label": "D",
+        "text": "Avoids state"
+      }
+    ],
+    "answer": "C",
+    "explanation": "Preview-then-gate is the PR workflow.\n🧠 WHY — Plan on every pull request, human review, gated apply: infrastructure gets the same review discipline as application code. Auto-apply on merge skips the review that justifies the pipeline.\n❌ A — merge-gated apply skips human judgment\n❌ B — console edits bypass everything\n❌ D — apply-without-plan is the anti-pattern\n🎓 EXAM — PR + plan + gate: the three words of every workflow question.",
+    "url": "books/exam-center.html#Q-D6-03"
+  },
+  {
+    "id": "Q-D6-04",
+    "qNum": "Q-D6-04",
+    "domain": "Domain 6: Core CLI Workflow",
+    "qText": "-auto-approve in production by hand is…",
+    "options": [
+      {
+        "label": "A",
+        "text": "Best practice"
+      },
+      {
+        "label": "B",
+        "text": "Acceptable Fridays"
+      },
+      {
+        "label": "C",
+        "text": "Dangerous — pipelines with gates only"
+      },
+      {
+        "label": "D",
+        "text": "Required for plan"
+      }
+    ],
+    "answer": "C",
+    "explanation": "Aborting mid-apply leaves partial real resources.\n🧠 WHY — Terraform stops issuing new calls, but finished creates stand — the next plan reconciles them. \"All-or-nothing rollback\" is the fiction; the plan is the recovery tool.\n❌ A — completed API calls don't un-happen\n❌ B — state is written incrementally — it never waits\n❌ D — retries re-enter through a fresh plan, not a resume\n🎓 EXAM — Ctrl-C question? Answer: partial stands, next plan heals. Never promise rollback.",
+    "url": "books/exam-center.html#Q-D6-04"
+  },
+  {
+    "id": "Q-D6-05",
+    "qNum": "Q-D6-05",
+    "domain": "Domain 6: Core CLI Workflow",
+    "qText": "Apply is interrupted halfway (Ctrl+C). What is true?",
+    "options": [
+      {
+        "label": "A",
+        "text": "Created resources stay; state records them; next apply continues"
+      },
+      {
+        "label": "B",
+        "text": "Everything rolls back automatically"
+      },
+      {
+        "label": "C",
+        "text": "State is deleted"
+      },
+      {
+        "label": "D",
+        "text": "The backend is destroyed"
+      }
+    ],
+    "answer": "A",
+    "explanation": "Saved plans bind reviewed code to the apply.\n🧠 WHY — apply plan.out executes EXACTLY the reviewed diff — no drift window, no re-evaluation. Re-planning at apply time re-opens the gap the saved plan closed.\n❌ B — re-planning re-opens the drift window\n❌ C — auto-approve skips the review, not the binding\n❌ D — console edits bypass the pipeline entirely\n🎓 EXAM — Reviewed plan + saved file = what you saw is what runs.",
+    "url": "books/exam-center.html#Q-D6-05"
+  },
+  {
+    "id": "Q-D6-06",
+    "qNum": "Q-D6-06",
+    "domain": "Domain 6: Core CLI Workflow",
+    "qText": "terraform plan -destroy -out=kill.plan does what?",
+    "options": [
+      {
+        "label": "A",
+        "text": "Saves a teardown preview for later apply"
+      },
+      {
+        "label": "B",
+        "text": "Destroys immediately"
+      },
+      {
+        "label": "C",
+        "text": "Deletes the state"
+      },
+      {
+        "label": "D",
+        "text": "Removes the backend"
+      }
+    ],
+    "answer": "A",
+    "explanation": "destroy -out saves a teardown preview.\n🧠 WHY — The destroy plan serializes like any other: review the death list, then apply the file. -target limits scope (different job); auto-approve skips review (opposite job).\n❌ B — -target narrows; -out SERIALIZES\n❌ C — auto-approve is the anti-review\n❌ D — -refresh-only previews drift, not teardown\n🎓 EXAM — -out = serialize any plan, including destroy. One flag, every direction.",
+    "url": "books/exam-center.html#Q-D6-06"
+  },
+  {
+    "id": "Q-D6-07",
+    "qNum": "Q-D6-07",
+    "domain": "Domain 6: Core CLI Workflow",
+    "qText": "A module version bumped upstream. Where does the workflow feel it?",
+    "options": [
+      {
+        "label": "A",
+        "text": "init installs the new code; plan shows the resulting diff"
+      },
+      {
+        "label": "B",
+        "text": "Only in destroy"
+      },
+      {
+        "label": "C",
+        "text": "Nowhere — modules are static"
+      },
+      {
+        "label": "D",
+        "text": "State auto-upgrades"
+      }
+    ],
+    "answer": "A",
+    "explanation": "Registry version bumps install via init.\n🧠 WHY — New module code enters through init (fresh or -upgrade); apply never fetches. Editing the lock by hand fights the tool that owns it.\n❌ B — apply runs code; it never downloads it\n❌ C — the lock RECORDS installs, it doesn't perform them\n❌ D — hand-editing tool-owned files corrupts them\n🎓 EXAM — New code in → init. Every time, no exceptions.",
+    "url": "books/exam-center.html#Q-D6-07"
+  },
+  {
+    "id": "Q-D6-08",
+    "qNum": "Q-D6-08",
+    "domain": "Domain 6: Core CLI Workflow",
+    "qText": "Plan shows -/+ on a database. Before confirming you…",
+    "options": [
+      {
+        "label": "A",
+        "text": "Approve — replacements are routine"
+      },
+      {
+        "label": "B",
+        "text": "Edit state JSON by hand"
+      },
+      {
+        "label": "C",
+        "text": "Delete state and retry"
+      },
+      {
+        "label": "D",
+        "text": "Stop: replacement destroys data; snapshot/migrate first"
+      }
+    ],
+    "answer": "D",
+    "explanation": "The apply failed — resources may or may not exist.\n🧠 WHY — Exit 1 mid-apply guarantees nothing about the world: inspect state and reality, then let the next plan reconcile. \"All rolled back\" and \"all applied\" are both fictions.\n❌ A — no rollback exists to complete\n❌ B — partial creates stand until reconciled\n❌ C — the lock releases; the mess remains\n🎓 EXAM — Failed apply → inspect, never assume. The next plan is the recovery tool.",
+    "url": "books/exam-center.html#Q-D6-08"
+  },
+  {
+    "id": "Q-D6-09",
+    "qNum": "Q-D6-09",
+    "domain": "Domain 6: Core CLI Workflow",
+    "qText": "Which plan mode syncs state toward reality deliberately?",
+    "options": [
+      {
+        "label": "A",
+        "text": "Default plan"
+      },
+      {
+        "label": "B",
+        "text": "apply -refresh-only"
+      },
+      {
+        "label": "C",
+        "text": "plan -destroy"
+      },
+      {
+        "label": "D",
+        "text": "validate"
+      }
+    ],
+    "answer": "B",
+    "explanation": "apply -refresh-only syncs state toward reality deliberately.\n🧠 WHY — Explicit reconciliation mode: real-world truth flows into state with intent, unlike incidental refresh during plan. Default plans propose changes; destroy previews teardown; validate checks syntax.\n❌ A — default plans propose; they don't deliberately sync\n❌ C — destroy previews teardown, not truth\n❌ D — validate never touches state\n🎓 EXAM — Deliberate sync = refresh-only. Incidental refresh rides along.",
+    "url": "books/exam-center.html#Q-D6-09"
+  },
+  {
+    "id": "Q-D7-01",
+    "qNum": "Q-D7-01",
+    "domain": "Domain 7: Terraform Modules",
+    "qText": "State purposes include all EXCEPT…",
+    "options": [
+      {
+        "label": "A",
+        "text": "Compiling HCL to machine code"
+      },
+      {
+        "label": "B",
+        "text": "Storing metadata like IDs and ARNs"
+      },
+      {
+        "label": "C",
+        "text": "Mapping config to real objects"
+      },
+      {
+        "label": "D",
+        "text": "Speeding up plans via cache"
+      }
+    ],
+    "answer": "A",
+    "explanation": "State maps config to reality: the binding record.\n🧠 WHY — Plan and apply are both joins against this table — without it Terraform cannot tell managed from foreign, desired from actual. Logs, caches, and binaries do none of this.\n❌ B — logs narrate; they bind nothing\n❌ C — .terraform caches CODE, not bindings\n❌ D — binaries execute; they remember nothing\n🎓 EXAM — Mapping question → the JSON binding file. Every time.",
+    "url": "books/exam-center.html#Q-D7-01"
+  },
+  {
+    "id": "Q-D7-02",
+    "qNum": "Q-D7-02",
+    "domain": "Domain 7: Terraform Modules",
+    "qText": "A team of five shares one local state file. First fix?",
+    "options": [
+      {
+        "label": "A",
+        "text": "Email the file weekly"
+      },
+      {
+        "label": "B",
+        "text": "Move to a remote backend with locking"
+      },
+      {
+        "label": "C",
+        "text": "Delete state after each apply"
+      },
+      {
+        "label": "D",
+        "text": "Disable refresh"
+      }
+    ],
+    "answer": "B",
+    "explanation": "Drift = reality moved; plan detects, apply cures.\n🧠 WHY — Hands in the console (or outside automation) desync the triangle: config ≠ state ≠ real. Refresh surfaces it as a diff; apply re-asserts code as truth.\n❌ A — code edits are INTENT, not drift\n❌ C — lock failures block runs; they move nothing\n❌ D — version bumps change providers, not reality\n🎓 EXAM — Drift trilogy: console cause, plan detection, apply cure. Quote all three.",
+    "url": "books/exam-center.html#Q-D7-02"
+  },
+  {
+    "id": "Q-D7-03",
+    "qNum": "Q-D7-03",
+    "domain": "Domain 7: Terraform Modules",
+    "qText": "Sensitive values in state are…",
+    "options": [
+      {
+        "label": "A",
+        "text": "Encrypted by default"
+      },
+      {
+        "label": "B",
+        "text": "Hashed irreversibly"
+      },
+      {
+        "label": "C",
+        "text": "Plaintext — restrict bucket + IAM, use Vault/SSM"
+      },
+      {
+        "label": "D",
+        "text": "Never stored"
+      }
+    ],
+    "answer": "C",
+    "explanation": "Backend block lives INSIDE terraform {}.\n🧠 WHY —  Backend is a nested block of the terraform settings block — provider blocks configure APIs, variables take inputs, outputs export values. The exam loves this nesting.\n❌ A — providers talk to CLOUDS, not state\n❌ B — variables take inputs — any type\n❌ D — outputs export — they store nothing\n🎓 EXAM — State config nests in terraform {}. Say the nesting, not just the name.",
+    "url": "books/exam-center.html#Q-D7-03"
+  },
+  {
+    "id": "Q-D7-04",
+    "qNum": "Q-D7-04",
+    "domain": "Domain 7: Terraform Modules",
+    "qText": "Second apply starts while the first holds the lock. It…",
+    "options": [
+      {
+        "label": "A",
+        "text": "Proceeds in parallel"
+      },
+      {
+        "label": "B",
+        "text": "Merges both writes"
+      },
+      {
+        "label": "C",
+        "text": "Deletes the lock"
+      },
+      {
+        "label": "D",
+        "text": "Fails with a lock error naming holder and ID"
+      }
+    ],
+    "answer": "D",
+    "explanation": "S3 + DynamoDB: bucket holds state, table holds the lock.\n🧠 WHY — Two AWS services, two jobs: versioned encrypted storage plus conditional-write locking. Either half alone is half a backend.\n❌ A — local paths have no locking at all\n❌ B — git versions code — state needs a lock git lacks\n❌ C — the registry serves modules, not locks\n🎓 EXAM — Name BOTH halves and each half's job. Half answers get half credit.",
+    "url": "books/exam-center.html#Q-D7-04"
+  },
+  {
+    "id": "Q-D7-05",
+    "qNum": "Q-D7-05",
+    "domain": "Domain 7: Terraform Modules",
+    "qText": "Lock held by a dead CI runner. Correct recovery?",
+    "options": [
+      {
+        "label": "A",
+        "text": "Re-run apply with -auto-approve until it passes"
+      },
+      {
+        "label": "B",
+        "text": "Delete the DynamoDB row by hand"
+      },
+      {
+        "label": "C",
+        "text": "Destroy and recreate the bucket"
+      },
+      {
+        "label": "D",
+        "text": "Confirm death, then force-unlock by ID, then prove health"
+      }
+    ],
+    "answer": "D",
+    "explanation": "Crashed holder? Confirm death, then force-unlock.\n🧠 WHY — Locks are protective, not punitive: verify no live process holds it (stale crash), then release by ID. Deleting tables or restoring backups for a lock is surgery for a splinter.\n❌ A — deleting the table destroys the locking for EVERYONE\n❌ B — backups restore STATE — the lock isn't state\n❌ C — waiting on a dead process waits forever\n🎓 EXAM — Lock drill: confirm dead → force-unlock by ID. Two steps, in order.",
+    "url": "books/exam-center.html#Q-D7-05"
+  },
+  {
+    "id": "Q-D7-06",
+    "qNum": "Q-D7-06",
+    "domain": "Domain 7: Terraform Modules",
+    "qText": "terraform state rm aws_instance.old does what?",
+    "options": [
+      {
+        "label": "A",
+        "text": "Stops managing it; the instance keeps running"
+      },
+      {
+        "label": "B",
+        "text": "Destroys the EC2"
+      },
+      {
+        "label": "C",
+        "text": "Renames it"
+      },
+      {
+        "label": "D",
+        "text": "Snapshots it first"
+      }
+    ],
+    "answer": "A",
+    "explanation": "state rm stops tracking; the resource stands.\n🧠 WHY — Surgery on the binding, not the world: Terraform forgets, the cloud keeps billing. Destroy first when you mean destroy; rm when you mean abandon-to-other-management.\n❌ B — nothing is deleted — that's the danger AND the feature\n❌ C — rm edits STATE, never configuration\n❌ D — providers are untouched by state surgery\n🎓 EXAM — rm = forget, not destroy. The cloud keeps the resource AND the bill.",
+    "url": "books/exam-center.html#Q-D7-06"
+  },
+  {
+    "id": "Q-D7-07",
+    "qNum": "Q-D7-07",
+    "domain": "Domain 7: Terraform Modules",
+    "qText": "Rename web → app with zero rebuild. Command?",
+    "options": [
+      {
+        "label": "A",
+        "text": "terraform state mv aws_instance.web aws_instance.app"
+      },
+      {
+        "label": "B",
+        "text": "Edit state JSON in an editor"
+      },
+      {
+        "label": "C",
+        "text": "terraform destroy -target, then apply"
+      },
+      {
+        "label": "D",
+        "text": "terraform taint and apply"
+      }
+    ],
+    "answer": "A",
+    "explanation": "Rename without rebirth = terraform state mv.\n🧠 WHY — The binding moves, the resource never notices: new address, same cloud object, empty plan. Taint/replace destroys; rm abandons; mv renames.\n❌ B — taint schedules DESTRUCTION — opposite of the ask\n❌ C — rm forgets; the new address would RECREATE\n❌ D — apply without mv plans a delete+create pair\n🎓 EXAM — Rename = mv. Destroy = taint. Forget = rm. Three verbs, three fates.",
+    "url": "books/exam-center.html#Q-D7-07"
+  },
+  {
+    "id": "Q-D7-08",
+    "qNum": "Q-D7-08",
+    "domain": "Domain 7: Terraform Modules",
+    "qText": "Adopt a hand-built VPC vpc-0ab1. First step?",
+    "options": [
+      {
+        "label": "A",
+        "text": "terraform import immediately"
+      },
+      {
+        "label": "B",
+        "text": "Copy the state file"
+      },
+      {
+        "label": "C",
+        "text": "Delete it and let apply recreate"
+      },
+      {
+        "label": "D",
+        "text": "Write the matching resource block, then import, then plan clean"
+      }
+    ],
+    "answer": "D",
+    "explanation": "Lock fights mean a second writer — coordinate, don't force.\n🧠 WHY — Concurrent applies on one state need human sequencing, not lock-breaking: force-unlock under a live apply corrupts state for both runners.\n❌ A — force under a LIVE holder corrupts — the cardinal sin\n❌ B — retries collide again without coordination\n❌ C — the table is healthy; the PROCESS is the conflict\n🎓 EXAM — Live lock + force = corruption. Wait, queue, serialize. Force is for the DEAD only.",
+    "url": "books/exam-center.html#Q-D7-08"
+  },
+  {
+    "id": "Q-D7-09",
+    "qNum": "Q-D7-09",
+    "domain": "Domain 7: Terraform Modules",
+    "qText": "State file deleted, then apply. Result?",
+    "options": [
+      {
+        "label": "A",
+        "text": "Clean no-op"
+      },
+      {
+        "label": "B",
+        "text": "Duplicate resources — Terraform forgot everything"
+      },
+      {
+        "label": "C",
+        "text": "Automatic restore from backend"
+      },
+      {
+        "label": "D",
+        "text": "Plan-only mode forever"
+      }
+    ],
+    "answer": "B",
+    "explanation": "Two states, one name: duplicate resources, split brain.\n🧠 WHY — Local files don't see each other — each apply births a parallel world under the same names. Locking exists precisely because local state can't do this check.\n❌ A — clean no-op requires ONE shared state\n❌ C — locks are a REMOTE feature — locals have none\n❌ D — providers happily create whatever they're asked\n🎓 EXAM — Two writers + no lock = duplicates. The sentence that justifies every backend.",
+    "url": "books/exam-center.html#Q-D7-09"
+  },
+  {
+    "id": "Q-D7-10",
+    "qNum": "Q-D7-10",
+    "domain": "Domain 7: Terraform Modules",
+    "qText": "terraform state pull > backup.json is used to…",
+    "options": [
+      {
+        "label": "A",
+        "text": "Destroy faster"
+      },
+      {
+        "label": "B",
+        "text": "Upgrade providers"
+      },
+      {
+        "label": "C",
+        "text": "Snapshot raw state before risky surgery"
+      },
+      {
+        "label": "D",
+        "text": "Format code"
+      }
+    ],
+    "answer": "C",
+    "explanation": "Migrate with dual backends declared, then init -migrate-state.\n🧠 WHY — Both blocks present lets Terraform copy, verify, and flip the pointer in one guided move. Hand-copying JSON or deleting locals invites split-brain.\n❌ A — hand JSON copies skip verification\n❌ B — deleting local state strands history\n❌ D — apply recreates — migration must move, not rebuild\n🎓 EXAM — Migration = declare both → init migrates. Never hand-carry state JSON.",
+    "url": "books/exam-center.html#Q-D7-10"
+  },
+  {
+    "id": "Q-D7-11",
+    "qNum": "Q-D7-11",
+    "domain": "Domain 7: Terraform Modules",
+    "qText": "state push is dangerous because it…",
+    "options": [
+      {
+        "label": "A",
+        "text": "Formats JSON"
+      },
+      {
+        "label": "B",
+        "text": "Deletes the backend"
+      },
+      {
+        "label": "C",
+        "text": "Overwrites remote state with your local file"
+      },
+      {
+        "label": "D",
+        "text": "Rotates keys"
+      }
+    ],
+    "answer": "C",
+    "explanation": "Snapshot raw state BEFORE surgery, verify after.\n🧠 WHY — State mv/rm/import rewrite the binding blind: a versioned backup turns mistakes into restores. Planning after (not before) is what confirms the surgery.\n❌ A — planning first tells you nothing about the edit\n❌ B — locks guard CONCURRENCY, not your typos\n❌ D — backups without verification restore blindly\n🎓 EXAM — Surgery rule: snapshot, cut, plan-verify. Skip step one, own step four.",
+    "url": "books/exam-center.html#Q-D7-11"
+  },
+  {
+    "id": "Q-D7-12",
+    "qNum": "Q-D7-12",
+    "domain": "Domain 7: Terraform Modules",
+    "qText": "Drift between config and reality is reconciled by…",
+    "options": [
+      {
+        "label": "A",
+        "text": "Ignoring it — drift self-heals"
+      },
+      {
+        "label": "B",
+        "text": "Deleting .terraform"
+      },
+      {
+        "label": "C",
+        "text": "fmt -recursive"
+      },
+      {
+        "label": "D",
+        "text": "refresh during plan, then apply (or explicit refresh-only)"
+      }
+    ],
+    "answer": "D",
+    "explanation": "Versioning + encryption + locking = the backend checklist.\n🧠 WHY — Every option alone is necessary and insufficient: versions for history, encryption for secrets, locking for teams. The exam's \"BEST\" questions demand the complete set.\n❌ A/B/C — each names ONE pillar and omits two — partial answers\n🎓 EXAM — BEST-backend questions: count the pillars. One pillar = wrong. Three = right.",
+    "url": "books/exam-center.html#Q-D7-12"
+  },
+  {
+    "id": "Q-D7-13",
+    "qNum": "Q-D7-13",
+    "domain": "Domain 7: Terraform Modules",
+    "qText": "Provider forked (new namespace). Existing state must follow. Command family?",
+    "options": [
+      {
+        "label": "A",
+        "text": "init -upgrade"
+      },
+      {
+        "label": "B",
+        "text": "state replace-provider old/new"
+      },
+      {
+        "label": "C",
+        "text": "fmt -recursive"
+      },
+      {
+        "label": "D",
+        "text": "destroy then apply"
+      }
+    ],
+    "answer": "B",
+    "explanation": "state replace-provider rewrites every binding at once.\n🧠 WHY — One command re-points all provider addresses in the binding — no per-resource surgery, no state deletion, no recreation. It exists precisely for fork migrations.\n❌ A — per-resource addressing doesn't scale to whole configs\n❌ C — deleting state strands every binding\n❌ D — re-apply recreates what should only be re-pointed\n🎓 EXAM — Whole-provider moves = one rewrite command. Per-resource tools are for per-resource jobs.",
+    "url": "books/exam-center.html#Q-D7-13"
+  },
+  {
+    "id": "Q-D7-14",
+    "qNum": "Q-D7-14",
+    "domain": "Domain 7: Terraform Modules",
+    "qText": "Manually editing state JSON to \"fix\" a value is…",
+    "options": [
+      {
+        "label": "A",
+        "text": "Best practice for speed"
+      },
+      {
+        "label": "B",
+        "text": "Forbidden — every fix has a command; hand edits corrupt ledgers"
+      },
+      {
+        "label": "C",
+        "text": "Required before import"
+      },
+      {
+        "label": "D",
+        "text": "Safe with backups"
+      }
+    ],
+    "answer": "B",
+    "explanation": "taint marks for replace; the NEXT plan shows the pair.\n🧠 WHY — Taint writes intent into state; destruction happens at apply, previewed as -/+ in the plan. Dirty reads need refresh, not taint; immediate destruction skips the preview.\n❌ A — nothing dies until apply runs\n❌ C — taint marks STATE, never configuration\n❌ D — imports ADD bindings; taints schedule rebirths\n🎓 EXAM — Taint = schedule. Plan = preview (-/+). Apply = execute. Three beats, in order.",
+    "url": "books/exam-center.html#Q-D7-14"
+  },
+  {
+    "id": "Q-D7-15",
+    "qNum": "Q-D7-15",
+    "domain": "Domain 7: Terraform Modules",
+    "qText": "terraform show -json tfplan | jq .output_changes tells CI…",
+    "options": [
+      {
+        "label": "A",
+        "text": "Formatting status"
+      },
+      {
+        "label": "B",
+        "text": "Provider download speed"
+      },
+      {
+        "label": "C",
+        "text": "What outputs will change, to gate deploys"
+      },
+      {
+        "label": "D",
+        "text": "The AWS bill"
+      }
+    ],
+    "answer": "C",
+    "explanation": "Clean plan, empty state list = apply targeted elsewhere.\n🧠 WHY — An empty list with a clean diff means the resources live in ANOTHER state (wrong workspace, wrong backend, -target elsewhere) — not that they don't exist.\n❌ A — failed applies ERROR — they don't go quiet\n❌ B — console edits show as DRIFT, not absence\n❌ D — locks block runs; they hide nothing\n🎓 EXAM — Clean + empty = looking in the wrong state. Check workspace and backend first.",
+    "url": "books/exam-center.html#Q-D7-15"
+  },
+  {
+    "id": "Q-D7-16",
+    "qNum": "Q-D7-16",
+    "domain": "Domain 7: Terraform Modules",
+    "qText": "Lock table per env instead of one shared gives you…",
+    "options": [
+      {
+        "label": "A",
+        "text": "Free state encryption"
+      },
+      {
+        "label": "B",
+        "text": "No locking at all"
+      },
+      {
+        "label": "C",
+        "text": "Faster plans"
+      },
+      {
+        "label": "D",
+        "text": "Parallel applies across envs at the cost of more tables to guard"
+      }
+    ],
+    "answer": "D",
+    "explanation": "Refresh-only previews drift without touching anything.\n🧠 WHY — Read-only reconciliation: real-world truth flows into a diff you can inspect, adopt, or revert — zero writes to state or cloud. Destructive options for a read-only question are always wrong.\n❌ A — reverting destroys evidence before review\n❌ B — force-unlock fixes LOCKS, not drift\n❌ C — tainting schedules rebirth for a reading job\n🎓 EXAM — Drift review = read-only preview first. Hands off the destroy flags.",
+    "url": "books/exam-center.html#Q-D7-16"
+  },
+  {
+    "id": "Q-D7-17",
+    "qNum": "Q-D7-17",
+    "domain": "Domain 7: Terraform Modules",
+    "qText": "terraform output -raw db_password in CI logs is a violation because…",
+    "options": [
+      {
+        "label": "A",
+        "text": "Outputs are always encrypted"
+      },
+      {
+        "label": "B",
+        "text": "Sensitive display leaked to logs — mask output, pipe to a store"
+      },
+      {
+        "label": "C",
+        "text": "raw flag deletes state"
+      },
+      {
+        "label": "D",
+        "text": "JSON is required"
+      }
+    ],
+    "answer": "B",
+    "explanation": "Sensitive values leak through DISPLAY, not storage.\n🧠 WHY — State holds secrets regardless; sensitive=true only masks console and log output. Encryption protects storage (different layer); deletion fantasies ignore reality.\n❌ A — nothing encrypts just by flagging\n❌ C — outputs still carry the value downstream\n❌ D — state keeps the plaintext either way\n🎓 EXAM — sensitive = display mask. Encryption = storage guard. Two layers, two tools.",
+    "url": "books/exam-center.html#Q-D7-17"
+  },
+  {
+    "id": "Q-D7-18",
+    "qNum": "Q-D7-18",
+    "domain": "Domain 7: Terraform Modules",
+    "qText": "ephemeral = true on an output means…",
+    "options": [
+      {
+        "label": "A",
+        "text": "Never stored in state; same-apply read only"
+      },
+      {
+        "label": "B",
+        "text": "Encrypted at rest"
+      },
+      {
+        "label": "C",
+        "text": "Visible to everyone"
+      },
+      {
+        "label": "D",
+        "text": "Stored twice for safety"
+      }
+    ],
+    "answer": "A",
+    "explanation": "Ephemeral values never touch state.\n🧠 WHY — Write-only arguments and ephemeral blocks stay in memory: plans show \"(ephemeral)\", providers consume, nothing persists. Every other option stores or leaks.\n❌ B — sensitive still STORES — it only masks display\n❌ C — outputs persist by definition\n❌ D — locals live in state-adjacent config\n🎓 EXAM — Must-not-persist → ephemeral. The exam's newest favorite word.",
+    "url": "books/exam-center.html#Q-D7-18"
+  },
+  {
+    "id": "Q-D8-01",
+    "qNum": "Q-D8-01",
+    "domain": "Domain 8: Terraform Workflow",
+    "qText": "aws_subnet.public[0] vs aws_subnet.public[\"us-east-1a\"] differ in…",
+    "options": [
+      {
+        "label": "A",
+        "text": "Index identity vs key identity; only keys survive reordering"
+      },
+      {
+        "label": "B",
+        "text": "Nothing — identical"
+      },
+      {
+        "label": "C",
+        "text": "Speed only"
+      },
+      {
+        "label": "D",
+        "text": "Provider used"
+      }
+    ],
+    "answer": "A",
+    "explanation": "Variables parametrize; locals compute; outputs export.\n🧠 WHY — Three blocks, three jobs: inputs vary per caller, locals derive within a module, outputs cross boundaries. Mixing their jobs is the exam's favorite confusion.\n❌ B — locals can't take caller input\n❌ C — outputs can't feed the same module\n❌ D — resources create — they parametrize nothing\n🎓 EXAM — Vary, derive, export: say which job before naming the block.",
+    "url": "books/exam-center.html#Q-D8-01"
+  },
+  {
+    "id": "Q-D8-02",
+    "qNum": "Q-D8-02",
+    "domain": "Domain 8: Terraform Workflow",
+    "qText": "for_each over a bare list fails. Fix?",
+    "options": [
+      {
+        "label": "A",
+        "text": "Use count instead always"
+      },
+      {
+        "label": "B",
+        "text": "Wrap toset(var.list) or build a key map"
+      },
+      {
+        "label": "C",
+        "text": "Delete the list"
+      },
+      {
+        "label": "D",
+        "text": "Add depends_on"
+      }
+    ],
+    "answer": "B",
+    "explanation": "Objects group related fields into one typed value.\n🧠 WHY — One variable carrying name, size, and tags beats three loose strings drifting apart. Maps alone lose per-field types; splitting multiplies wiring.\n❌ A — separate variables drift apart\n❌ C — maps allow any shape — objects enforce it\n❌ D — locals derive; they don't take input\n🎓 EXAM — Related fields travel together: object type, one variable.",
+    "url": "books/exam-center.html#Q-D8-02"
+  },
+  {
+    "id": "Q-D8-03",
+    "qNum": "Q-D8-03",
+    "domain": "Domain 8: Terraform Workflow",
+    "qText": "count = 3 → count = 2 destroys…",
+    "options": [
+      {
+        "label": "A",
+        "text": "web[0]"
+      },
+      {
+        "label": "B",
+        "text": "web[1]"
+      },
+      {
+        "label": "C",
+        "text": "web[2] — the tail"
+      },
+      {
+        "label": "D",
+        "text": "All three"
+      }
+    ],
+    "answer": "C",
+    "explanation": "Validation rejects bad input at plan time.\n🧠 WHY — Rules on variables fail fast with custom messages — before any API call, before any cost. Documentation comments never enforce; apply-time errors bill first.\n❌ A — comments describe; they enforce nothing\n❌ B — post-apply errors already cost money\n❌ D — sensitive masks display — validates nothing\n🎓 EXAM — Reject early = validation block. The exam rewards fail-fast everywhere.",
+    "url": "books/exam-center.html#Q-D8-03"
+  },
+  {
+    "id": "Q-D8-04",
+    "qNum": "Q-D8-04",
+    "domain": "Domain 8: Terraform Workflow",
+    "qText": "Safe reader for a 0/1 counted resource?",
+    "options": [
+      {
+        "label": "A",
+        "text": "x[0] directly"
+      },
+      {
+        "label": "B",
+        "text": "count.index"
+      },
+      {
+        "label": "C",
+        "text": "x[*][0]"
+      },
+      {
+        "label": "D",
+        "text": "one(x[*].attr)"
+      }
+    ],
+    "answer": "D",
+    "explanation": "One map + for_each beats N nearly-identical blocks.\n🧠 WHY — Data varies, logic stays single: add a map entry, get a subnet. Count-indexed copies and duplicated blocks fork the logic with every edit.\n❌ A — duplicated blocks fork on every future edit\n❌ B — count breaks on middle removals\n❌ C — workspaces isolate ENVS, not subnets\n🎓 EXAM — Repeated blocks with varying data = for_each over a map. Reflex-level.",
+    "url": "books/exam-center.html#Q-D8-04"
+  },
+  {
+    "id": "Q-D8-05",
+    "qNum": "Q-D8-05",
+    "domain": "Domain 8: Terraform Workflow",
+    "qText": "Implicit vs explicit dependencies: prefer…",
+    "options": [
+      {
+        "label": "A",
+        "text": "References (implicit); depends_on only for invisible side-effects"
+      },
+      {
+        "label": "B",
+        "text": "depends_on everywhere"
+      },
+      {
+        "label": "C",
+        "text": "Neither — random order is fine"
+      },
+      {
+        "label": "D",
+        "text": "depends_on instead of references"
+      }
+    ],
+    "answer": "A",
+    "explanation": "Dynamic blocks generate repeated nested blocks.\n🧠 WHY — Ingress rules, tags, and lifecycle stanzas repeat INSIDE a resource — dynamic + for_each stamps them from data. Splat READS collections; count clones WHOLE resources.\n❌ B — splat reads; it never generates\n❌ C — count clones resources, not nested blocks\n❌ D — workspaces isolate environments\n🎓 EXAM — Nested repetition = dynamic. Whole-resource repetition = count/for_each.",
+    "url": "books/exam-center.html#Q-D8-05"
+  },
+  {
+    "id": "Q-D8-06",
+    "qNum": "Q-D8-06",
+    "domain": "Domain 8: Terraform Workflow",
+    "qText": "dynamic \"ingress\" with for_each over var.rules gives you…",
+    "options": [
+      {
+        "label": "A",
+        "text": "N ingress blocks from one variable, zero HCL edits per rule"
+      },
+      {
+        "label": "B",
+        "text": "Faster plans"
+      },
+      {
+        "label": "C",
+        "text": "No state"
+      },
+      {
+        "label": "D",
+        "text": "Free subnets"
+      }
+    ],
+    "answer": "A",
+    "explanation": "N ingress blocks generate from a list variable.\n🧠 WHY — One dynamic block over a list of rule objects: data in, stanzas out. count on the RESOURCE would clone whole security groups — wrong layer entirely.\n❌ B — resource-level count clones the whole SG\n❌ C — hardcoded rules can't vary per caller\n❌ D — outputs export — they generate nothing\n🎓 EXAM — Check the layer: nested block → dynamic. Whole resource → count/for_each.",
+    "url": "books/exam-center.html#Q-D8-06"
+  },
+  {
+    "id": "Q-D8-07",
+    "qNum": "Q-D8-07",
+    "domain": "Domain 8: Terraform Workflow",
+    "qText": "All public IPs as a list vs name→IP map: correct pair?",
+    "options": [
+      {
+        "label": "A",
+        "text": "Maps are impossible"
+      },
+      {
+        "label": "B",
+        "text": "Both use [0]"
+      },
+      {
+        "label": "C",
+        "text": "[*].public_ip vs { for k,i : k => i.public_ip }"
+      },
+      {
+        "label": "D",
+        "text": "Splat returns a map"
+      }
+    ],
+    "answer": "C",
+    "explanation": "Data sources READ; they never create.\n🧠 WHY — AMIs, existing VPCs, current regions: data blocks query and expose, adding zero resources to the plan. Managed resources create; outputs export; variables input.\n❌ A — resources CREATE — the opposite job\n❌ B — outputs export values downstream\n❌ D — variables carry input, query nothing\n🎓 EXAM — Read-only lookup = data source. \"Latest AMI\" is the tell.",
+    "url": "books/exam-center.html#Q-D8-07"
+  },
+  {
+    "id": "Q-D8-08",
+    "qNum": "Q-D8-08",
+    "domain": "Domain 8: Terraform Workflow",
+    "qText": "Variable with no default and nothing provided: plan…",
+    "options": [
+      {
+        "label": "A",
+        "text": "Deletes state"
+      },
+      {
+        "label": "B",
+        "text": "Prompts (breaks CI) — provide via -var/env/file"
+      },
+      {
+        "label": "C",
+        "text": "Skips the resource"
+      },
+      {
+        "label": "D",
+        "text": "Uses empty string"
+      }
+    ],
+    "answer": "B",
+    "explanation": "Orphaned t2.micro + -target: the classic scoped-apply scar.\n🧠 WHY — Targeted applies skip everything outside scope — un-targeted resources drift from code silently. The fix is a full apply, not more targeting.\n❌ A — deleting state hides the symptom\n❌ C — more -target narrows further — wrong direction\n❌ D — locks guard concurrency, not scope\n🎓 EXAM — -target scars: untargeted resources drift silently. Full apply heals.",
+    "url": "books/exam-center.html#Q-D8-08"
+  },
+  {
+    "id": "Q-D8-09",
+    "qNum": "Q-D8-09",
+    "domain": "Domain 8: Terraform Workflow",
+    "qText": "set(string) vs list(string) for for_each: why sets?",
+    "options": [
+      {
+        "label": "A",
+        "text": "No reason"
+      },
+      {
+        "label": "B",
+        "text": "Faster init"
+      },
+      {
+        "label": "C",
+        "text": "Sets allow duplicates"
+      },
+      {
+        "label": "D",
+        "text": "Stable unique keys; lists re-index on removal"
+      }
+    ],
+    "answer": "D",
+    "explanation": "for_each keys must be stable and unique.\n🧠 WHY — Keys are identity: renames rebirth, duplicates collide, indices shift. Stable natural keys (names, AZs) survive edits that destroy count-based addressing.\n❌ A — indices shift on middle removal — the count trap\n❌ B — duplicates collide at plan time\n❌ C — renames are destroy+create pairs\n🎓 EXAM — Keys = identity. Stable, unique, rename-proof. Three adjectives or wrong.",
+    "url": "books/exam-center.html#Q-D8-09"
+  },
+  {
+    "id": "Q-D8-10",
+    "qNum": "Q-D8-10",
+    "domain": "Domain 8: Terraform Workflow",
+    "qText": "locals { env = terraform.workspace } is an example of…",
+    "options": [
+      {
+        "label": "A",
+        "text": "Hardcoding"
+      },
+      {
+        "label": "B",
+        "text": "Deriving, not repeating — single source per env"
+      },
+      {
+        "label": "C",
+        "text": "A provisioner"
+      },
+      {
+        "label": "D",
+        "text": "Backend config"
+      }
+    ],
+    "answer": "B",
+    "explanation": "Count removal shifts every later index.\n🧠 WHY — Index is identity under count: deleting [1] renames [2]→[1], forcing rebirth down the line. for_each keys don't shift — the exam's core repetition lesson.\n❌ A — nothing is free — later resources rebirth\n❌ C — first-element removal shifts EVERYTHING\n❌ D — state edits can't fix index identity\n🎓 EXAM — Middle-out under count = cascade. The sentence that sells for_each.",
+    "url": "books/exam-center.html#Q-D8-10"
+  },
+  {
+    "id": "Q-D8-11",
+    "qNum": "Q-D8-11",
+    "domain": "Domain 8: Terraform Workflow",
+    "qText": "Tribunal: ternary count = var.on ? 1 : 0 plus safe read gives…",
+    "options": [
+      {
+        "label": "A",
+        "text": "A syntax error"
+      },
+      {
+        "label": "B",
+        "text": "Always-on resource"
+      },
+      {
+        "label": "C",
+        "text": "Conditional resource with one() output — null when off"
+      },
+      {
+        "label": "D",
+        "text": "Two resources"
+      }
+    ],
+    "answer": "C",
+    "explanation": "Splatting collects one attribute across instances.\n🧠 WHY — aws_instance.web[*].public_ip projects the fleet into a list: outputs, security rules, and inventories all consume it. for_each BUILDS; dynamic GENERATES; depends_on ORDERS.\n❌ A — for_each builds resources, not lists\n❌ B — dynamic generates blocks\n❌ D — depends_on orders creation\n🎓 EXAM — Collect-across = splat. Build-many = for_each. Generate-nested = dynamic.",
+    "url": "books/exam-center.html#Q-D8-11"
+  },
+  {
+    "id": "Q-D8-12",
+    "qNum": "Q-D8-12",
+    "domain": "Domain 8: Terraform Workflow",
+    "qText": "cidrsubnet(\"10.0.0.0/16\", 8, 10) returns…",
+    "options": [
+      {
+        "label": "A",
+        "text": "An error"
+      },
+      {
+        "label": "B",
+        "text": "10.0.0.10/32"
+      },
+      {
+        "label": "C",
+        "text": "10.10.0.0/16"
+      },
+      {
+        "label": "D",
+        "text": "10.0.10.0/24"
+      }
+    ],
+    "answer": "D",
+    "explanation": "Unknown values defer: plan shows (known after apply).\n🧠 WHY — Anything derived from not-yet-created resources is unknowable until apply: Terraform marks it, plans around it, resolves later. Errors, nulls, and skips would all lie.\n❌ A — unknowns aren't errors — they're futures\n❌ B — null would corrupt downstream joins\n❌ C — the plan continues around the unknown\n🎓 EXAM — (known after apply) = patience, not failure. Read it as a promise.",
+    "url": "books/exam-center.html#Q-D8-12"
+  },
+  {
+    "id": "Q-D8-13",
+    "qNum": "Q-D8-13",
+    "domain": "Domain 8: Terraform Workflow",
+    "qText": "5 subnets needed from a /16: newbits = ?",
+    "options": [
+      {
+        "label": "A",
+        "text": "3 (8 slots — enough)"
+      },
+      {
+        "label": "B",
+        "text": "2 (4 slots — too few)"
+      },
+      {
+        "label": "C",
+        "text": "5"
+      },
+      {
+        "label": "D",
+        "text": "8"
+      }
+    ],
+    "answer": "A",
+    "explanation": "5 subnets from a /16 need newbits = 3 (8 slots).\n🧠 WHY — 2^3 = 8 ≥ 5; newbits 2 gives only 4. Round UP to the next power of two.\n❌ B — 4 slots can't hold 5 subnets\n❌ C — newbits counts BITS, not subnets\n❌ D — 8 newbits carves 256 /24s — overkill\n🎓 EXAM — Slots = 2^newbits ≥ needed. Round up, always.",
+    "url": "books/exam-center.html#Q-D8-13"
+  },
+  {
+    "id": "Q-D8-14",
+    "qNum": "Q-D8-14",
+    "domain": "Domain 8: Terraform Workflow",
+    "qText": "merge(var.tags, { Env = \"prod\" }) on key collision…",
+    "options": [
+      {
+        "label": "A",
+        "text": "Errors"
+      },
+      {
+        "label": "B",
+        "text": "Right side wins"
+      },
+      {
+        "label": "C",
+        "text": "Left side wins"
+      },
+      {
+        "label": "D",
+        "text": "Both kept"
+      }
+    ],
+    "answer": "B",
+    "explanation": "merge() collisions: right side wins.\n🧠 WHY — Later maps override earlier ones — the layering primitive. Errors, left-wins, and both-kept all misremember.\n❌ A — no error — deterministic override\n❌ C — left loses by design\n❌ D — one key holds one value\n🎓 EXAM — Layering order = argument order. Last writer wins.",
+    "url": "books/exam-center.html#Q-D8-14"
+  },
+  {
+    "id": "Q-D8-15",
+    "qNum": "Q-D8-15",
+    "domain": "Domain 8: Terraform Workflow",
+    "qText": "try(var.obj.attr, \"fb\") is for…",
+    "options": [
+      {
+        "label": "A",
+        "text": "Encrypting values"
+      },
+      {
+        "label": "B",
+        "text": "Faster applies"
+      },
+      {
+        "label": "C",
+        "text": "Optional nested access without crashing"
+      },
+      {
+        "label": "D",
+        "text": "Deleting resources"
+      }
+    ],
+    "answer": "C",
+    "explanation": "try() guards optional nested access without crashing.\n🧠 WHY — First-success-wins with fallback: missing paths return the default instead of erroring. Encryption, speed, and deletion are wrong universes.\n❌ A — no encryption anywhere\n❌ B — errors become fallbacks — not speed\n❌ D — resources are untouched by reads\n🎓 EXAM — Optional access = try(). Missing path = fallback, not failure.",
+    "url": "books/exam-center.html#Q-D8-15"
+  },
+  {
+    "id": "Q-D8-16",
+    "qNum": "Q-D8-16",
+    "domain": "Domain 8: Terraform Workflow",
+    "qText": "validation { condition = contains([...], var.env) } runs…",
+    "options": [
+      {
+        "label": "A",
+        "text": "At plan, rejecting bad input with your message"
+      },
+      {
+        "label": "B",
+        "text": "Never — decorative"
+      },
+      {
+        "label": "C",
+        "text": "Only in the console"
+      },
+      {
+        "label": "D",
+        "text": "After apply"
+      }
+    ],
+    "answer": "A",
+    "explanation": "Validation runs at plan, rejecting bad input with your message.\n🧠 WHY — Rules on variables fail fast with custom errors — before any API call, before any cost. Decorative-never and console-only misunderstand the feature; after-apply is already too late.\n❌ B — decorative-never denies the feature exists\n❌ C — console-only shrinks a plan-time gate\n❌ D — after apply the money is spent\n🎓 EXAM — Reject early = validation block. Fail-fast wins.",
+    "url": "books/exam-center.html#Q-D8-16"
+  },
+  {
+    "id": "Q-D9-01",
+    "qNum": "Q-D9-01",
+    "domain": "Domain 9: Terraform Cloud / Enterprise",
+    "qText": "TFC vs TFE: the difference is…",
+    "options": [
+      {
+        "label": "A",
+        "text": "SaaS hosted by HashiCorp vs self-hosted in your boundary"
+      },
+      {
+        "label": "B",
+        "text": "Language used"
+      },
+      {
+        "label": "C",
+        "text": "Only the logo"
+      },
+      {
+        "label": "D",
+        "text": "TFE is older Terraform"
+      }
+    ],
+    "answer": "A",
+    "explanation": "HCP lineage: TFC managed, TFE self-hosted.\n🧠 WHY — Same platform, different operators: SaaS vs your basement. The exam tests who patches, who scales, who holds the keys.\n❌ B — self-hosted is TFE's definition\n❌ C — agents are a NETWORK feature, not a tier\n❌ D — workspaces exist in both\n🎓 EXAM — Who operates it? SaaS = TFC, self-hosted = TFE.",
+    "url": "books/exam-center.html#Q-D9-01"
+  },
+  {
+    "id": "Q-D9-02",
+    "qNum": "Q-D9-02",
+    "domain": "Domain 9: Terraform Cloud / Enterprise",
+    "qText": "A TFC workspace binds…",
+    "options": [
+      {
+        "label": "A",
+        "text": "Only a state key suffix"
+      },
+      {
+        "label": "B",
+        "text": "Config + variables + state + run history"
+      },
+      {
+        "label": "C",
+        "text": "Just the CLI binary"
+      },
+      {
+        "label": "D",
+        "text": "Nothing — display only"
+      }
+    ],
+    "answer": "B",
+    "explanation": "Workspaces isolate STATE, never code or credentials.\n🧠 WHY — Same code, N state files: dev and prod differ only in their bindings. Separate repos fork code; separate backends fork truth; shared credentials fork risk.\n❌ A — code stays single — that's the point\n❌ C — backends stay shared — states differ inside\n❌ D — credentials scope separately\n🎓 EXAM — Workspace = state fork. Everything else stays shared. One sentence.",
+    "url": "books/exam-center.html#Q-D9-02"
+  },
+  {
+    "id": "Q-D9-03",
+    "qNum": "Q-D9-03",
+    "domain": "Domain 9: Terraform Cloud / Enterprise",
+    "qText": "PR opened → plan posted back → merge → apply. This is…",
+    "options": [
+      {
+        "label": "A",
+        "text": "State mv"
+      },
+      {
+        "label": "B",
+        "text": "Local-exec"
+      },
+      {
+        "label": "C",
+        "text": "VCS-driven runs"
+      },
+      {
+        "label": "D",
+        "text": "Console mode"
+      }
+    ],
+    "answer": "C",
+    "explanation": "State surgery verbs: mv renames, rm forgets, import adopts.\n🧠 WHY — Three verbs, three fates: rename the binding, drop the binding, create a binding. Apply creates RESOURCES — never bindings.\n❌ A — apply manages resources, not bindings\n❌ B — init installs code, touches no bindings\n❌ D — refresh reads reality, rewrites nothing\n🎓 EXAM — Binding verbs: mv/rm/import. Resource verbs: plan/apply. Never cross them.",
+    "url": "books/exam-center.html#Q-D9-03"
+  },
+  {
+    "id": "Q-D9-04",
+    "qNum": "Q-D9-04",
+    "domain": "Domain 9: Terraform Cloud / Enterprise",
+    "qText": "Policy blocks deploys missing cost tags, no override. Mode?",
+    "options": [
+      {
+        "label": "A",
+        "text": "Advisory"
+      },
+      {
+        "label": "B",
+        "text": "Soft-mandatory"
+      },
+      {
+        "label": "C",
+        "text": "Disabled"
+      },
+      {
+        "label": "D",
+        "text": "Mandatory"
+      }
+    ],
+    "answer": "D",
+    "explanation": "Splat over for_each instances feeds module outputs.\n🧠 WHY — module.instances[*].private_ip collects across keyed instances into the app module's input: collect-then-pass. Count-indexing keyed resources fails; locals can't see inside modules.\n❌ A — string keys don't index numerically\n❌ B — locals can't pierce module boundaries\n❌ C — remote state reads STACKS, not sibling modules\n🎓 EXAM — Collect with splat, pass as input. The composition one-liner.",
+    "url": "books/exam-center.html#Q-D9-04"
+  },
+  {
+    "id": "Q-D9-05",
+    "qNum": "Q-D9-05",
+    "domain": "Domain 9: Terraform Cloud / Enterprise",
+    "qText": "Soft-mandatory vs mandatory Sentinel differs in…",
+    "options": [
+      {
+        "label": "A",
+        "text": "Override possibility — permitted vs never"
+      },
+      {
+        "label": "B",
+        "text": "Speed"
+      },
+      {
+        "label": "C",
+        "text": "Language"
+      },
+      {
+        "label": "D",
+        "text": "Nothing"
+      }
+    ],
+    "answer": "A",
+    "explanation": "HCP Terraform runs: remote execution, shared state, governance.\n🧠 WHY — The value stack is runs + collaboration + policy: speculative plans on PRs, locked shared state, Sentinel guardrails. Local runs with a remote backend get storage without any of the platform.\n❌ B — storage without runs is just a backend\n❌ C — local runs keep local blast radius\n❌ D — CLI workspaces isolate state — nothing more\n🎓 EXAM — Platform = runs + sharing + policy. Backend = storage. Price the difference.",
+    "url": "books/exam-center.html#Q-D9-05"
+  },
+  {
+    "id": "Q-D9-06",
+    "qNum": "Q-D9-06",
+    "domain": "Domain 9: Terraform Cloud / Enterprise",
+    "qText": "Private registry gives an org…",
+    "options": [
+      {
+        "label": "A",
+        "text": "Faster CPUs"
+      },
+      {
+        "label": "B",
+        "text": "A blessed, versioned module/provider list"
+      },
+      {
+        "label": "C",
+        "text": "Free state"
+      },
+      {
+        "label": "D",
+        "text": "No init needed"
+      }
+    ],
+    "answer": "B",
+    "explanation": "Speculative plans preview PRs with zero state risk.\n🧠 WHY — Dry-run diffs on every pull request: reviewers see infra impact before merge, state untouched, nothing applied. Gates without previews approve blind.\n❌ A — blind auto-apply is the anti-pattern\n❌ C — locks serialize — they preview nothing\n❌ D — local plans can't comment on PRs\n🎓 EXAM — PR + preview + no-touch = speculative. The governance flywheel.",
+    "url": "books/exam-center.html#Q-D9-06"
+  },
+  {
+    "id": "Q-D9-07",
+    "qNum": "Q-D9-07",
+    "domain": "Domain 9: Terraform Cloud / Enterprise",
+    "qText": "Cost estimate on the PR comes from…",
+    "options": [
+      {
+        "label": "A",
+        "text": "Local fmt"
+      },
+      {
+        "label": "B",
+        "text": "State mv"
+      },
+      {
+        "label": "C",
+        "text": "Remote runs analyzing the plan"
+      },
+      {
+        "label": "D",
+        "text": "Console"
+      }
+    ],
+    "answer": "C",
+    "explanation": "Sentinel GOVERNS with policy-as-code.\n🧠 WHY — Mandatory guardrails evaluated at plan time: regions, sizes, tags — violations fail the run before apply. Cost tools estimate; workspaces isolate; runs execute.\n❌ A — cost estimation PRICES — Sentinel PERMITS\n❌ B — workspaces isolate state, enforce nothing\n❌ D — runs execute; policy judges\n🎓 EXAM — Sentinel = policy judge. Cost tool = price tag. Different sentences.",
+    "url": "books/exam-center.html#Q-D9-07"
+  },
+  {
+    "id": "Q-D9-08",
+    "qNum": "Q-D9-08",
+    "domain": "Domain 9: Terraform Cloud / Enterprise",
+    "qText": "Agents in TFC/TFE run…",
+    "options": [
+      {
+        "label": "A",
+        "text": "Local applies on laptops"
+      },
+      {
+        "label": "B",
+        "text": "Only fmt"
+      },
+      {
+        "label": "C",
+        "text": "Nothing — decorative"
+      },
+      {
+        "label": "D",
+        "text": "Remote operations on your infra"
+      }
+    ],
+    "answer": "D",
+    "explanation": "Agents run where your cloud lives; the platform orchestrates.\n🧠 WHY — Hybrid split: private network execution, SaaS control plane. All-local loses governance; all-remote can't reach private subnets; workspaces isolate state, not networks.\n❌ A — pure local keeps local blast radius\n❌ B — pure remote can't touch private nets\n❌ C — workspaces isolate STATE, not networks\n🎓 EXAM — Private subnets + SaaS control = agents. The hybrid sentence.",
+    "url": "books/exam-center.html#Q-D9-08"
+  }
+]
