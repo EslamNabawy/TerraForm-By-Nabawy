@@ -10,38 +10,34 @@
 </head>
 <body>
 
-  <!-- STICKY MINI NAVIGATION BAR -->
-  <header class="navbar">
-    <div class="nav-container">
-      <a href="#" class="nav-brand">
-        <span>📚</span>
-        <span>TerraForm by Nabawy</span>
-        <span class="brand-badge">INK &amp; AMBER</span>
-      </a>
-      <div class="nav-actions">
-        <span id="nav-progress-pill" class="nav-progress-pill">🎯 0% Completed</span>
-        <button class="nav-btn" onclick="document.getElementById('q').focus(); document.getElementById('q').scrollIntoView({behavior:'smooth', block:'center'});">
-          🔍 <span class="btn-text">Search</span>
-        </button>
-        <button class="nav-btn sound-toggle-btn" onclick="window.toggleSound()">
-          🔊 <span class="btn-text">Sound ON</span>
-        </button>
-        <button class="nav-btn theme-toggle-btn" onclick="window.toggleTheme()">
-          🌙 <span class="btn-text">Obsidian</span>
-        </button>
-      </div>
-    </div>
+  <!-- STICKY NAV -->
+  <header class="topnav">
+    <a href="#" class="mark">
+      <span>📚</span>
+      <span>TerraForm by Nabawy</span>
+      <span class="brand-badge">INK &amp; AMBER</span>
+    </a>
+    <nav>
+      <span id="nav-progress-pill" class="nav-progress-pill">🎯 0% Completed</span>
+      <button onclick="document.getElementById('q').focus(); document.getElementById('q').scrollIntoView({behavior:'smooth', block:'center'});">
+        🔍 <span class="btn-text">Search</span>
+      </button>
+      <button class="sound-toggle-btn" onclick="window.toggleSound()">
+        🔊 <span class="btn-text">Sound ON</span>
+      </button>
+      <button class="theme-toggle-btn" onclick="window.toggleTheme()">
+        🌙 <span class="btn-text">Obsidian</span>
+      </button>
+    </nav>
   </header>
 
-  <div class="wrap">
-
-    <!-- HERO SECTION -->
-    <section class="hero">
+    <!-- HERO -->
+    <section class="sheet" id="hero">
       <div class="stamp">📚</div>
       <div class="kick">TERRAFORM MASTER SERIES · INK &amp; AMBER LIBRARY</div>
-      <h1 class="hero-title">TerraForm by Nabawy</h1>
-      <div class="rule"></div>
-      <p class="sub">
+      <h1>TerraForm by Nabawy</h1>
+      <hr class="ambrule">
+      <p class="lead">
         The definitive study library and engineering command center for Terraform Associate certification and real-world production. Read every volume online in high-fidelity editorial format, download print-ready PDFs, practice interactive drills, and explore in-depth notes.
       </p>
 
@@ -145,7 +141,7 @@
       <span class="sec-sub">Read full print-fidelity editions online or download A4 print-ready PDFs.</span>
     </div>
 
-    <div class="grid" id="books">
+    <div class="card-grid" id="books">
 
       <!-- BOOK 1: FOUNDATIONS -->
       <article class="card" id="book-card-1">
@@ -612,14 +608,13 @@
       </div>
     </div>
 
-    <!-- FOOTER -->
+    <!-- FOLIO FOOTER -->
     <footer>
-      Built from Eng. Mohamed Magdy's Terraform curriculum &middot; INK &amp; AMBER design style &middot;
-      TerraForm by Nabawy &middot;
-      <a class="inline" href="https://github.com/EslamNabawy" target="_blank">GitHub</a>
+      <div class="fol-rule"><span>📚 TerraForm by Nabawy</span></div>
+      Built from Eng. Mohamed Magdy's Terraform curriculum &middot; INK &amp; AMBER design style<br>
+      <a href="https://github.com/EslamNabawy" target="_blank" rel="noopener">GitHub</a> &middot;
+      <a href="#hero">↑ Back to top</a>
     </footer>
-
-  </div>
 
   <!-- IN-BROWSER MARKDOWN NOTE READER MODAL -->
   <div id="note-modal-overlay" class="modal-overlay">
@@ -644,9 +639,9 @@
       </div>
 
       <div class="modal-footer">
-        <button class="btn outline" onclick="window.navigateNote(-1)">← Previous Note</button>
-        <span style="font-size: 11px; font-weight: 700; color: var(--muted);">Use Esc to close</span>
-        <button class="btn solid" onclick="window.navigateNote(1)">Next Note →</button>
+        <button class="btn btn-ghost" onclick="window.navigateNote(-1)">← Previous Note</button>
+        <span class="small">Use Esc to close</span>
+        <button class="btn btn-ink" onclick="window.navigateNote(1)">Next Note →</button>
       </div>
     </div>
   </div>
