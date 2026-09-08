@@ -15,7 +15,6 @@ body{margin:0; background:var(--desk); font-family:'Segoe UI',system-ui,-apple-s
 /* ── sticky nav ── */
 .topnav{position:sticky; top:0; z-index:50; background:var(--paper); border-bottom:3px solid var(--ink); display:flex; align-items:center; gap:18px; padding:10px clamp(14px,3vw,32px);}
 .topnav .mark{font-family:Georgia,serif; font-weight:700; font-size:19px; text-decoration:none; color:var(--ink); display:flex; gap:9px; align-items:center;}
-.topnav .mark .brand-badge{font-size:10px; font-weight:800; letter-spacing:.14em; text-transform:uppercase; color:var(--amber-d); background:var(--t-amber); border:1.5px solid var(--ink); border-radius:4px; padding:1px 7px; box-shadow:2px 2px 0 rgba(38,32,26,.85);}
 .topnav nav{margin-left:auto; display:flex; gap:4px; flex-wrap:wrap; align-items:center;}
 .topnav nav a, .topnav nav button{color:var(--ink); text-decoration:none; font-weight:700; font-size:13px; padding:6px 11px; border:2px solid transparent; border-radius:8px; background:none; cursor:pointer; font-family:inherit;}
 .topnav nav a:hover, .topnav nav button:hover{border-color:var(--ink); background:var(--t-amber); box-shadow:3px 3px 0 var(--ink);}
