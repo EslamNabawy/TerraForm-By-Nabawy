@@ -218,13 +218,14 @@ footer .fol-rule::before,footer .fol-rule::after{content:''; flex:1; border-top:
 .drill-explanation-title{font-weight:800; font-size:13.5px; margin-bottom:6px;}
 .drill-footer{display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px;}
 
-/* ═══════════ SITE-SPECIFIC: NOTES VAULT ═══════════ */
-.panel .tag2{display:inline-block; font-size:11px; font-weight:800; letter-spacing:.16em; text-transform:uppercase; color:var(--amber-d); margin-bottom:12px;}
-.notes{display:grid; grid-template-columns:repeat(auto-fill,minmax(280px,1fr)); gap:12px;}
-.note-card{display:flex; align-items:center; justify-content:space-between; text-decoration:none; color:var(--ink); background:var(--card); border:2px solid var(--ink); border-radius:12px; padding:10px 14px; box-shadow:2px 2px 0 rgba(38,32,26,.85); cursor:pointer; transition:all .12s;}
-.note-card:hover{background:var(--t-amber); transform:translateY(-2px); box-shadow:4px 4px 0 rgba(38,32,26,.85);}
+/* ═══════════ SITE-SPECIFIC: MARKDOWN SOURCE NOTES ═══════════ */
+.notes-source-container{width:min(1080px,94vw); margin:0 auto 28px;}
+.notes-source-grid{display:grid; grid-template-columns:repeat(auto-fill,minmax(280px,1fr)); gap:12px;}
+.note-card{display:flex; align-items:center; justify-content:space-between; text-decoration:none; color:var(--ink); background:var(--card); border:2px solid var(--ink); border-radius:12px; padding:12px 16px; box-shadow:3px 3px 0 rgba(38,32,26,.85); cursor:pointer; transition:all .12s;}
+.note-card:hover{background:var(--t-amber); transform:translateY(-2px); box-shadow:5px 5px 0 rgba(38,32,26,.85); border-color:var(--amber);}
 .note-info{display:flex; flex-direction:column; gap:2px;}
-.note-num{font-size:11px; font-weight:800; color:var(--amber-d);}
+.note-num{font-size:11px; font-weight:800; color:var(--amber-d); letter-spacing:.06em;}
+.note-title{font-size:13.5px; font-weight:700; color:var(--ink);}
 .note-arrow{font-size:16px; font-weight:800; color:var(--amber-d); transition:transform .12s;}
 .note-card:hover .note-arrow{transform:translateX(3px);}
 

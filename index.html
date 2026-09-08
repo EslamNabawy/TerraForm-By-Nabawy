@@ -12,24 +12,23 @@
 
   <!-- STICKY NAV -->
   <header class="topnav">
-    <a href="#" class="mark">
+    <a href="#hero" class="mark">
       <span>TerraForm by Nabawy</span>
     </a>
     <div class="nav-sections">
       <a href="#books" class="nav-sec-link">Books</a>
-      <a href="#route" class="nav-sec-link">Route</a>
       <a href="#practice-arena" class="nav-sec-link">Drills</a>
-      <a href="#notes-vault" class="nav-sec-link">Notes</a>
       <a href="#cheatsheet" class="nav-sec-link">Commands</a>
+      <a href="#notes-source" class="nav-sec-link">MD Notes</a>
     </div>
     <nav>
-      <button onclick="document.getElementById('q').focus(); document.getElementById('q').scrollIntoView({behavior:'smooth', block:'center'});">
+      <button class="nav-btn" onclick="window.focusSearch()">
         🔍 <span class="btn-text">Search</span>
       </button>
-      <button class="sound-toggle-btn" onclick="window.toggleSound()">
+      <button class="sound-toggle-btn nav-btn" onclick="window.toggleSound()">
         🔊 <span class="btn-text">Sound ON</span>
       </button>
-      <button class="theme-toggle-btn" onclick="window.toggleTheme()">
+      <button class="theme-toggle-btn nav-btn" onclick="window.toggleTheme()">
         🌙 <span class="btn-text">Obsidian</span>
       </button>
     </nav>
@@ -40,9 +39,6 @@
       <div class="kick">TERRAFORM MASTER SERIES · STUDY LIBRARY</div>
       <h1>TerraForm by Nabawy</h1>
       <hr class="ambrule">
-      <p class="lead">
-        The definitive study library and engineering command center for Terraform Associate certification and real-world production. Read every volume online in high-fidelity editorial format, download print-ready PDFs, practice interactive drills, and explore in-depth notes.
-      </p>
 
       <!-- Stats Chips -->
       <div class="chips">
@@ -239,40 +235,6 @@
 
     </div>
 
-    <!-- THE LEARNING ROUTE -->
-    <div class="section-header" id="route">
-      <h2 class="sec"><span>🗺️</span> The learning route</h2>
-      <span class="sec-sub">Follow the recommended sequence — each volume builds upon the last. Click a step to jump to it.</span>
-    </div>
-
-    <div class="route-container">
-      <div class="route-steps">
-        <div class="route-step-card active" data-step="1" onclick="window.selectRouteStep(1)">
-          <div class="route-step-num">Step ①</div>
-          <div class="route-step-title">Foundations</div>
-          <div class="route-step-desc">Core concepts, AWS provider, state ledger, locking, variables, and Day 1 capstone.</div>
-        </div>
-
-        <div class="route-step-card" data-step="2" onclick="window.selectRouteStep(2)">
-          <div class="route-step-num">Step ②</div>
-          <div class="route-step-title">Production</div>
-          <div class="route-step-desc">Workspaces, 3-VPC networking, count vs for_each, and two-tier ALB walkthrough.</div>
-        </div>
-
-        <div class="route-step-card" data-step="3" onclick="window.selectRouteStep(3)">
-          <div class="route-step-num">Step ③</div>
-          <div class="route-step-title">Practice Lab</div>
-          <div class="route-step-desc">40 hands-on exercises: warmups, multi-concept drills, and incident refactoring bosses.</div>
-        </div>
-
-        <div class="route-step-card" data-step="4" onclick="window.selectRouteStep(4)">
-          <div class="route-step-num">Step ④</div>
-          <div class="route-step-title">Exam Center</div>
-          <div class="route-step-desc">Certification command center: 9 domain reviews, 90 drills, 3 full 57-question mocks.</div>
-        </div>
-      </div>
-    </div>
-
     <!-- INTERACTIVE EXAM PRACTICE DRILL ARENA -->
     <section class="drill-arena" id="practice-arena">
       <div class="drill-arena-header">
@@ -320,105 +282,6 @@
         </a>
       </div>
     </section>
-
-    <!-- STUDY NOTES VAULT -->
-    <div class="section-header">
-      <h2 class="sec"><span>📝</span> The study notes vault</h2>
-      <span class="sec-sub">The 11 high-yield gap-filler notes. Click any note to read in the In-Browser Reader!</span>
-    </div>
-
-    <div class="panel">
-      <span class="tag2">📝 11 Reference Notes (Click to read online)</span>
-      <div class="notes">
-        <div class="note-card" onclick="window.openNoteModal('notes/09-alb-walkthrough.md')">
-          <div class="note-info">
-            <span class="note-num">09 · ALB Walkthrough</span>
-            <span class="note-title">Two-Tier Load Balancer Stack</span>
-          </div>
-          <span class="note-arrow">→</span>
-        </div>
-
-        <div class="note-card" onclick="window.openNoteModal('notes/17-what-is-terraform-facts.md')">
-          <div class="note-info">
-            <span class="note-num">17 · Terraform Facts</span>
-            <span class="note-title">License, Ecosystem &amp; 6 Pillars</span>
-          </div>
-          <span class="note-arrow">→</span>
-        </div>
-
-        <div class="note-card" onclick="window.openNoteModal('notes/18-terraform-init.md')">
-          <div class="note-info">
-            <span class="note-num">18 · terraform init</span>
-            <span class="note-title">.terraform Tree, Lock &amp; .gitignore</span>
-          </div>
-          <span class="note-arrow">→</span>
-        </div>
-
-        <div class="note-card" onclick="window.openNoteModal('notes/19-providers-catalog.md')">
-          <div class="note-info">
-            <span class="note-num">19 · Providers Catalog</span>
-            <span class="note-title">IaaS, PaaS, SaaS Translators</span>
-          </div>
-          <span class="note-arrow">→</span>
-        </div>
-
-        <div class="note-card" onclick="window.openNoteModal('notes/20-core-cli-commands.md')">
-          <div class="note-info">
-            <span class="note-num">20 · Core CLI Commands</span>
-            <span class="note-title">init, plan, apply, destroy Loop</span>
-          </div>
-          <span class="note-arrow">→</span>
-        </div>
-
-        <div class="note-card" onclick="window.openNoteModal('notes/21-state-file-what-why.md')">
-          <div class="note-info">
-            <span class="note-num">21 · State What &amp; Why</span>
-            <span class="note-title">terraform.tfstate Ledger &amp; Secrets</span>
-          </div>
-          <span class="note-arrow">→</span>
-        </div>
-
-        <div class="note-card" onclick="window.openNoteModal('notes/22-state-commands.md')">
-          <div class="note-info">
-            <span class="note-num">22 · State Commands</span>
-            <span class="note-title">list, show, mv, rm, pull, import</span>
-          </div>
-          <span class="note-arrow">→</span>
-        </div>
-
-        <div class="note-card" onclick="window.openNoteModal('notes/23-fmt-and-destroy.md')">
-          <div class="note-info">
-            <span class="note-num">23 · fmt &amp; destroy</span>
-            <span class="note-title">Canonical Style &amp; Safe Teardown</span>
-          </div>
-          <span class="note-arrow">→</span>
-        </div>
-
-        <div class="note-card" onclick="window.openNoteModal('notes/24-more-cli-commands.md')">
-          <div class="note-info">
-            <span class="note-num">24 · More CLI Commands</span>
-            <span class="note-title">fmt, graph, console, refresh-only</span>
-          </div>
-          <span class="note-arrow">→</span>
-        </div>
-
-        <div class="note-card" onclick="window.openNoteModal('notes/25-provisioners-doctrine.md')">
-          <div class="note-info">
-            <span class="note-num">25 · Provisioners Doctrine</span>
-            <span class="note-title">Last-Resort Rules &amp; Caveats</span>
-          </div>
-          <span class="note-arrow">→</span>
-        </div>
-
-        <div class="note-card" onclick="window.openNoteModal('notes/26-capstone-hands-on-chain.md')">
-          <div class="note-info">
-            <span class="note-num">26 · Capstone Build Chain</span>
-            <span class="note-title">8 Resources in One Tested Config</span>
-          </div>
-          <span class="note-arrow">→</span>
-        </div>
-      </div>
-    </div>
 
     <!-- COMMAND DECK & CHEATSHEET -->
     <div class="section-header" id="cheatsheet">
@@ -564,6 +427,103 @@
             <div><b>6. Variable `default` values</b> <small>(Fallback if nothing above is set)</small></div>
             <div><i>7. Missing value</i> <small style="color: var(--crimson); font-weight: 700;">(Prompts interactively at CLI or errors in CI)</small></div>
           </div>
+      </div>
+    </div>
+
+    <!-- MAIN MARKDOWN SOURCE NOTES (.md) -->
+    <div class="section-header" id="notes-source">
+      <h2 class="sec"><span>📄</span> Main Markdown Source Notes (.md)</h2>
+      <span class="sec-sub">11 core technical markdown notes. Click any note to read in the In-Browser Reader or download raw .md.</span>
+    </div>
+
+    <div class="notes-source-container">
+      <div class="notes-source-grid">
+        <div class="note-card" onclick="window.openNoteModal('notes/09-alb-walkthrough.md')">
+          <div class="note-info">
+            <span class="note-num">09 · ALB Walkthrough</span>
+            <span class="note-title">Two-Tier Load Balancer Stack</span>
+          </div>
+          <span class="note-arrow">→</span>
+        </div>
+
+        <div class="note-card" onclick="window.openNoteModal('notes/17-what-is-terraform-facts.md')">
+          <div class="note-info">
+            <span class="note-num">17 · Terraform Facts</span>
+            <span class="note-title">License, Ecosystem &amp; 6 Pillars</span>
+          </div>
+          <span class="note-arrow">→</span>
+        </div>
+
+        <div class="note-card" onclick="window.openNoteModal('notes/18-terraform-init.md')">
+          <div class="note-info">
+            <span class="note-num">18 · terraform init</span>
+            <span class="note-title">.terraform Tree, Lock &amp; .gitignore</span>
+          </div>
+          <span class="note-arrow">→</span>
+        </div>
+
+        <div class="note-card" onclick="window.openNoteModal('notes/19-providers-catalog.md')">
+          <div class="note-info">
+            <span class="note-num">19 · Providers Catalog</span>
+            <span class="note-title">IaaS, PaaS, SaaS Translators</span>
+          </div>
+          <span class="note-arrow">→</span>
+        </div>
+
+        <div class="note-card" onclick="window.openNoteModal('notes/20-core-cli-commands.md')">
+          <div class="note-info">
+            <span class="note-num">20 · Core CLI Commands</span>
+            <span class="note-title">init, plan, apply, destroy Loop</span>
+          </div>
+          <span class="note-arrow">→</span>
+        </div>
+
+        <div class="note-card" onclick="window.openNoteModal('notes/21-state-file-what-why.md')">
+          <div class="note-info">
+            <span class="note-num">21 · State What &amp; Why</span>
+            <span class="note-title">terraform.tfstate Ledger &amp; Secrets</span>
+          </div>
+          <span class="note-arrow">→</span>
+        </div>
+
+        <div class="note-card" onclick="window.openNoteModal('notes/22-state-commands.md')">
+          <div class="note-info">
+            <span class="note-num">22 · State Commands</span>
+            <span class="note-title">list, show, mv, rm, pull, import</span>
+          </div>
+          <span class="note-arrow">→</span>
+        </div>
+
+        <div class="note-card" onclick="window.openNoteModal('notes/23-fmt-and-destroy.md')">
+          <div class="note-info">
+            <span class="note-num">23 · fmt &amp; destroy</span>
+            <span class="note-title">Canonical Style &amp; Safe Teardown</span>
+          </div>
+          <span class="note-arrow">→</span>
+        </div>
+
+        <div class="note-card" onclick="window.openNoteModal('notes/24-more-cli-commands.md')">
+          <div class="note-info">
+            <span class="note-num">24 · More CLI Commands</span>
+            <span class="note-title">fmt, graph, console, refresh-only</span>
+          </div>
+          <span class="note-arrow">→</span>
+        </div>
+
+        <div class="note-card" onclick="window.openNoteModal('notes/25-provisioners-doctrine.md')">
+          <div class="note-info">
+            <span class="note-num">25 · Provisioners Doctrine</span>
+            <span class="note-title">Last-Resort Rules &amp; Caveats</span>
+          </div>
+          <span class="note-arrow">→</span>
+        </div>
+
+        <div class="note-card" onclick="window.openNoteModal('notes/26-capstone-hands-on-chain.md')">
+          <div class="note-info">
+            <span class="note-num">26 · Capstone Build Chain</span>
+            <span class="note-title">8 Resources in One Tested Config</span>
+          </div>
+          <span class="note-arrow">→</span>
         </div>
       </div>
     </div>

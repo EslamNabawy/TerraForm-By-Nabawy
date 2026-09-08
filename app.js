@@ -647,6 +647,16 @@
   window.selectRouteStep = selectRouteStep;
   window.toggleTheme = toggleTheme;
   window.toggleSound = toggleSound;
+  window.focusSearch = function () {
+    const q = document.getElementById('q');
+    if (q) {
+      q.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      setTimeout(() => {
+        q.focus();
+        q.select();
+      }, 250);
+    }
+  };
   window.copyCodeSnippet = function (btn) {
     const codeBlock = btn.closest('.code-block-wrapper').querySelector('code');
     if (codeBlock) {
