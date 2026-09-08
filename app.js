@@ -19,14 +19,12 @@
   const STORAGE_KEYS = {
     THEME: 'tf_theme',
     SOUND: 'tf_sound',
-    PROGRESS: 'tf_progress',
     DRILL_STATS: 'tf_drill_stats'
   };
 
   const APP_STATE = {
-    theme: localStorage.getItem(STORAGE_KEYS.THEME) || (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light'),
+    theme: localStorage.getItem(STORAGE_KEYS.THEME) || 'light',
     soundEnabled: localStorage.getItem(STORAGE_KEYS.SOUND) === 'true',
-    progress: JSON.parse(localStorage.getItem(STORAGE_KEYS.PROGRESS) || '[]'),
     drillStats: JSON.parse(localStorage.getItem(STORAGE_KEYS.DRILL_STATS) || '{"answered": 0, "correct": 0, "streak": 0}'),
     searchIndex: [],
     searchFilter: 'all',
@@ -155,79 +153,7 @@
   }
 
   // =========================================================================
-  // 5. READING PROGRESS TRACKER
-  // =========================================================================
-  const TOTAL_TRACKED_ITEMS = 15; // 4 books + 11 notes
-
-  function updateProgressUI() {
-    const count = APP_STATE.progress.length;
-    const pct = Math.round((count / TOTAL_TRACKED_ITEMS) * 100);
-
-    // Hero progress bar
-    const barFill = document.getElementById('progress-fill');
-    const labelCount = document.getElementById('progress-count');
-    const labelPct = document.getElementById('progress-pct');
-    if (barFill) barFill.style.width = `${pct}%`;
-    if (labelCount) labelCount.textContent = `${count} of ${TOTAL_TRACKED_ITEMS} completed`;
-    if (labelPct) labelPct.textContent = `${pct}%`;
-
-    // Sticky nav pill
-    const navPill = document.getElementById('nav-progress-pill');
-    if (navPill) {
-      navPill.innerHTML = `🎯 ${pct}% Completed`;
-    }
-
-    // Sync book checkboxes
-    document.querySelectorAll('.book-progress-check').forEach(chk => {
-      const id = chk.dataset.id;
-      chk.checked = APP_STATE.progress.includes(id);
-    });
-
-    // Sync note checkboxes
-    document.querySelectorAll('.note-check').forEach(chk => {
-      const id = chk.dataset.id;
-      chk.checked = APP_STATE.progress.includes(id);
-    });
-  }
-
-  function toggleItemProgress(id, isChecked) {
-    playSound('click');
-    if (isChecked) {
-      if (!APP_STATE.progress.includes(id)) APP_STATE.progress.push(id);
-      showToast('Marked as completed!', '✅');
-    } else {
-      APP_STATE.progress = APP_STATE.progress.filter(item => item !== id);
-      showToast('Removed from completed', '↩️');
-    }
-    localStorage.setItem(STORAGE_KEYS.PROGRESS, JSON.stringify(APP_STATE.progress));
-    updateProgressUI();
-  }
-
-  function resetProgress() {
-    playSound('click');
-    if (confirm('Are you sure you want to reset your study progress?')) {
-      APP_STATE.progress = [];
-      localStorage.setItem(STORAGE_KEYS.PROGRESS, JSON.stringify([]));
-      updateProgressUI();
-      showToast('Study progress reset', '🔄');
-    }
-  }
-
-  function markAllCompleted() {
-    playSound('success');
-    const allIds = [
-      'vol1', 'vol2', 'lab', 'exam',
-      'note-09', 'note-17', 'note-18', 'note-19', 'note-20',
-      'note-21', 'note-22', 'note-23', 'note-24', 'note-25', 'note-26'
-    ];
-    APP_STATE.progress = allIds;
-    localStorage.setItem(STORAGE_KEYS.PROGRESS, JSON.stringify(allIds));
-    updateProgressUI();
-    showToast('All 15 library items marked completed!', '🏆');
-  }
-
-  // =========================================================================
-  // 6. UNIVERSAL SPOTLIGHT SEARCH
+  // 5. UNIVERSAL SPOTLIGHT SEARCH
   // =========================================================================
   function loadSearchIndex() {
     fetch('search_index.json')
@@ -661,9 +587,6 @@
   window.randomDrill = randomDrill;
   window.switchCheatTab = switchCheatTab;
   window.selectRouteStep = selectRouteStep;
-  window.toggleItemProgress = toggleItemProgress;
-  window.resetProgress = resetProgress;
-  window.markAllCompleted = markAllCompleted;
   window.toggleTheme = toggleTheme;
   window.toggleSound = toggleSound;
   window.copyCodeSnippet = function (btn) {
@@ -688,7 +611,6 @@
     // 2. Load data
     loadSearchIndex();
     loadExamDrills();
-    updateProgressUI();
 
     // 3. Search events
     const searchInput = document.getElementById('q');

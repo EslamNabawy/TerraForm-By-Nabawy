@@ -17,7 +17,6 @@
       <span class="brand-badge">INK &amp; AMBER</span>
     </a>
     <nav>
-      <span id="nav-progress-pill" class="nav-progress-pill">🎯 0% Completed</span>
       <button onclick="document.getElementById('q').focus(); document.getElementById('q').scrollIntoView({behavior:'smooth', block:'center'});">
         🔍 <span class="btn-text">Search</span>
       </button>
@@ -46,25 +45,6 @@
         <span class="chip">🎓 261 exam questions</span>
         <span class="chip">🏋️ 40 lab drills</span>
         <span class="chip">📝 11 study notes</span>
-      </div>
-
-      <!-- Library Completion Tracker -->
-      <div class="progress-card">
-        <div class="progress-header">
-          <span>🎯 YOUR STUDY PROGRESS</span>
-          <span id="progress-pct" style="color: var(--amber-d);">0%</span>
-        </div>
-        <div class="progress-bar-bg">
-          <div id="progress-fill" class="progress-bar-fill"></div>
-        </div>
-        <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 8px;">
-          <span id="progress-count" style="font-size: 11.5px; font-weight: 700; color: var(--muted);">0 of 15 completed</span>
-          <div class="progress-controls">
-            <button class="progress-btn-link" onclick="window.markAllCompleted()">Mark all done</button>
-            <span style="color: var(--line);">|</span>
-            <button class="progress-btn-link" onclick="window.resetProgress()">Reset tracker</button>
-          </div>
-        </div>
       </div>
 
       <!-- Universal Search & Spotlight Palette -->
@@ -145,10 +125,6 @@
       <article class="card" id="book-card-1">
         <div class="card-top">
           <div class="num">VOLUME 1 · FOUNDATIONS</div>
-          <label class="mark-read-toggle" title="Toggle read status">
-            <input type="checkbox" class="book-progress-check" data-id="vol1" onchange="window.toggleItemProgress('vol1', this.checked)">
-            <span>Finished</span>
-          </label>
         </div>
         <h2>Terraform Master I</h2>
         <p>Every core concept, anatomy, workflow, gotcha, and exam note — from IaC &amp; idempotence to variables, workspaces, provisioners, and the capstone chain. The fundamental reference volume.</p>
@@ -187,10 +163,6 @@
       <article class="card" id="book-card-2">
         <div class="card-top">
           <div class="num">VOLUME 2 · PRODUCTION</div>
-          <label class="mark-read-toggle" title="Toggle read status">
-            <input type="checkbox" class="book-progress-check" data-id="vol2" onchange="window.toggleItemProgress('vol2', this.checked)">
-            <span>Finished</span>
-          </label>
         </div>
         <h2>Terraform Master II</h2>
         <p>Multi-environment layouts, workspaces, networking deep-dive, count &amp; for_each, outputs, full project walkthrough, and the complete two-tier ALB build. The production-grade engineering volume.</p>
@@ -226,10 +198,6 @@
       <article class="card" id="book-card-3">
         <div class="card-top">
           <div class="num">VOLUME 3 · HANDS-ON LAB</div>
-          <label class="mark-read-toggle" title="Toggle read status">
-            <input type="checkbox" class="book-progress-check" data-id="lab" onchange="window.toggleItemProgress('lab', this.checked)">
-            <span>Finished</span>
-          </label>
         </div>
         <h2>Terraform Practice Lab</h2>
         <p>40 comprehensive exercises — 15 warm-ups, 15 multi-concept drills, and 10 production bosses — each with a full worked answer (WHY + TRAP + EXAM). Broken configs, plan predictions, and debugging drills.</p>
@@ -264,10 +232,6 @@
       <article class="card" id="book-card-4">
         <div class="card-top">
           <div class="num">VOLUME 4 · CERTIFICATION</div>
-          <label class="mark-read-toggle" title="Toggle read status">
-            <input type="checkbox" class="book-progress-check" data-id="exam" onchange="window.toggleItemProgress('exam', this.checked)">
-            <span>Finished</span>
-          </label>
         </div>
         <h2>Exam Command Center</h2>
         <p>HashiCorp Certified: Terraform Associate (003) prep — complete exam intel, 9 domain reviews, 90 domain drills with deep answer keys, 3 full 57-question mocks, and diagnostic score tracker.</p>
@@ -364,7 +328,7 @@
             <span class="note-num">09 · ALB Walkthrough</span>
             <span class="note-title">Two-Tier Load Balancer Stack</span>
           </div>
-          <input type="checkbox" class="note-check" data-id="note-09" onclick="event.stopPropagation(); window.toggleItemProgress('note-09', this.checked)">
+          <span class="note-arrow">→</span>
         </div>
 
         <div class="note-card" onclick="window.openNoteModal('notes/17-what-is-terraform-facts.md')">
@@ -372,7 +336,7 @@
             <span class="note-num">17 · Terraform Facts</span>
             <span class="note-title">License, Ecosystem &amp; 6 Pillars</span>
           </div>
-          <input type="checkbox" class="note-check" data-id="note-17" onclick="event.stopPropagation(); window.toggleItemProgress('note-17', this.checked)">
+          <span class="note-arrow">→</span>
         </div>
 
         <div class="note-card" onclick="window.openNoteModal('notes/18-terraform-init.md')">
@@ -380,7 +344,7 @@
             <span class="note-num">18 · terraform init</span>
             <span class="note-title">.terraform Tree, Lock &amp; .gitignore</span>
           </div>
-          <input type="checkbox" class="note-check" data-id="note-18" onclick="event.stopPropagation(); window.toggleItemProgress('note-18', this.checked)">
+          <span class="note-arrow">→</span>
         </div>
 
         <div class="note-card" onclick="window.openNoteModal('notes/19-providers-catalog.md')">
@@ -388,7 +352,7 @@
             <span class="note-num">19 · Providers Catalog</span>
             <span class="note-title">IaaS, PaaS, SaaS Translators</span>
           </div>
-          <input type="checkbox" class="note-check" data-id="note-19" onclick="event.stopPropagation(); window.toggleItemProgress('note-19', this.checked)">
+          <span class="note-arrow">→</span>
         </div>
 
         <div class="note-card" onclick="window.openNoteModal('notes/20-core-cli-commands.md')">
@@ -396,7 +360,7 @@
             <span class="note-num">20 · Core CLI Commands</span>
             <span class="note-title">init, plan, apply, destroy Loop</span>
           </div>
-          <input type="checkbox" class="note-check" data-id="note-20" onclick="event.stopPropagation(); window.toggleItemProgress('note-20', this.checked)">
+          <span class="note-arrow">→</span>
         </div>
 
         <div class="note-card" onclick="window.openNoteModal('notes/21-state-file-what-why.md')">
@@ -404,7 +368,7 @@
             <span class="note-num">21 · State What &amp; Why</span>
             <span class="note-title">terraform.tfstate Ledger &amp; Secrets</span>
           </div>
-          <input type="checkbox" class="note-check" data-id="note-21" onclick="event.stopPropagation(); window.toggleItemProgress('note-21', this.checked)">
+          <span class="note-arrow">→</span>
         </div>
 
         <div class="note-card" onclick="window.openNoteModal('notes/22-state-commands.md')">
@@ -412,7 +376,7 @@
             <span class="note-num">22 · State Commands</span>
             <span class="note-title">list, show, mv, rm, pull, import</span>
           </div>
-          <input type="checkbox" class="note-check" data-id="note-22" onclick="event.stopPropagation(); window.toggleItemProgress('note-22', this.checked)">
+          <span class="note-arrow">→</span>
         </div>
 
         <div class="note-card" onclick="window.openNoteModal('notes/23-fmt-and-destroy.md')">
@@ -420,7 +384,7 @@
             <span class="note-num">23 · fmt &amp; destroy</span>
             <span class="note-title">Canonical Style &amp; Safe Teardown</span>
           </div>
-          <input type="checkbox" class="note-check" data-id="note-23" onclick="event.stopPropagation(); window.toggleItemProgress('note-23', this.checked)">
+          <span class="note-arrow">→</span>
         </div>
 
         <div class="note-card" onclick="window.openNoteModal('notes/24-more-cli-commands.md')">
@@ -428,7 +392,7 @@
             <span class="note-num">24 · More CLI Commands</span>
             <span class="note-title">fmt, graph, console, refresh-only</span>
           </div>
-          <input type="checkbox" class="note-check" data-id="note-24" onclick="event.stopPropagation(); window.toggleItemProgress('note-24', this.checked)">
+          <span class="note-arrow">→</span>
         </div>
 
         <div class="note-card" onclick="window.openNoteModal('notes/25-provisioners-doctrine.md')">
@@ -436,7 +400,7 @@
             <span class="note-num">25 · Provisioners Doctrine</span>
             <span class="note-title">Last-Resort Rules &amp; Caveats</span>
           </div>
-          <input type="checkbox" class="note-check" data-id="note-25" onclick="event.stopPropagation(); window.toggleItemProgress('note-25', this.checked)">
+          <span class="note-arrow">→</span>
         </div>
 
         <div class="note-card" onclick="window.openNoteModal('notes/26-capstone-hands-on-chain.md')">
@@ -444,7 +408,7 @@
             <span class="note-num">26 · Capstone Build Chain</span>
             <span class="note-title">8 Resources in One Tested Config</span>
           </div>
-          <input type="checkbox" class="note-check" data-id="note-26" onclick="event.stopPropagation(); window.toggleItemProgress('note-26', this.checked)">
+          <span class="note-arrow">→</span>
         </div>
       </div>
     </div>
