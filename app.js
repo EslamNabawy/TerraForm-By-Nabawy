@@ -48,6 +48,8 @@
     currentNoteIndex: -1,
     notesCatalog: [
       { id: 'note-09', file: 'notes/09-alb-walkthrough.md', num: '09', title: 'ALB Walkthrough', topic: 'Two-Tier Load Balancer Stack' },
+      { id: 'note-11', file: 'notes/11-floci-local-aws-emulator.md', num: '11', title: 'Floci Local Emulator', topic: 'Zero-Cost AWS in Docker' },
+      { id: 'note-14', file: 'notes/14-floci-verified-apply.md', num: '14', title: 'Verified Apply Proof', topic: '7-Step Floci Runbook' },
       { id: 'note-17', file: 'notes/17-what-is-terraform-facts.md', num: '17', title: 'Terraform Facts', topic: 'License, Ecosystem & Pillars' },
       { id: 'note-18', file: 'notes/18-terraform-init.md', num: '18', title: 'terraform init', topic: '.terraform tree, lock file, gitignore' },
       { id: 'note-19', file: 'notes/19-providers-catalog.md', num: '19', title: 'Providers Catalog', topic: 'IaaS, PaaS, SaaS Translators' },

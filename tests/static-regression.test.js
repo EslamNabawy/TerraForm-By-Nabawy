@@ -112,6 +112,19 @@ test('book sheet headers are well-formed (no unclosed h1)', () => {
   }
 });
 
+test('study-note catalog, cards, and files agree', () => {
+  const pathmod = require('node:path');
+  const fssync = require('node:fs');
+  const app = read('app.js');
+  const index = read('index.html');
+  const files = [...app.matchAll(/file:\s*'notes\/([^']+\.md)'/g)].map(match => match[1]);
+  assert.ok(files.length >= 13, `catalog has ${files.length} notes`);
+  for (const file of files) {
+    assert.ok(fssync.existsSync(pathmod.join(root, 'notes', file)), file);
+    assert.ok(index.includes(`data-note="notes/${file}"`), file);
+  }
+});
+
 test('div tags balance on every page', () => {
   for (const parts of [['index.html'], ['books', 'vol1-foundations.html'], ['books', 'vol2-production.html'], ['books', 'lab.html'], ['books', 'exam-center.html']]) {
     const page = read(...parts);
