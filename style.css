@@ -223,6 +223,7 @@ footer .fol-rule::before,footer .fol-rule::after{content:''; flex:1; border-top:
 .notes-source-grid{display:grid; grid-template-columns:repeat(auto-fill,minmax(280px,1fr)); gap:12px;}
 .note-card{display:flex; align-items:center; justify-content:space-between; text-decoration:none; color:var(--ink); background:var(--card); border:2px solid var(--ink); border-radius:12px; padding:12px 16px; box-shadow:3px 3px 0 rgba(38,32,26,.85); cursor:pointer; transition:all .12s;}
 .note-card:hover{background:var(--t-amber); transform:translateY(-2px); box-shadow:5px 5px 0 rgba(38,32,26,.85); border-color:var(--amber);}
+.note-card:focus-visible{outline:2px solid var(--amber); outline-offset:2px; background:var(--t-amber);}
 .note-info{display:flex; flex-direction:column; gap:2px;}
 .note-num{font-size:11px; font-weight:800; color:var(--amber-d); letter-spacing:.06em;}
 .note-title{font-size:13.5px; font-weight:700; color:var(--ink);}
@@ -284,11 +285,7 @@ footer .fol-rule::before,footer .fol-rule::after{content:''; flex:1; border-top:
 .toast{position:fixed; bottom:24px; right:24px; background:var(--ink); color:var(--paper); border:2px solid var(--paper); border-radius:12px; box-shadow:4px 4px 0 rgba(38,32,26,.85); padding:10px 18px; font-size:13px; font-weight:700; z-index:1000; transform:translateY(100px); opacity:0; transition:transform .25s ease, opacity .25s ease; display:flex; align-items:center; gap:8px;}
 .toast.show{transform:translateY(0); opacity:1;}
 
-/* ═══════════ SITE-SPECIFIC: BACK TO TOP BUTTON ═══════════ */
-.back-to-top-btn{position:fixed; bottom:24px; left:24px; background:var(--card); color:var(--ink); border:2.5px solid var(--ink); border-radius:999px; box-shadow:var(--shadow); padding:8px 16px; font-size:12.5px; font-weight:800; font-family:inherit; cursor:pointer; z-index:99; opacity:0; pointer-events:none; transform:translateY(16px); transition:all .2s ease; display:inline-flex; align-items:center; gap:6px;}
-.back-to-top-btn.visible{opacity:1; pointer-events:auto; transform:translateY(0);}
-.back-to-top-btn:hover{background:var(--t-amber); transform:translate(-2px,-2px); box-shadow:6px 6px 0 rgba(38,32,26,.85);}
-.back-to-top-btn:active{transform:translate(2px,2px); box-shadow:0 0 0;}
+/* ═══════════ SITE-SPECIFIC: BACK TO TOP BUTTON — canonical rules live in the BACK TO TOP section below ═══════════ */
 
 /* ═══════════ DARK MODE (OBSIDIAN & AMBER) ═══════════ */
 [data-theme="dark"]{

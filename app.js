@@ -182,7 +182,12 @@
       toast.className = 'toast';
       document.body.appendChild(toast);
     }
-    toast.innerHTML = `<span>${icon}</span><span>${message}</span>`;
+    toast.textContent = '';
+    const iconSpan = document.createElement('span');
+    iconSpan.textContent = icon;
+    const msgSpan = document.createElement('span');
+    msgSpan.textContent = message;
+    toast.append(iconSpan, msgSpan);
     toast.classList.add('show');
     clearTimeout(toast._timer);
     toast._timer = setTimeout(() => {
@@ -656,8 +661,21 @@
   }
 
   // =========================================================================
-  // 12. ROBUST PDF DOWNLOADER
+  // 12. ROBUST PDF DOWNLOADER (size-aware: streams large files)
   // =========================================================================
+  // Files bigger than this are handed to the browser as a streamed download
+  // instead of being buffered whole into a Blob (avoids OOM on mobile).
+  const BLOB_MAX_BYTES = 8 * 1024 * 1024;
+
+  function triggerDirectDownload(url, filename) {
+    const tempLink = document.createElement('a');
+    tempLink.href = url;
+    tempLink.setAttribute('download', filename || 'Terraform-Book.pdf');
+    document.body.appendChild(tempLink);
+    tempLink.click();
+    setTimeout(() => document.body.removeChild(tempLink), 500);
+  }
+
   async function downloadPdf(url, filename, btn) {
     if (btn && btn.classList.contains('downloading')) return;
     
@@ -670,6 +688,22 @@
     playSound('click');
 
     try {
+      // Peek at the size first: stream big PDFs instead of buffering them.
+      let contentLength = -1;
+      try {
+        const head = await fetch(url, { method: 'HEAD' });
+        if (head.ok) contentLength = parseInt(head.headers.get('content-length') || '-1', 10);
+      } catch (headErr) {
+        // HEAD unsupported here (e.g. file://) — fall through to GET below.
+      }
+
+      if (contentLength > BLOB_MAX_BYTES) {
+        triggerDirectDownload(url, filename);
+        playSound('success');
+        showToast(`${filename || 'PDF'} downloading directly (large file)…`, '📥');
+        return;
+      }
+
       const response = await fetch(url);
       if (!response.ok) throw new Error(`HTTP error ${response.status}`);
       
@@ -742,9 +776,25 @@
   window.copyCommand = function (cmd) {
     copyText(cmd, `Copied: ${cmd}`);
   };
+  window.noteCardKey = function (event) {
+    if (event.key === 'Enter' || event.key === ' ') {
+      event.preventDefault();
+      const card = event.currentTarget;
+      const notePath = card && card.dataset ? card.dataset.note : null;
+      if (notePath) openNoteModal(notePath);
+    }
+  };
 
   // DOMContentLoaded
   document.addEventListener('DOMContentLoaded', () => {
+    // 0. Offline support (http(s) only — service workers don't run on file://)
+    if ('serviceWorker' in navigator && /^https?:$/.test(window.location.protocol)) {
+      window.addEventListener('load', () => {
+        navigator.serviceWorker.register('sw.js').catch(err => {
+          console.warn('Service worker registration skipped:', err);
+        });
+      });
+    }
     // 1. Theme & Sound init
     applyTheme(APP_STATE.theme);
     const soundBtns = document.querySelectorAll('.sound-toggle-btn');

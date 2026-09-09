@@ -3,6 +3,10 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="Terraform Practice Lab — 40 hands-on exercises from warm-ups to boss fights with worked solutions.">
+<meta property="og:title" content="TerraForm by Nabawy — Practice Lab">
+<meta property="og:description" content="Terraform Practice Lab — 40 hands-on exercises from warm-ups to boss fights with worked solutions.">
+<meta property="og:type" content="article">
 <title>Terraform Practice Lab · 40 Hands-On Drills</title>
 <link rel="icon" type="image/svg+xml" href="../favicon.svg">
 <link rel="stylesheet" href="book-reader.css">
@@ -644,11 +648,11 @@ HINT 3 (proof): ips.txt via local-exec; output -json; destroy reverses all.</div
 </div>
 <div class="sheet" id="answers">
   <div class="pghead"><div class="hrow"><div><div class="kick">SOLUTIONS · WARM-UPS</div><h1 class="t">✅ sol-01 · sol-02 · sol-03</h1></div><span class="hmeta">🟢 BAND</span></div></div>
-  <div id="sol-01"><div class="sec"><span class="n">sol-01</span>Second apply: nothing to do</div><div class="code">Plan: 0 to add, 0 to change, 0 to destroy.
+  <div id="sol-01-detail"><div class="sec"><span class="n">sol-01</span>Second apply: nothing to do</div><div class="code">Plan: 0 to add, 0 to change, 0 to destroy.
 <span class="s">No changes. Your infrastructure matches the configuration.</span></div>
-<p class="small">🧠 WHY — refresh found vpc-0ab123456 with the same CIDR, so desired == known == real. An empty diff is the healthy steady state, not a broken run.<br>⚠ TRAP — "0/0/0 means Terraform didn't run." It ran fully: refresh + compare, then correctly did nothing.<br>🎓 EXAM — idempotence: same code → same infra → empty plan.</p></div><div id="sol-02"><div class="sec"><span class="n">sol-02</span>CLI v1.9.8 · provider v5.31.0, locked</div><div class="code">Terraform v1.9.8  +  hashicorp/aws v5.31.0
+<p class="small">🧠 WHY — refresh found vpc-0ab123456 with the same CIDR, so desired == known == real. An empty diff is the healthy steady state, not a broken run.<br>⚠ TRAP — "0/0/0 means Terraform didn't run." It ran fully: refresh + compare, then correctly did nothing.<br>🎓 EXAM — idempotence: same code → same infra → empty plan.</p></div><div id="sol-02-detail"><div class="sec"><span class="n">sol-02</span>CLI v1.9.8 · provider v5.31.0, locked</div><div class="code">Terraform v1.9.8  +  hashicorp/aws v5.31.0
 Lock: .terraform.lock.hcl  ← written by terraform init</div>
-<p class="small">🧠 WHY — <code>terraform version</code> prints both binaries; the lock pins exact builds + hashes so teammates download identical bits.<br>⚠ TRAP — reading only "v1.9.8" and ignoring the provider line. Version bugs live in providers, not the CLI.<br>🎓 EXAM — lock file committed, <code>.terraform/</code> ignored.</p></div><div id="sol-03"><div class="sec"><span class="n">sol-03</span>Pillar B, three kills</div><div class="code">✅ B) Platform-agnostic — one apply already spans AWS + GitHub.
+<p class="small">🧠 WHY — <code>terraform version</code> prints both binaries; the lock pins exact builds + hashes so teammates download identical bits.<br>⚠ TRAP — reading only "v1.9.8" and ignoring the provider line. Version bugs live in providers, not the CLI.<br>🎓 EXAM — lock file committed, <code>.terraform/</code> ignored.</p></div><div id="sol-03-detail"><div class="sec"><span class="n">sol-03</span>Pillar B, three kills</div><div class="code">✅ B) Platform-agnostic — one apply already spans AWS + GitHub.
 ✗ A) best practices — true, but says nothing about second APIs.
 ✗ C) community — nice, not the cost argument.  ✗ D) speed — irrelevant here.</div>
 <p class="small">🧠 WHY — CloudFormation cannot manage GitHub/Cloudflare; the moment a second API enters, "free and deep" loses to "one workflow everywhere".<br>⚠ TRAP — picking community: popular with managers, answers nothing about multi-cloud.<br>🎓 EXAM — "AWS-only?" → CloudFormation. "Multi-cloud?" → Terraform.</p></div>
@@ -658,14 +662,14 @@ Lock: .terraform.lock.hcl  ← written by terraform init</div>
 </div>
 <div class="sheet" id="sol-04">
   <div class="pghead"><div class="hrow"><div><div class="kick">SOLUTIONS · WARM-UPS</div><h1 class="t">✅ sol-04 · sol-05 · sol-06</h1></div><span class="hmeta">🟢 BAND</span></div></div>
-  <div id="sol-04"><div class="sec"><span class="n">sol-04</span>Parse → graph → plan → auth → VPC → subnet</div><div class="code">1 HCL parsed · 2 Core builds graph (edge: subnet→VPC)
+  <div id="sol-04-detail"><div class="sec"><span class="n">sol-04</span>Parse → graph → plan → auth → VPC → subnet</div><div class="code">1 HCL parsed · 2 Core builds graph (edge: subnet→VPC)
 3 plan diff computed · 4 provider authenticates
 5 VPC created · 6 subnet created (graph order, not file order)</div>
-<p class="small">🧠 WHY — Core reads everything first, derives order from references, and only then lets plugins touch APIs. Files are unordered; the graph is the order.<br>⚠ TRAP — putting auth first. Nothing authenticates before there's a plan worth executing.<br>🎓 EXAM — Core plans, plugins execute; order comes from references.</p></div><div id="sol-05"><div class="sec"><span class="n">sol-05</span>Leaked keys + hardcoded region</div><div class="code"># fixed provider.tf — no secrets, env-driven auth
+<p class="small">🧠 WHY — Core reads everything first, derives order from references, and only then lets plugins touch APIs. Files are unordered; the graph is the order.<br>⚠ TRAP — putting auth first. Nothing authenticates before there's a plan worth executing.<br>🎓 EXAM — Core plans, plugins execute; order comes from references.</p></div><div id="sol-05-detail"><div class="sec"><span class="n">sol-05</span>Leaked keys + hardcoded region</div><div class="code"># fixed provider.tf — no secrets, env-driven auth
 provider "aws" { region = "us-east-1" }
 # $ export AWS_ACCESS_KEY_ID=... AWS_SECRET_ACCESS_KEY=...
 # (or SSO profile / OIDC — never committed values)</div>
-<p class="small">🧠 WHY — committed keys get scraped in minutes; env vars/SSO keep secrets out of git while the block stays minimal and portable.<br>⚠ TRAP — "it's a private repo, fine." Private repos leak via clones, CI logs, and future-public flips.<br>🎓 EXAM — static keys ⚠ / env vars ✓ / CLI config ✓.</p></div><div id="sol-06"><div class="sec"><span class="n">sol-06</span>resource · aws_vpc · main</div><div class="code">resource "aws_vpc" "main" {   # singular, underscores, lowercase
+<p class="small">🧠 WHY — committed keys get scraped in minutes; env vars/SSO keep secrets out of git while the block stays minimal and portable.<br>⚠ TRAP — "it's a private repo, fine." Private repos leak via clones, CI logs, and future-public flips.<br>🎓 EXAM — static keys ⚠ / env vars ✓ / CLI config ✓.</p></div><div id="sol-06-detail"><div class="sec"><span class="n">sol-06</span>resource · aws_vpc · main</div><div class="code">resource "aws_vpc" "main" {   # singular, underscores, lowercase
   cidr_block = "10.0.0.0/16"
 }   # → address aws_vpc.main.id resolves</div>
 <p class="small">🧠 WHY — anatomy is fixed: keyword <code>resource</code>, TYPE with underscores, quoted lowercase name. The address derives from exactly these three tokens.<br>⚠ TRAP — fixing two of three and re-running into the third error. Read all three tokens every time.<br>🎓 EXAM — <code>resource "TYPE" "NAME"</code>; address = <code>TYPE.NAME.attr</code>.</p></div>
@@ -676,13 +680,13 @@ provider "aws" { region = "us-east-1" }
 </div>
 <div class="sheet" id="sol-07">
   <div class="pghead"><div class="hrow"><div><div class="kick">SOLUTIONS · WARM-UPS</div><h1 class="t">✅ sol-07 · sol-08 · sol-09</h1></div><span class="hmeta">🟢 BAND</span></div></div>
-  <div id="sol-07"><div class="sec"><span class="n">sol-07</span>aws 5.31.0 + local 2.5.1 · lock commits · binaries ignored</div><div class="code">Providers: hashicorp/aws v5.31.0, hashicorp/local v2.5.1
+  <div id="sol-07-detail"><div class="sec"><span class="n">sol-07</span>aws 5.31.0 + local 2.5.1 · lock commits · binaries ignored</div><div class="code">Providers: hashicorp/aws v5.31.0, hashicorp/local v2.5.1
 COMMIT: .terraform.lock.hcl   IGNORE: .terraform/ (binaries)</div>
-<p class="small">🧠 WHY — init output lists every installed plugin; the lock freezes exact builds; the directory is re-downloadable weight that never belongs in git.<br>⚠ TRAP — committing <code>.terraform/</code> (megabytes of binaries) while ignoring the tiny lock file. Exactly backwards.<br>🎓 EXAM — init downloads; lock pins; gitignore splits them.</p></div><div id="sol-08"><div class="sec"><span class="n">sol-08</span>1 add (type swap ~) · 1 destroy (web[2])</div><div class="code">  <span class="y">~ aws_instance.web[0]</span>  <span class="g"># t3.micro → t3.small, same ID</span>
+<p class="small">🧠 WHY — init output lists every installed plugin; the lock freezes exact builds; the directory is re-downloadable weight that never belongs in git.<br>⚠ TRAP — committing <code>.terraform/</code> (megabytes of binaries) while ignoring the tiny lock file. Exactly backwards.<br>🎓 EXAM — init downloads; lock pins; gitignore splits them.</p></div><div id="sol-08-detail"><div class="sec"><span class="n">sol-08</span>1 add (type swap ~) · 1 destroy (web[2])</div><div class="code">  <span class="y">~ aws_instance.web[0]</span>  <span class="g"># t3.micro → t3.small, same ID</span>
   <span class="y">~ aws_instance.web[1]</span>  <span class="g"># same</span>
   <span class="r">- aws_instance.web[2]</span>   <span class="g"># count shrink kills LAST index</span>
 Plan: 0 to add, 2 to change, 1 to destroy.</div>
-<p class="small">🧠 WHY — type is in-place (~); count shrink always drops the highest index. Two change kinds, one tail.<br>⚠ TRAP — "web[0] dies" (count never kills the first) or missing the ~ lines entirely.<br>🎓 EXAM — ~ in-place · − destroy · count shrinks from the top.</p></div><div id="sol-09"><div class="sec"><span class="n">sol-09</span>B, three kills</div><div class="code">✅ B) "~> 5.0" — 5.x automatically, 6.0 never. The house default.
+<p class="small">🧠 WHY — type is in-place (~); count shrink always drops the highest index. Two change kinds, one tail.<br>⚠ TRAP — "web[0] dies" (count never kills the first) or missing the ~ lines entirely.<br>🎓 EXAM — ~ in-place · − destroy · count shrinks from the top.</p></div><div id="sol-09-detail"><div class="sec"><span class="n">sol-09</span>B, three kills</div><div class="code">✅ B) "~> 5.0" — 5.x automatically, 6.0 never. The house default.
 ✗ A) ">= 5.0" — uncapped: 6.0 surprise breaks at 3 AM.
 ✗ C) "= 5.31.0" — frozen: safe but manual toil per bug-fix.
 ✗ D) none — floating: every init is a lottery.</div>
@@ -694,13 +698,13 @@ Plan: 0 to add, 3 to change, 0 to destroy.</div></div>
 </div>
 <div class="sheet" id="sol-10">
   <div class="pghead"><div class="hrow"><div><div class="kick">SOLUTIONS · WARM-UPS</div><h1 class="t">✅ sol-10 · sol-11 · sol-12</h1></div><span class="hmeta">🟢 BAND</span></div></div>
-  <div id="sol-10"><div class="sec"><span class="n">sol-10</span>init → plan → apply tfplan</div><div class="code">1 terraform init (binaries first — nothing works without them)
+  <div id="sol-10-detail"><div class="sec"><span class="n">sol-10</span>init → plan → apply tfplan</div><div class="code">1 terraform init (binaries first — nothing works without them)
 2 terraform plan -out=tfplan (read-only preview + saved contract)
 3 terraform apply tfplan (executes EXACTLY the reviewed plan)</div>
-<p class="small">🧠 WHY — each step's output is the next step's input: binaries → contract → execution. Skipping straight to apply merges preview and execution blind.<br>⚠ TRAP — <code>apply</code> before <code>init</code> (no plugins) or bare <code>apply</code> in prod (unreviewed changes).<br>🎓 EXAM — plan is read-only; <code>apply tfplan</code> = reviewed == executed.</p></div><div id="sol-11"><div class="sec"><span class="n">sol-11</span>Duplicate VPC — risk ①</div><div class="code"># before rm: config 1 · state 1 (vpc-0ab1) · AWS 1 → plan 0/0/0
+<p class="small">🧠 WHY — each step's output is the next step's input: binaries → contract → execution. Skipping straight to apply merges preview and execution blind.<br>⚠ TRAP — <code>apply</code> before <code>init</code> (no plugins) or bare <code>apply</code> in prod (unreviewed changes).<br>🎓 EXAM — plan is read-only; <code>apply tfplan</code> = reviewed == executed.</p></div><div id="sol-11-detail"><div class="sec"><span class="n">sol-11</span>Duplicate VPC — risk ①</div><div class="code"># before rm: config 1 · state 1 (vpc-0ab1) · AWS 1 → plan 0/0/0
 # after rm:  config 1 · state 0 · AWS 1 → plan: 1 to add (ghost!)
 # after apply: config 1 · state 1 (vpc-0cd2) · AWS 2 → DUPLICATE</div>
-<p class="small">🧠 WHY — with no ledger, desired-vs-known computes "everything is new." Terraform builds a second VPC beside the forgotten one.<br>⚠ TRAP — "apply will re-adopt it." Nothing re-adopts except <code>import</code>; apply creates.<br>🎓 EXAM — deleting tfstate → Terraform forgets everything → duplicates.</p></div><div id="sol-12"><div class="sec"><span class="n">sol-12</span>S3 backend, two keys, one rule</div><div class="code">terraform {
+<p class="small">🧠 WHY — with no ledger, desired-vs-known computes "everything is new." Terraform builds a second VPC beside the forgotten one.<br>⚠ TRAP — "apply will re-adopt it." Nothing re-adopts except <code>import</code>; apply creates.<br>🎓 EXAM — deleting tfstate → Terraform forgets everything → duplicates.</p></div><div id="sol-12-detail"><div class="sec"><span class="n">sol-12</span>S3 backend, two keys, one rule</div><div class="code">terraform {
   backend "s3" {
     bucket = "tfstate"   # prod-grade: separate buckets per env
     key    = "env/dev/terraform.tfstate"   # ← per-env key (staging: env/…)
@@ -716,14 +720,14 @@ Plan: 0 to add, 3 to change, 0 to destroy.</div></div>
 </div>
 <div class="sheet" id="sol-13">
   <div class="pghead"><div class="hrow"><div><div class="kick">SOLUTIONS · WARM-UPS</div><h1 class="t">✅ sol-13 · sol-14 · sol-15</h1></div><span class="hmeta">🟢 BAND</span></div></div>
-  <div id="sol-13"><div class="sec"><span class="n">sol-13</span>Held lock: verify, then force-unlock ID</div><div class="code"># 1 read: holder ci-runner-4, op apply, since 10:02
+  <div id="sol-13-detail"><div class="sec"><span class="n">sol-13</span>Held lock: verify, then force-unlock ID</div><div class="code"># 1 read: holder ci-runner-4, op apply, since 10:02
 # 2 confirm dead: CI run red / human says killed / ps empty
 # 3 release: terraform force-unlock a1b2-c3
 # 4 prove: plan clean before anyone re-applies</div>
-<p class="small">🧠 WHY — the lock is evidence, not the enemy: it names who/why. Release follows proof of death, never impatience.<br>⚠ TRAP — force-unlocking a LIVE holder (two writers, one ledger → corruption) or hand-deleting the DynamoDB row.<br>🎓 EXAM — read → confirm → release → prove. Never delete the row.</p></div><div id="sol-14"><div class="sec"><span class="n">sol-14</span>Ledger first, code second</div><div class="code">$ terraform state mv aws_instance.web aws_instance.app
+<p class="small">🧠 WHY — the lock is evidence, not the enemy: it names who/why. Release follows proof of death, never impatience.<br>⚠ TRAP — force-unlocking a LIVE holder (two writers, one ledger → corruption) or hand-deleting the DynamoDB row.<br>🎓 EXAM — read → confirm → release → prove. Never delete the row.</p></div><div id="sol-14-detail"><div class="sec"><span class="n">sol-14</span>Ledger first, code second</div><div class="code">$ terraform state mv aws_instance.web aws_instance.app
 Move "aws_instance.web" to "aws_instance.app" — 1 moved.
 # then rename in main.tf → next plan: 0/0/0 (same box, new name)</div>
-<p class="small">🧠 WHY — identity lives in the address: move the ledger entry and the code rename becomes a no-op instead of destroy+create.<br>⚠ TRAP — renaming code first (plan shows −/+ on a live box) or using <code>rm</code> (orphans it).<br>🎓 EXAM — <code>mv</code> renames tracking; <code>rm</code> abandons; neither touches AWS.</p></div><div id="sol-15"><div class="sec"><span class="n">sol-15</span>Canonical form + the gate</div><div class="code">resource "aws_vpc" "main" {
+<p class="small">🧠 WHY — identity lives in the address: move the ledger entry and the code rename becomes a no-op instead of destroy+create.<br>⚠ TRAP — renaming code first (plan shows −/+ on a live box) or using <code>rm</code> (orphans it).<br>🎓 EXAM — <code>mv</code> renames tracking; <code>rm</code> abandons; neither touches AWS.</p></div><div id="sol-15-detail"><div class="sec"><span class="n">sol-15</span>Canonical form + the gate</div><div class="code">resource "aws_vpc" "main" {
   cidr_block = "10.0.0.0/16"
   tags       = { Name = "x" }
 }
@@ -736,12 +740,12 @@ Move "aws_instance.web" to "aws_instance.app" — 1 moved.
 </div>
 <div class="sheet" id="answers-2">
   <div class="pghead"><div class="hrow"><div><div class="kick">SOLUTIONS · DRILLS</div><h1 class="t">✅ sol-16 · sol-17 · sol-18</h1></div><span class="hmeta">🟡 BAND</span></div></div>
-  <div id="sol-16"><div class="sec"><span class="n">sol-16</span>Reference, not string + redraw</div><div class="code">resource "aws_subnet" "a" {
+  <div id="sol-16-detail"><div class="sec"><span class="n">sol-16</span>Reference, not string + redraw</div><div class="code">resource "aws_subnet" "a" {
   vpc_id = aws_vpc.main.id   # ← reference creates the edge
   cidr_block = "10.0.1.0/24"
 }
 $ terraform graph | dot -Tsvg &gt; graph.svg   # edge reappears</div>
-<p class="small">🧠 WHY — the graph is built from references, not values: a pasted ID is data, a reference is an ordering edge. Same string, different meaning.<br>⚠ TRAP — adding <code>depends_on</code> to fix it. Works, but hides the real breakage: the subnet no longer follows VPC renames.<br>🎓 EXAM — references create edges; literals don't; graph proves it.</p></div><div id="sol-17"><div class="sec"><span class="n">sol-17</span>Four vars, validation on env</div><div class="code"># variables.tf
+<p class="small">🧠 WHY — the graph is built from references, not values: a pasted ID is data, a reference is an ordering edge. Same string, different meaning.<br>⚠ TRAP — adding <code>depends_on</code> to fix it. Works, but hides the real breakage: the subnet no longer follows VPC renames.<br>🎓 EXAM — references create edges; literals don't; graph proves it.</p></div><div id="sol-17-detail"><div class="sec"><span class="n">sol-17</span>Four vars, validation on env</div><div class="code"># variables.tf
 variable "ami" { type = string }   # required: no default
 variable "instance_type" { type = string  default = "t3.micro" }
 variable "name" { type = string  default = "web-0" }
@@ -750,7 +754,7 @@ variable "env" {
   validation { condition = contains(["dev","staging","prod"], var.env)
     error_message = "must be dev/staging/prod" }
 }</div>
-<p class="small">🧠 WHY — types catch shape errors at plan; required-ness forces callers to decide; validation rejects bad envs before anything builds.<br>⚠ TRAP — defaulting everything (prod silently inherits dev values) or validating nothing.<br>🎓 EXAM — type + default + description + validation = complete declaration.</p></div><div id="sol-18"><div class="sec"><span class="n">sol-18</span>qa wins — CLI beats all files</div><div class="code"># winner: env = "qa" (the -var flag)
+<p class="small">🧠 WHY — types catch shape errors at plan; required-ness forces callers to decide; validation rejects bad envs before anything builds.<br>⚠ TRAP — defaulting everything (prod silently inherits dev values) or validating nothing.<br>🎓 EXAM — type + default + description + validation = complete declaration.</p></div><div id="sol-18-detail"><div class="sec"><span class="n">sol-18</span>qa wins — CLI beats all files</div><div class="code"># winner: env = "qa" (the -var flag)
 # proof experiment: set all four differently, plan, read the value —
 # change one layer at a time to map the full ladder.
 # fix: drop the -var flag (or set it to prod) to get prod.</div>
@@ -761,7 +765,7 @@ variable "env" {
 </div>
 <div class="sheet" id="sol-19">
   <div class="pghead"><div class="hrow"><div><div class="kick">SOLUTIONS · DRILLS</div><h1 class="t">✅ sol-19 · sol-20 · sol-21</h1></div><span class="hmeta">🟡 BAND</span></div></div>
-  <div id="sol-19"><div class="sec"><span class="n">sol-19</span>Sizing map + three workspaces + typed check</div><div class="code">locals {
+  <div id="sol-19-detail"><div class="sec"><span class="n">sol-19</span>Sizing map + three workspaces + typed check</div><div class="code">locals {
   sizing = { dev = { count=1 type="t3.micro" }
     staging = { count=2 type="t3.small" } prod = { count=3 type="t3.small" } }
   current = local.sizing[terraform.workspace]
@@ -770,11 +774,11 @@ resource "aws_instance" "cluster" {
   count = local.current.count   instance_type = local.current.type }
 # $ workspace new dev/staging/prod → select → apply each
 # RULE: type `workspace show` (or show) before EVERY apply.</div>
-<p class="small">🧠 WHY — the workspace name becomes a lookup key: same code, per-env shape, per-env state. The typed check defeats "wrong env" applies.<br>⚠ TRAP — <code>local.sizing[var.env]</code> with no workspace (one state, three liars) or forgetting the default-workspace entry.<br>🎓 EXAM — <code>terraform.workspace</code> keys maps; state isolation comes free.</p></div><div id="sol-20"><div class="sec"><span class="n">sol-20</span>web[2] dies, attachment errors</div><div class="code">  <span class="r">- aws_instance.web[2]</span>   <span class="g"># LAST index dies</span>
+<p class="small">🧠 WHY — the workspace name becomes a lookup key: same code, per-env shape, per-env state. The typed check defeats "wrong env" applies.<br>⚠ TRAP — <code>local.sizing[var.env]</code> with no workspace (one state, three liars) or forgetting the default-workspace entry.<br>🎓 EXAM — <code>terraform.workspace</code> keys maps; state isolation comes free.</p></div><div id="sol-20-detail"><div class="sec"><span class="n">sol-20</span>web[2] dies, attachment errors</div><div class="code">  <span class="r">- aws_instance.web[2]</span>   <span class="g"># LAST index dies</span>
 Plan: 0 to add, 0 to change, 1 to destroy.
 # downstream: Error: Invalid index — web[2] no longer exists.
 # for_each wouldn't: keys hold, only the removed key dies.</div>
-<p class="small">🧠 WHY — count identity IS position: shrink drops the tail, and every <code>[2]</code> reference dangles. Keys decouple identity from position.<br>⚠ TRAP — "it destroys web[0]" or "references update themselves." Neither: tail dies, refs break.<br>🎓 EXAM — count shrinks from the top; dangling indexes error, never re-point.</p></div><div id="sol-21"><div class="sec"><span class="n">sol-21</span>AZ-keyed map + mv each address</div><div class="code">resource "aws_subnet" "public" {
+<p class="small">🧠 WHY — count identity IS position: shrink drops the tail, and every <code>[2]</code> reference dangles. Keys decouple identity from position.<br>⚠ TRAP — "it destroys web[0]" or "references update themselves." Neither: tail dies, refs break.<br>🎓 EXAM — count shrinks from the top; dangling indexes error, never re-point.</p></div><div id="sol-21-detail"><div class="sec"><span class="n">sol-21</span>AZ-keyed map + mv each address</div><div class="code">resource "aws_subnet" "public" {
   for_each = { for i, az in var.azs : az =&gt; i }
   cidr_block = cidrsubnet("10.0.0.0/16", 8, each.value)
   availability_zone = each.key
@@ -789,13 +793,13 @@ $ terraform state mv 'aws_subnet.public[0]' 'aws_subnet.public["us-east-1a"]'
 </div>
 <div class="sheet" id="sol-22">
   <div class="pghead"><div class="hrow"><div><div class="kick">SOLUTIONS · DRILLS</div><h1 class="t">✅ sol-22 · sol-23 · sol-24</h1></div><span class="hmeta">🟡 BAND</span></div></div>
-  <div id="sol-22"><div class="sec"><span class="n">sol-22</span>Flag it + pipe it, never print it</div><div class="code">output "db_password" { value = aws_db_instance.main.password
+  <div id="sol-22-detail"><div class="sec"><span class="n">sol-22</span>Flag it + pipe it, never print it</div><div class="code">output "db_password" { value = aws_db_instance.main.password
   sensitive = true }   # hides CLI display
 $ terraform output -raw db_password | aws secretsmanager create-secret ...</div>
-<p class="small">🧠 WHY — <code>sensitive</code> masks display; piping moves the value machine-to-machine with no eyeballs. The two violations were unflagged output + human-readable transport.<br>⚠ TRAP — "sensitive encrypts state." Masking only — state stays plaintext; Vault/SSM is the encryption story.<br>🎓 EXAM — sensitive = display; secret store = transport; Vault = rest.</p></div><div id="sol-23"><div class="sec"><span class="n">sol-23</span>Creation-only fired long ago</div><div class="code"># why nothing ran: provisioner fired at creation; edits don't re-fire it.
+<p class="small">🧠 WHY — <code>sensitive</code> masks display; piping moves the value machine-to-machine with no eyeballs. The two violations were unflagged output + human-readable transport.<br>⚠ TRAP — "sensitive encrypts state." Masking only — state stays plaintext; Vault/SSM is the encryption story.<br>🎓 EXAM — sensitive = display; secret store = transport; Vault = rest.</p></div><div id="sol-23-detail"><div class="sec"><span class="n">sol-23</span>Creation-only fired long ago</div><div class="code"># why nothing ran: provisioner fired at creation; edits don't re-fire it.
 # recovery: terraform taint aws_instance.web → apply (rebuild + rerun)
 # cure: user_data / Packer AMI / Ansible — remove the hook entirely.</div>
-<p class="small">🧠 WHY — Terraform tracks the resource, not the script's effects: unchanged resource means no lifecycle event, so no hook. "Broken" is the design working.<br>⚠ TRAP — re-applying harder, or adding a second provisioner on top. Both preserve the half-configured box.<br>🎓 EXAM — provisioners: creation-only, last resort, state-blind.</p></div><div id="sol-24"><div class="sec"><span class="n">sol-24</span>main/variables/outputs + two inputs</div><div class="code"># modules/vpc/{ main.tf, variables.tf, outputs.tf }
+<p class="small">🧠 WHY — Terraform tracks the resource, not the script's effects: unchanged resource means no lifecycle event, so no hook. "Broken" is the design working.<br>⚠ TRAP — re-applying harder, or adding a second provisioner on top. Both preserve the half-configured box.<br>🎓 EXAM — provisioners: creation-only, last resort, state-blind.</p></div><div id="sol-24-detail"><div class="sec"><span class="n">sol-24</span>main/variables/outputs + two inputs</div><div class="code"># modules/vpc/{ main.tf, variables.tf, outputs.tf }
 variable "cidr" { type = string }   # per-env CIDR in
 variable "azs" { type = list(string) }   # per-env AZs in
 module "prod_vpc" {
@@ -810,13 +814,13 @@ module "prod_vpc" {
 </div>
 <div class="sheet" id="sol-25">
   <div class="pghead"><div class="hrow"><div><div class="kick">SOLUTIONS · DRILLS</div><h1 class="t">✅ sol-25 · sol-26 · sol-27</h1></div><span class="hmeta">🟡 BAND</span></div></div>
-  <div id="sol-25"><div class="sec"><span class="n">sol-25</span>~ on the SG, apply or revert</div><div class="code">  <span class="y">~ aws_security_group.web</span>  <span class="g"># ingress: +22-open-by-hand</span>
+  <div id="sol-25-detail"><div class="sec"><span class="n">sol-25</span>~ on the SG, apply or revert</div><div class="code">  <span class="y">~ aws_security_group.web</span>  <span class="g"># ingress: +22-open-by-hand</span>
 Plan: 0 to add, 1 to change, 0 to destroy.
 # keep it: add 22 to code → apply. revert it: console-delete 22 → plan 0/0/0.</div>
-<p class="small">🧠 WHY — refresh imports REAL into the diff: hand edits surface as ~ changes against code. The plan is the drift report you didn't ask anyone to write.<br>⚠ TRAP — "plan will ignore console edits." Refresh exists precisely so it can't.<br>🎓 EXAM — drift shows as ~; resolve by code (apply) or console (revert).</p></div><div id="sol-26"><div class="sec"><span class="n">sol-26</span>B previews, C writes, A retires</div><div class="code">✅ job 1: plan -refresh-only -out=drift.plan (preview, zero writes)
+<p class="small">🧠 WHY — refresh imports REAL into the diff: hand edits surface as ~ changes against code. The plan is the drift report you didn't ask anyone to write.<br>⚠ TRAP — "plan will ignore console edits." Refresh exists precisely so it can't.<br>🎓 EXAM — drift shows as ~; resolve by code (apply) or console (revert).</p></div><div id="sol-26-detail"><div class="sec"><span class="n">sol-26</span>B previews, C writes, A retires</div><div class="code">✅ job 1: plan -refresh-only -out=drift.plan (preview, zero writes)
 ✅ job 2: apply -refresh-only (deliberate state sync)
 ✗ A) refresh — legacy standalone; same engine, worse manners.</div>
-<p class="small">🧠 WHY — the flag form says what it does: preview vs write, each explicit and reviewable. Bare <code>refresh</code> writes silently with no plan artifact.<br>⚠ TRAP — refreshing to "fix" drift (it blesses the drift into state instead of removing it).<br>🎓 EXAM — <code>-refresh-only</code> previews or syncs; bare refresh is legacy.</p></div><div id="sol-27"><div class="sec"><span class="n">sol-27</span>Write → import → quiet plan</div><div class="code"># 1 resource "aws_vpc" "main" { cidr_block = "10.0.0.0/16" }
+<p class="small">🧠 WHY — the flag form says what it does: preview vs write, each explicit and reviewable. Bare <code>refresh</code> writes silently with no plan artifact.<br>⚠ TRAP — refreshing to "fix" drift (it blesses the drift into state instead of removing it).<br>🎓 EXAM — <code>-refresh-only</code> previews or syncs; bare refresh is legacy.</p></div><div id="sol-27-detail"><div class="sec"><span class="n">sol-27</span>Write → import → quiet plan</div><div class="code"># 1 resource "aws_vpc" "main" { cidr_block = "10.0.0.0/16" }
 $ terraform import aws_vpc.main vpc-0ab123456
 Import successful!
 $ terraform plan   # → 0 to add, 0 to change, 0 to destroy ✔</div>
@@ -828,13 +832,13 @@ aws_security_group.web   # ← the drifter, by address</div></div>
 </div>
 <div class="sheet" id="sol-28">
   <div class="pghead"><div class="hrow"><div><div class="kick">SOLUTIONS · DRILLS</div><h1 class="t">✅ sol-28 · sol-29 · sol-30</h1></div><span class="hmeta">🟡 BAND</span></div></div>
-  <div id="sol-28"><div class="sec"><span class="n">sol-28</span>provider = aws.eu on the DR block</div><div class="code">resource "aws_vpc" "dr" {
+  <div id="sol-28-detail"><div class="sec"><span class="n">sol-28</span>provider = aws.eu on the DR block</div><div class="code">resource "aws_vpc" "dr" {
   provider   = aws.eu   # ← the missing line: opt into the alias
   cidr_block = "10.50.0.0/16"   # now lands eu-west-1, no overlap
 }</div>
-<p class="small">🧠 WHY — resources default to the un-aliased block; without the opt-in both VPCs share a region and the "clearly regional" code lies.<br>⚠ TRAP — "the alias on the provider is enough." Declaring <code>alias</code> creates the option; only <code>provider =</code> exercises it.<br>🎓 EXAM — alias declares, <code>provider =</code> selects, default is un-aliased.</p></div><div id="sol-29"><div class="sec"><span class="n">sol-29</span>Quote it as HCL, not shell</div><div class="code">$ export TF_VAR_tags='{"Env":"prod"}'   # single-quoted HCL map
+<p class="small">🧠 WHY — resources default to the un-aliased block; without the opt-in both VPCs share a region and the "clearly regional" code lies.<br>⚠ TRAP — "the alias on the provider is enough." Declaring <code>alias</code> creates the option; only <code>provider =</code> exercises it.<br>🎓 EXAM — alias declares, <code>provider =</code> selects, default is un-aliased.</p></div><div id="sol-29-detail"><div class="sec"><span class="n">sol-29</span>Quote it as HCL, not shell</div><div class="code">$ export TF_VAR_tags='{"Env":"prod"}'   # single-quoted HCL map
 # rule: primitives auto-convert; lists/maps/objects need HCL syntax.</div>
-<p class="small">🧠 WHY — env vars arrive as raw strings: <code>5</code> converts cleanly but <code>{Env:prod}</code> parses as garbage the type system rejects.<br>⚠ TRAP — double quotes (shell eats them) or unquoted braces (shell expands them). Single-quote the HCL.<br>🎓 EXAM — TF_VAR_* = strings; complex types = single-quoted HCL.</p></div><div id="sol-30"><div class="sec"><span class="n">sol-30</span>B, three kills</div><div class="code">✅ B) one(v[*].arn) — empty → null, single → value. Built for this.
+<p class="small">🧠 WHY — env vars arrive as raw strings: <code>5</code> converts cleanly but <code>{Env:prod}</code> parses as garbage the type system rejects.<br>⚠ TRAP — double quotes (shell eats them) or unquoted braces (shell expands them). Single-quote the HCL.<br>🎓 EXAM — TF_VAR_* = strings; complex types = single-quoted HCL.</p></div><div id="sol-30-detail"><div class="sec"><span class="n">sol-30</span>B, three kills</div><div class="code">✅ B) one(v[*].arn) — empty → null, single → value. Built for this.
 ✗ A) [0] — Invalid index on empty.  ✗ C) [*][0] — same crash, extra steps.
 ~ D) length guard — correct but four lines for one function's job.</div>
 <p class="small">🧠 WHY — <code>one()</code> encodes exactly-one-or-null: the cardinality contract of every 0/1 resource in one call.<br>⚠ TRAP — C feels "splat-safe." Splat of empty is empty; indexing empty is still an error.<br>🎓 EXAM — 0/1 resources → <code>one()</code>; never bare <code>[0]</code>.</p></div>
@@ -844,15 +848,15 @@ aws_security_group.web   # ← the drifter, by address</div></div>
 </div>
 <div class="sheet" id="answers-3">
   <div class="pghead"><div class="hrow"><div><div class="kick">SOLUTIONS · BOSSES</div><h1 class="t">✅ sol-31 · sol-32 · sol-33</h1></div><span class="hmeta">🔴 BAND</span></div></div>
-  <div id="sol-31"><div class="sec"><span class="n">sol-31</span>B waits, ghost released by the book</div><div class="code"># t+10s B: Error acquiring lock (held: a1b2, ci-runner... wait — A, human)
+  <div id="sol-31-detail"><div class="sec"><span class="n">sol-31</span>B waits, ghost released by the book</div><div class="code"># t+10s B: Error acquiring lock (held: a1b2, ci-runner... wait — A, human)
 # table: one row, LockID=state, holder A. B retries or stands down.
 # recovery: ① show/CI/ps confirm A dead ② force-unlock a1b2
 # ③ plan clean ④ B applies. NEVER: hand-delete the DynamoDB row.</div>
-<p class="small">🧠 WHY — the lock serializes writers: B's error IS the system working. Recovery re-establishes single-writer truth before anything proceeds.<br>⚠ TRAP — unlocking while A might be alive (split-brain ledger) or deleting the row (destroys the evidence AND the guard).<br>🎓 EXAM — one lock, one writer; ghosts released by ID after proof.</p></div><div id="sol-32"><div class="sec"><span class="n">sol-32</span>terraform.tfvars won (staging); env loses to files</div><div class="code"># winner: staging — terraform.tfvars outranks TF_VAR_env.
+<p class="small">🧠 WHY — the lock serializes writers: B's error IS the system working. Recovery re-establishes single-writer truth before anything proceeds.<br>⚠ TRAP — unlocking while A might be alive (split-brain ledger) or deleting the row (destroys the evidence AND the guard).<br>🎓 EXAM — one lock, one writer; ghosts released by ID after proof.</p></div><div id="sol-32-detail"><div class="sec"><span class="n">sol-32</span>terraform.tfvars won (staging); env loses to files</div><div class="code"># winner: staging — terraform.tfvars outranks TF_VAR_env.
 # prove: TF_VAR_env=x plan → staging. rm terraform.tfvars → prod (env).
 # rm z.auto.tfvars too → still prod (env beats default dev).
 # fix: set -var="env=prod" (CLI beats all) or correct the tfvars.</div>
-<p class="small">🧠 WHY — the ladder never inverts: files always outrank env vars, CLI outranks files. "Expected prod" assumed env-first; the machine is file-first.<br>⚠ TRAP — deleting tfvars AND auto.tfvars and expecting dev (env still stands between files and default).<br>🎓 EXAM — debug values by removing layers top-down: -var, files, env, default.</p></div><div id="sol-33"><div class="sec"><span class="n">sol-33</span>Adopt fifty addresses, rewrite one reference</div><div class="code">$ for i in $(seq -w 1 50); do
+<p class="small">🧠 WHY — the ladder never inverts: files always outrank env vars, CLI outranks files. "Expected prod" assumed env-first; the machine is file-first.<br>⚠ TRAP — deleting tfvars AND auto.tfvars and expecting dev (env still stands between files and default).<br>🎓 EXAM — debug values by removing layers top-down: -var, files, env, default.</p></div><div id="sol-33-detail"><div class="sec"><span class="n">sol-33</span>Adopt fifty addresses, rewrite one reference</div><div class="code">$ for i in $(seq -w 1 50); do
   terraform state mv "aws_instance.worker[$((10#$i-1))]" "aws_instance.worker[\"w-$i\"]"
 done
 # downstream: values(aws_instance.worker)[*].id
@@ -864,15 +868,15 @@ done
 </div>
 <div class="sheet" id="sol-34">
   <div class="pghead"><div class="hrow"><div><div class="kick">SOLUTIONS · BOSSES</div><h1 class="t">✅ sol-34 · sol-35 · sol-36</h1></div><span class="hmeta">🔴 BAND</span></div></div>
-  <div id="sol-34"><div class="sec"><span class="n">sol-34</span>Taint the box, bake the cure</div><div class="code"># world: resource EXISTS (i-012345, half-configured) · plan sees done.
+  <div id="sol-34-detail"><div class="sec"><span class="n">sol-34</span>Taint the box, bake the cure</div><div class="code"># world: resource EXISTS (i-012345, half-configured) · plan sees done.
 # sledgehammer: terraform taint aws_instance.web → apply (rebuild + rerun)
 # cure: Packer AMI / user_data / Ansible — delete the provisioner.</div>
-<p class="small">🧠 WHY — creation-only fired once and will never refire: the plan is green because the RESOURCE is complete; the software was never Terraform's to track.<br>⚠ TRAP — re-applying expectantly, or <code>on_failure = continue</code> as a fix (hides the next failure too).<br>🎓 EXAM — green plan + broken box = fired hook; taint recovers, baking cures.</p></div><div id="sol-35"><div class="sec"><span class="n">sol-35</span>Move code, adopt namespaced addresses</div><div class="code"># modules/vpc/{ main.tf ← block, variables.tf ← cidr/azs, outputs.tf }
+<p class="small">🧠 WHY — creation-only fired once and will never refire: the plan is green because the RESOURCE is complete; the software was never Terraform's to track.<br>⚠ TRAP — re-applying expectantly, or <code>on_failure = continue</code> as a fix (hides the next failure too).<br>🎓 EXAM — green plan + broken box = fired hook; taint recovers, baking cures.</p></div><div id="sol-35-detail"><div class="sec"><span class="n">sol-35</span>Move code, adopt namespaced addresses</div><div class="code"># modules/vpc/{ main.tf ← block, variables.tf ← cidr/azs, outputs.tf }
 module "vpc" { source = "./modules/vpc"   cidr = "10.0.0.0/16" ... }
 $ terraform state mv aws_vpc.main 'module.vpc.aws_vpc.main'
 $ terraform state mv 'aws_subnet.public[0]' 'module.vpc.aws_subnet.public["us-east-1a"]'
 # …per resource, then plan 0/0/0.</div>
-<p class="small">🧠 WHY — module addresses namespace everything: adoption re-points each ledger entry ahead of the code move, so extraction is bookkeeping, not rebuild.<br>⚠ TRAP — moving code first (plan proposes destroy+create of the network — downtime by refactor).<br>🎓 EXAM — extraction = move code + mv each address + quiet plan.</p></div><div id="sol-36"><div class="sec"><span class="n">sol-36</span>Show, target, guard — prod unreachable</div><div class="code">$ terraform workspace show   # → dev. If prod: STOP.
+<p class="small">🧠 WHY — module addresses namespace everything: adoption re-points each ledger entry ahead of the code move, so extraction is bookkeeping, not rebuild.<br>⚠ TRAP — moving code first (plan proposes destroy+create of the network — downtime by refactor).<br>🎓 EXAM — extraction = move code + mv each address + quiet plan.</p></div><div id="sol-36-detail"><div class="sec"><span class="n">sol-36</span>Show, target, guard — prod unreachable</div><div class="code">$ terraform workspace show   # → dev. If prod: STOP.
 $ terraform destroy -target=aws_vpc.dev -target='aws_instance.dev[*]'
 # guard (already in code, hopefully):
 resource "aws_vpc" "data" { ... lifecycle { prevent_destroy = true } }</div>
@@ -886,13 +890,13 @@ resource "aws_vpc" "data" { ... lifecycle { prevent_destroy = true } }</div>
 </div>
 <div class="sheet" id="sol-37">
   <div class="pghead"><div class="hrow"><div><div class="kick">SOLUTIONS · BOSSES</div><h1 class="t">✅ sol-37 · sol-38 · sol-39</h1></div><span class="hmeta">🔴 BAND</span></div></div>
-  <div id="sol-37"><div class="sec"><span class="n">sol-37</span>CIDR, not SG refs + both-side DNS</div><div class="code">ingress {
+  <div id="sol-37-detail"><div class="sec"><span class="n">sol-37</span>CIDR, not SG refs + both-side DNS</div><div class="code">ingress {
   from_port = 5432   to_port = 5432   protocol = "tcp"
   cidr_blocks = ["10.20.0.0/16"]   # ← data VPC CIDR, not the SG id
 }
 # + aws_vpc_peering_connection_options BOTH sides:
 # allow_remote_vpc_dns_resolution = true</div>
-<p class="small">🧠 WHY — SG identity stops at the peering boundary, but routes carry CIDRs fine; DNS needs its own explicit opt-in per side or names stay dark.<br>⚠ TRAP — opening <code>0.0.0.0/0</code> "to make it work" (works, and invites the internet to the database).<br>🎓 EXAM — cross-peering: CIDR sources + both-side DNS flag.</p></div><div id="sol-38"><div class="sec"><span class="n">sol-38</span>Contract out, data source in, graph ordered</div><div class="code"># network/outputs.tf
+<p class="small">🧠 WHY — SG identity stops at the peering boundary, but routes carry CIDRs fine; DNS needs its own explicit opt-in per side or names stay dark.<br>⚠ TRAP — opening <code>0.0.0.0/0</code> "to make it work" (works, and invites the internet to the database).<br>🎓 EXAM — cross-peering: CIDR sources + both-side DNS flag.</p></div><div id="sol-38-detail"><div class="sec"><span class="n">sol-38</span>Contract out, data source in, graph ordered</div><div class="code"># network/outputs.tf
 output "vpc_id" { value = aws_vpc.main.id }
 output "private_subnet_ids" { value = aws_subnet.private[*].id }
 # app/data.tf
@@ -904,7 +908,7 @@ resource "aws_instance" "app" {
   subnet_id = data.terraform_remote_state.network.outputs.private_subnet_ids[0]
 }
 # CI: network job → app job (needs: network).</div>
-<p class="small">🧠 WHY — outputs publish the contract, the data source subscribes, and the pipeline orders what Terraform cannot: separate states have no shared graph.<br>⚠ TRAP — applying app first (null reads) or hardcoding the VPC ID (drift-proof coupling).<br>🎓 EXAM — outputs publish · remote_state subscribes · CI orders.</p></div><div id="sol-39"><div class="sec"><span class="n">sol-39</span>Lock rules until init -upgrade</div><div class="code"># why plan ignored it: 5.31.0 satisfies ">= 5.0" — lock still valid.
+<p class="small">🧠 WHY — outputs publish the contract, the data source subscribes, and the pipeline orders what Terraform cannot: separate states have no shared graph.<br>⚠ TRAP — applying app first (null reads) or hardcoding the VPC ID (drift-proof coupling).<br>🎓 EXAM — outputs publish · remote_state subscribes · CI orders.</p></div><div id="sol-39-detail"><div class="sec"><span class="n">sol-39</span>Lock rules until init -upgrade</div><div class="code"># why plan ignored it: 5.31.0 satisfies ">= 5.0" — lock still valid.
 $ terraform init -upgrade   # re-resolves → lock gains 5.x newest + hashes
 # 3 AM scenario: provider 6.0 ships breaking rename → next -upgrade
 # (or fresh clone) pulls it silently. Cap stays off only with "~>".</div>
@@ -915,7 +919,7 @@ $ terraform init -upgrade   # re-resolves → lock gains 5.x newest + hashes
 </div>
 <div class="sheet" id="sol-40">
   <div class="pghead"><div class="hrow"><div><div class="kick">SOLUTION · FINAL BOSS</div><h1 class="t">✅ sol-40 — the full chain, worked</h1></div><span class="hmeta">🔴 BLACK BELT</span></div></div>
-  <div id="sol-40"><div class="code">provider "aws" { region = "us-east-1" }   # (+ emulator creds/endpoints)
+  <div id="sol-40-detail"><div class="code">provider "aws" { region = "us-east-1" }   # (+ emulator creds/endpoints)
 resource "aws_vpc" "main" { cidr_block = "10.0.0.0/16" }
 resource "aws_subnet" "a" { vpc_id = aws_vpc.main.id
   cidr_block = "10.0.1.0/24"   availability_zone = "us-east-1a" }

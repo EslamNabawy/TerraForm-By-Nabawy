@@ -623,7 +623,7 @@
   {
     "id": "Q-D4-01",
     "qNum": "Q-D4-01",
-    "domain": "Domain 4: Using Providers",
+    "domain": "Domain 4: CLI — Outside the Core Loop",
     "qText": "CI must fail on unformatted HCL without rewriting. Command?",
     "options": [
       {
@@ -650,7 +650,7 @@
   {
     "id": "Q-D4-02",
     "qNum": "Q-D4-02",
-    "domain": "Domain 4: Using Providers",
+    "domain": "Domain 4: CLI — Outside the Core Loop",
     "qText": "Where does terraform login store the token?",
     "options": [
       {
@@ -677,7 +677,7 @@
   {
     "id": "Q-D4-03",
     "qNum": "Q-D4-03",
-    "domain": "Domain 4: Using Providers",
+    "domain": "Domain 4: CLI — Outside the Core Loop",
     "qText": "Which file tells you the EXACT provider builds in use?",
     "options": [
       {
@@ -704,7 +704,7 @@
   {
     "id": "Q-D4-04",
     "qNum": "Q-D4-04",
-    "domain": "Domain 4: Using Providers",
+    "domain": "Domain 4: CLI — Outside the Core Loop",
     "qText": "Test a format() expression without applying. Command?",
     "options": [
       {
@@ -731,7 +731,7 @@
   {
     "id": "Q-D4-05",
     "qNum": "Q-D4-05",
-    "domain": "Domain 4: Using Providers",
+    "domain": "Domain 4: CLI — Outside the Core Loop",
     "qText": "Noisiest log level for a provider bug report?",
     "options": [
       {
@@ -758,7 +758,7 @@
   {
     "id": "Q-D4-06",
     "qNum": "Q-D4-06",
-    "domain": "Domain 4: Using Providers",
+    "domain": "Domain 4: CLI — Outside the Core Loop",
     "qText": "Format-on-save in the editor plus what CI gate?",
     "options": [
       {
@@ -785,7 +785,7 @@
   {
     "id": "Q-D4-07",
     "qNum": "Q-D4-07",
-    "domain": "Domain 4: Using Providers",
+    "domain": "Domain 4: CLI — Outside the Core Loop",
     "qText": "AWS credentials for Terraform in CI come from…",
     "options": [
       {
@@ -812,7 +812,7 @@
   {
     "id": "Q-D4-08",
     "qNum": "Q-D4-08",
-    "domain": "Domain 4: Using Providers",
+    "domain": "Domain 4: CLI — Outside the Core Loop",
     "qText": "Wrap terraform in Python for a pipeline. What must the wrapper preserve?",
     "options": [
       {
@@ -839,7 +839,7 @@
   {
     "id": "Q-D5-01",
     "qNum": "Q-D5-01",
-    "domain": "Domain 5: Terraform State",
+    "domain": "Domain 5: Terraform Modules",
     "qText": "A registry module must stay on 5.x. Correct source block?",
     "options": [
       {
@@ -866,7 +866,7 @@
   {
     "id": "Q-D5-02",
     "qNum": "Q-D5-02",
-    "domain": "Domain 5: Terraform State",
+    "domain": "Domain 5: Terraform Modules",
     "qText": "Valid module sources include…",
     "options": [
       {
@@ -893,7 +893,7 @@
   {
     "id": "Q-D5-03",
     "qNum": "Q-D5-03",
-    "domain": "Domain 5: Terraform State",
+    "domain": "Domain 5: Terraform Modules",
     "qText": "Where do installed modules land after init?",
     "options": [
       {
@@ -920,7 +920,7 @@
   {
     "id": "Q-D5-04",
     "qNum": "Q-D5-04",
-    "domain": "Domain 5: Terraform State",
+    "domain": "Domain 5: Terraform Modules",
     "qText": "Root vs child module: which is true?",
     "options": [
       {
@@ -947,7 +947,7 @@
   {
     "id": "Q-D5-05",
     "qNum": "Q-D5-05",
-    "domain": "Domain 5: Terraform State",
+    "domain": "Domain 5: Terraform Modules",
     "qText": "A module block is missing version on a registry source. Risk?",
     "options": [
       {
@@ -974,7 +974,7 @@
   {
     "id": "Q-D5-06",
     "qNum": "Q-D5-06",
-    "domain": "Domain 5: Terraform State",
+    "domain": "Domain 5: Terraform Modules",
     "qText": "Private registry vs public registry: the difference is…",
     "options": [
       {
@@ -1001,7 +1001,7 @@
   {
     "id": "Q-D5-07",
     "qNum": "Q-D5-07",
-    "domain": "Domain 5: Terraform State",
+    "domain": "Domain 5: Terraform Modules",
     "qText": "Provider blocks inside child modules: best practice?",
     "options": [
       {
@@ -1028,7 +1028,7 @@
   {
     "id": "Q-D5-08",
     "qNum": "Q-D5-08",
-    "domain": "Domain 5: Terraform State",
+    "domain": "Domain 5: Terraform Modules",
     "qText": "How does a stack consume module.vpc.private_subnets[0]?",
     "options": [
       {
@@ -1298,7 +1298,7 @@
   {
     "id": "Q-D7-01",
     "qNum": "Q-D7-01",
-    "domain": "Domain 7: Terraform Modules",
+    "domain": "Domain 7: Terraform State",
     "qText": "State purposes include all EXCEPT…",
     "options": [
       {
@@ -1325,7 +1325,7 @@
   {
     "id": "Q-D7-02",
     "qNum": "Q-D7-02",
-    "domain": "Domain 7: Terraform Modules",
+    "domain": "Domain 7: Terraform State",
     "qText": "A team of five shares one local state file. First fix?",
     "options": [
       {
@@ -1352,7 +1352,7 @@
   {
     "id": "Q-D7-03",
     "qNum": "Q-D7-03",
-    "domain": "Domain 7: Terraform Modules",
+    "domain": "Domain 7: Terraform State",
     "qText": "Sensitive values in state are…",
     "options": [
       {
@@ -1379,7 +1379,7 @@
   {
     "id": "Q-D7-04",
     "qNum": "Q-D7-04",
-    "domain": "Domain 7: Terraform Modules",
+    "domain": "Domain 7: Terraform State",
     "qText": "Second apply starts while the first holds the lock. It…",
     "options": [
       {
@@ -1406,7 +1406,7 @@
   {
     "id": "Q-D7-05",
     "qNum": "Q-D7-05",
-    "domain": "Domain 7: Terraform Modules",
+    "domain": "Domain 7: Terraform State",
     "qText": "Lock held by a dead CI runner. Correct recovery?",
     "options": [
       {
@@ -1433,7 +1433,7 @@
   {
     "id": "Q-D7-06",
     "qNum": "Q-D7-06",
-    "domain": "Domain 7: Terraform Modules",
+    "domain": "Domain 7: Terraform State",
     "qText": "terraform state rm aws_instance.old does what?",
     "options": [
       {
@@ -1460,7 +1460,7 @@
   {
     "id": "Q-D7-07",
     "qNum": "Q-D7-07",
-    "domain": "Domain 7: Terraform Modules",
+    "domain": "Domain 7: Terraform State",
     "qText": "Rename web → app with zero rebuild. Command?",
     "options": [
       {
@@ -1487,7 +1487,7 @@
   {
     "id": "Q-D7-08",
     "qNum": "Q-D7-08",
-    "domain": "Domain 7: Terraform Modules",
+    "domain": "Domain 7: Terraform State",
     "qText": "Adopt a hand-built VPC vpc-0ab1. First step?",
     "options": [
       {
@@ -1514,7 +1514,7 @@
   {
     "id": "Q-D7-09",
     "qNum": "Q-D7-09",
-    "domain": "Domain 7: Terraform Modules",
+    "domain": "Domain 7: Terraform State",
     "qText": "State file deleted, then apply. Result?",
     "options": [
       {
@@ -1541,7 +1541,7 @@
   {
     "id": "Q-D7-10",
     "qNum": "Q-D7-10",
-    "domain": "Domain 7: Terraform Modules",
+    "domain": "Domain 7: Terraform State",
     "qText": "terraform state pull > backup.json is used to…",
     "options": [
       {
@@ -1568,7 +1568,7 @@
   {
     "id": "Q-D7-11",
     "qNum": "Q-D7-11",
-    "domain": "Domain 7: Terraform Modules",
+    "domain": "Domain 7: Terraform State",
     "qText": "state push is dangerous because it…",
     "options": [
       {
@@ -1595,7 +1595,7 @@
   {
     "id": "Q-D7-12",
     "qNum": "Q-D7-12",
-    "domain": "Domain 7: Terraform Modules",
+    "domain": "Domain 7: Terraform State",
     "qText": "Drift between config and reality is reconciled by…",
     "options": [
       {
@@ -1622,7 +1622,7 @@
   {
     "id": "Q-D7-13",
     "qNum": "Q-D7-13",
-    "domain": "Domain 7: Terraform Modules",
+    "domain": "Domain 7: Terraform State",
     "qText": "Provider forked (new namespace). Existing state must follow. Command family?",
     "options": [
       {
@@ -1649,7 +1649,7 @@
   {
     "id": "Q-D7-14",
     "qNum": "Q-D7-14",
-    "domain": "Domain 7: Terraform Modules",
+    "domain": "Domain 7: Terraform State",
     "qText": "Manually editing state JSON to \"fix\" a value is…",
     "options": [
       {
@@ -1676,7 +1676,7 @@
   {
     "id": "Q-D7-15",
     "qNum": "Q-D7-15",
-    "domain": "Domain 7: Terraform Modules",
+    "domain": "Domain 7: Terraform State",
     "qText": "terraform show -json tfplan | jq .output_changes tells CI…",
     "options": [
       {
@@ -1703,7 +1703,7 @@
   {
     "id": "Q-D7-16",
     "qNum": "Q-D7-16",
-    "domain": "Domain 7: Terraform Modules",
+    "domain": "Domain 7: Terraform State",
     "qText": "Lock table per env instead of one shared gives you…",
     "options": [
       {
@@ -1730,7 +1730,7 @@
   {
     "id": "Q-D7-17",
     "qNum": "Q-D7-17",
-    "domain": "Domain 7: Terraform Modules",
+    "domain": "Domain 7: Terraform State",
     "qText": "terraform output -raw db_password in CI logs is a violation because…",
     "options": [
       {
@@ -1757,7 +1757,7 @@
   {
     "id": "Q-D7-18",
     "qNum": "Q-D7-18",
-    "domain": "Domain 7: Terraform Modules",
+    "domain": "Domain 7: Terraform State",
     "qText": "ephemeral = true on an output means…",
     "options": [
       {
@@ -1784,7 +1784,7 @@
   {
     "id": "Q-D8-01",
     "qNum": "Q-D8-01",
-    "domain": "Domain 8: Terraform Workflow",
+    "domain": "Domain 8: Configuration",
     "qText": "aws_subnet.public[0] vs aws_subnet.public[\"us-east-1a\"] differ in…",
     "options": [
       {
@@ -1811,7 +1811,7 @@
   {
     "id": "Q-D8-02",
     "qNum": "Q-D8-02",
-    "domain": "Domain 8: Terraform Workflow",
+    "domain": "Domain 8: Configuration",
     "qText": "for_each over a bare list fails. Fix?",
     "options": [
       {
@@ -1838,7 +1838,7 @@
   {
     "id": "Q-D8-03",
     "qNum": "Q-D8-03",
-    "domain": "Domain 8: Terraform Workflow",
+    "domain": "Domain 8: Configuration",
     "qText": "count = 3 → count = 2 destroys…",
     "options": [
       {
@@ -1865,7 +1865,7 @@
   {
     "id": "Q-D8-04",
     "qNum": "Q-D8-04",
-    "domain": "Domain 8: Terraform Workflow",
+    "domain": "Domain 8: Configuration",
     "qText": "Safe reader for a 0/1 counted resource?",
     "options": [
       {
@@ -1892,7 +1892,7 @@
   {
     "id": "Q-D8-05",
     "qNum": "Q-D8-05",
-    "domain": "Domain 8: Terraform Workflow",
+    "domain": "Domain 8: Configuration",
     "qText": "Implicit vs explicit dependencies: prefer…",
     "options": [
       {
@@ -1919,7 +1919,7 @@
   {
     "id": "Q-D8-06",
     "qNum": "Q-D8-06",
-    "domain": "Domain 8: Terraform Workflow",
+    "domain": "Domain 8: Configuration",
     "qText": "dynamic \"ingress\" with for_each over var.rules gives you…",
     "options": [
       {
@@ -1946,7 +1946,7 @@
   {
     "id": "Q-D8-07",
     "qNum": "Q-D8-07",
-    "domain": "Domain 8: Terraform Workflow",
+    "domain": "Domain 8: Configuration",
     "qText": "All public IPs as a list vs name→IP map: correct pair?",
     "options": [
       {
@@ -1973,7 +1973,7 @@
   {
     "id": "Q-D8-08",
     "qNum": "Q-D8-08",
-    "domain": "Domain 8: Terraform Workflow",
+    "domain": "Domain 8: Configuration",
     "qText": "Variable with no default and nothing provided: plan…",
     "options": [
       {
@@ -2000,7 +2000,7 @@
   {
     "id": "Q-D8-09",
     "qNum": "Q-D8-09",
-    "domain": "Domain 8: Terraform Workflow",
+    "domain": "Domain 8: Configuration",
     "qText": "set(string) vs list(string) for for_each: why sets?",
     "options": [
       {
@@ -2027,7 +2027,7 @@
   {
     "id": "Q-D8-10",
     "qNum": "Q-D8-10",
-    "domain": "Domain 8: Terraform Workflow",
+    "domain": "Domain 8: Configuration",
     "qText": "locals { env = terraform.workspace } is an example of…",
     "options": [
       {
@@ -2054,7 +2054,7 @@
   {
     "id": "Q-D8-11",
     "qNum": "Q-D8-11",
-    "domain": "Domain 8: Terraform Workflow",
+    "domain": "Domain 8: Configuration",
     "qText": "Tribunal: ternary count = var.on ? 1 : 0 plus safe read gives…",
     "options": [
       {
@@ -2081,7 +2081,7 @@
   {
     "id": "Q-D8-12",
     "qNum": "Q-D8-12",
-    "domain": "Domain 8: Terraform Workflow",
+    "domain": "Domain 8: Configuration",
     "qText": "cidrsubnet(\"10.0.0.0/16\", 8, 10) returns…",
     "options": [
       {
@@ -2108,7 +2108,7 @@
   {
     "id": "Q-D8-13",
     "qNum": "Q-D8-13",
-    "domain": "Domain 8: Terraform Workflow",
+    "domain": "Domain 8: Configuration",
     "qText": "5 subnets needed from a /16: newbits = ?",
     "options": [
       {
@@ -2135,7 +2135,7 @@
   {
     "id": "Q-D8-14",
     "qNum": "Q-D8-14",
-    "domain": "Domain 8: Terraform Workflow",
+    "domain": "Domain 8: Configuration",
     "qText": "merge(var.tags, { Env = \"prod\" }) on key collision…",
     "options": [
       {
@@ -2162,7 +2162,7 @@
   {
     "id": "Q-D8-15",
     "qNum": "Q-D8-15",
-    "domain": "Domain 8: Terraform Workflow",
+    "domain": "Domain 8: Configuration",
     "qText": "try(var.obj.attr, \"fb\") is for…",
     "options": [
       {
@@ -2189,7 +2189,7 @@
   {
     "id": "Q-D8-16",
     "qNum": "Q-D8-16",
-    "domain": "Domain 8: Terraform Workflow",
+    "domain": "Domain 8: Configuration",
     "qText": "validation { condition = contains([...], var.env) } runs…",
     "options": [
       {

@@ -134,7 +134,12 @@
       } else if (e.key === 't' && !e.ctrlKey && !e.metaKey) {
         toggleTheme();
       } else if (e.key === 'Escape') {
-        window.location.href = '../index.html';
+        // Return to the library, but preserve in-site history when possible
+        if (window.history.length > 1) {
+          window.history.back();
+        } else {
+          window.location.href = '../index.html';
+        }
       }
     });
   }
@@ -173,6 +178,12 @@
     createHeader();
     createBackToTop();
     setupKeyboard();
+    // Offline support when a reader page is the entry point (http(s) only)
+    if ('serviceWorker' in navigator && /^https?:$/.test(window.location.protocol)) {
+      window.addEventListener('load', () => {
+        navigator.serviceWorker.register('../sw.js').catch(() => {});
+      });
+    }
   }
 
   if (document.readyState === 'loading') {

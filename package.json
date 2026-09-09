@@ -1,0 +1,10 @@
+{
+  "name": "terraform-by-nabawy",
+  "version": "1.0.0",
+  "private": true,
+  "description": "TerraForm by Nabawy — Master Study Library (static site)",
+  "scripts": {
+    "test": "node --test tests/static-regression.test.js",
+    "offline": "node tools/generate-offline-data.js"
+  }
+}

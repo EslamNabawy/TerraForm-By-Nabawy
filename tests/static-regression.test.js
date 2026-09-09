@@ -75,3 +75,58 @@ test('book reader keeps screen sheets rounded and constrains grid content', () =
   assert.match(readerCss, /\.grid2,\s*\.grid3,\s*\.labcols\s*\{[\s\S]*minmax\(0, 1fr\)/);
   assert.match(readerCss, /\.sheet\.cover \.cver\s*\{[\s\S]*position: static !important/);
 });
+
+test('lab book has no duplicate element ids', () => {
+  const lab = read('books', 'lab.html');
+  const ids = [...lab.matchAll(/id="([^"]+)"/g)].map((match) => match[1]);
+  const seen = new Set();
+  const dupes = new Set();
+  for (const id of ids) {
+    if (seen.has(id)) dupes.add(id);
+    seen.add(id);
+  }
+  assert.deepEqual([...dupes], []);
+});
+
+test('exam drill domain labels match the book taxonomy', () => {
+  const drills = JSON.parse(read('exam_drills.json'));
+  const labels = new Set(drills.map((drill) => drill.domain));
+  assert.ok(![...labels].some((label) => label === 'Domain 5: Terraform State'));
+  assert.ok(![...labels].some((label) => label === 'Domain 7: Terraform Modules'));
+  assert.ok(![...labels].some((label) => label === 'Domain 4: Using Providers'));
+  assert.ok(![...labels].some((label) => label === 'Domain 8: Terraform Workflow'));
+});
+
+test('homepage preview links cover every chapter and exercise sheet', () => {
+  const index = read('index.html');
+  for (const anchor of ['vol1-foundations.html#ch-13', 'vol1-foundations.html#ch-19', 'vol2-production.html#ch-07', 'vol2-production.html#lab-1', 'lab.html#ex-39']) {
+    assert.ok(index.includes(anchor), anchor);
+  }
+});
+
+test('service worker precache list matches real files', () => {
+  const pathmod = require('node:path');
+  const fssync = require('node:fs');
+  const sw = read('sw.js');
+  const shell = [...sw.matchAll(/'\.\/([^']+)'/g)].map(match => match[1]).filter(p => p !== '');
+  assert.ok(shell.length > 20, 'shell has entries');
+  for (const entry of shell) {
+    assert.ok(fssync.existsSync(pathmod.join(root, entry)), entry);
+  }
+});
+
+test('service worker registration is guarded to http(s)', () => {
+  const app = read('app.js');
+  assert.match(app, /navigator\.serviceWorker\.register\('sw\.js'\)/);
+  assert.match(app, /\^https\?:\$/);
+});
+
+test('lite PDFs exist and are the wired downloads', () => {
+  const fssync = require('node:fs');
+  const pathmod = require('node:path');
+  const index = read('index.html');
+  for (const lite of ['books/vol1-foundations-lite.pdf', 'books/vol2-production-lite.pdf', 'books/lab-lite.pdf', 'books/exam-center-lite.pdf']) {
+    assert.ok(index.includes('href="' + lite + '"'), lite);
+    assert.ok(fssync.existsSync(pathmod.join(root, lite)), lite);
+  }
+});

@@ -376,6 +376,15 @@
     transform: none !important;
     margin-bottom: 12px !important;
   }
+  /* Rounded amber top-bar clips to the rounded screen card */
+  .sheet::before {
+    border-radius: 12px 12px 0 0 !important;
+  }
+  /* Cover art stays in flow on screen instead of overlaying text */
+  .sheet.cover .cver {
+    position: static !important;
+    max-width: 100% !important;
+  }
 }
 
 /* ── 4. FLOATING BACK TO TOP BUTTON FOR BOOKS ── */
@@ -503,6 +512,10 @@
     grid-template-columns: 1fr !important;
     display: grid !important;
     gap: 8px !important;
+  }
+  /* Constrain grid tracks so wide content cannot blow out the sheet */
+  .grid2, .grid3, .labcols {
+    grid-template-columns: minmax(0, 1fr) !important;
   }
 
   .tblwrap, table.tb {

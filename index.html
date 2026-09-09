@@ -27,7 +27,7 @@
         🔍 <span class="btn-text">Search</span>
       </button>
       <button class="sound-toggle-btn nav-btn" onclick="window.toggleSound()">
-        🔊 <span class="btn-text">Sound ON</span>
+        🔇 <span class="btn-text">Sound OFF</span>
       </button>
       <button class="theme-toggle-btn nav-btn" onclick="window.toggleTheme()">
         🌙 <span class="btn-text">Obsidian</span>
@@ -93,7 +93,7 @@
 
         <div class="btns">
           <a class="btn solid" href="books/vol1-foundations.html">📖 Read online</a>
-          <a class="btn amber pdf-download-btn" href="books/vol1-foundations.pdf" download="TerraForm_Vol1_Foundations_by_Nabawy.pdf">⬇ PDF <small>5.2 MB</small></a>
+          <a class="btn amber pdf-download-btn" href="books/vol1-foundations-lite.pdf" download="TerraForm_Vol1_Foundations_by_Nabawy.pdf">⬇ PDF <small>3.4 MB</small></a>
         </div>
         <details class="chapters-preview-toggle">
           <summary>📑 Preview Chapters &amp; Topics</summary>
@@ -111,7 +111,13 @@
             <a href="books/vol1-foundations.html#ch-10">Ch 10 · State Risks &amp; Remote S3 + DynamoDB</a>
             <a href="books/vol1-foundations.html#ch-11">Ch 11 · State Locking &amp; Mutex Lifecycle</a>
             <a href="books/vol1-foundations.html#ch-12">Ch 12 · State Subcommands (mv, rm, import)</a>
+            <a href="books/vol1-foundations.html#ch-13">Ch 13 · fmt &amp; destroy: Canon Format, Safe Teardown</a>
             <a href="books/vol1-foundations.html#ch-14">Ch 14 · Variables &amp; The Precedence Ladder</a>
+            <a href="books/vol1-foundations.html#ch-15">Ch 15 · Workspaces &amp; Advanced HCL (count · for_each)</a>
+            <a href="books/vol1-foundations.html#ch-16">Ch 16 · Outputs: Share, Export, CI/CD</a>
+            <a href="books/vol1-foundations.html#ch-17">Ch 17 · Providers: IaaS / PaaS / SaaS</a>
+            <a href="books/vol1-foundations.html#ch-18">Ch 18 · Provisioners Doctrine: Last Resort</a>
+            <a href="books/vol1-foundations.html#ch-19">Ch 19 · Modules: Package, Version, Reuse</a>
             <a href="books/vol1-foundations.html#lab-1">Lab 1 · Full Build Chain Capstone</a>
           </div>
         </details>
@@ -126,7 +132,7 @@
 
         <div class="btns">
           <a class="btn solid" href="books/vol2-production.html">📖 Read online</a>
-          <a class="btn amber pdf-download-btn" href="books/vol2-production.pdf" download="TerraForm_Vol2_Production_by_Nabawy.pdf">⬇ PDF <small>4.2 MB</small></a>
+          <a class="btn amber pdf-download-btn" href="books/vol2-production-lite.pdf" download="TerraForm_Vol2_Production_by_Nabawy.pdf">⬇ PDF <small>2.6 MB</small></a>
         </div>
         <details class="chapters-preview-toggle">
           <summary>📑 Preview Chapters &amp; Topics</summary>
@@ -142,7 +148,9 @@
             <a href="books/vol2-production.html#ch-04b">Ch 04B · Multi-VPC: The 3-VPC Architecture</a>
             <a href="books/vol2-production.html#ch-05">Ch 05 · count vs for_each: The Rename Trap</a>
             <a href="books/vol2-production.html#ch-06">Ch 06 · Outputs: The Production Contract</a>
+            <a href="books/vol2-production.html#ch-07">Ch 07 · End-to-End Project Walkthrough</a>
             <a href="books/vol2-production.html#ch-08">Ch 08 · ALB Walkthrough: Two Tiers, One Codebase</a>
+            <a href="books/vol2-production.html#lab-1">Lab 1 · Multi-Env &amp; Multi-VPC Build</a>
           </div>
         </details>
       </article>
@@ -156,22 +164,34 @@
 
         <div class="btns">
           <a class="btn solid" href="books/lab.html">📖 Read online</a>
-          <a class="btn amber pdf-download-btn" href="books/lab.pdf" download="TerraForm_Vol3_Practice_Lab_by_Nabawy.pdf">⬇ PDF <small>14.9 MB</small></a>
+          <a class="btn amber pdf-download-btn" href="books/lab-lite.pdf" download="TerraForm_Vol3_Practice_Lab_by_Nabawy.pdf">⬇ PDF <small>8.5 MB</small></a>
         </div>
         <details class="chapters-preview-toggle">
           <summary>📑 Preview Chapters &amp; Topics</summary>
           <div class="chapters-preview-list">
             <a href="books/lab.html#summary">🗺️ Training Route: Warm-ups → Drills → Bosses</a>
             <a href="books/lab.html#howto">Rules, Bands &amp; The 7 Drill Types</a>
-            <a href="books/lab.html#ex-01">ex-01 &amp; ex-02 · Idempotence &amp; Toolchain</a>
-            <a href="books/lab.html#ex-05">ex-05 &amp; ex-06 · Provider &amp; VPC Traps</a>
-            <a href="books/lab.html#ex-07">ex-07 &amp; ex-08 · Init &amp; Plan Reading</a>
-            <a href="books/lab.html#ex-11">ex-11 &amp; ex-12 · State &amp; Backend Recovery</a>
-            <a href="books/lab.html#ex-13">ex-13 to ex-15 · Locking, Rename &amp; fmt</a>
-            <a href="books/lab.html#ex-16">ex-16 · Graph &amp; Variable Edges</a>
-            <a href="books/lab.html#ex-20">ex-20 · count vs keys: Downstream Target Trap</a>
-            <a href="books/lab.html#ex-26">ex-26 · refresh vs plan -refresh-only</a>
-            <a href="books/lab.html#ex-31">ex-31 · BOSS: Race Condition &amp; Mutex Recovery</a>
+            <a href="books/lab.html#ex-01">ex-01 · ex-02 warm-ups</a>
+            <a href="books/lab.html#ex-03">ex-03 · ex-04 warm-ups</a>
+            <a href="books/lab.html#ex-05">ex-05 · ex-06 warm-ups</a>
+            <a href="books/lab.html#ex-07">ex-07 · ex-08 warm-ups</a>
+            <a href="books/lab.html#ex-09">ex-09 · ex-10 warm-ups</a>
+            <a href="books/lab.html#ex-11">ex-11 · ex-12 warm-ups</a>
+            <a href="books/lab.html#ex-13">ex-13 · ex-14 · ex-15 warm-ups</a>
+            <a href="books/lab.html#ex-16">ex-16 · ex-17 drills</a>
+            <a href="books/lab.html#ex-18">ex-18 · ex-19 drills</a>
+            <a href="books/lab.html#ex-20">ex-20 · ex-21 drills</a>
+            <a href="books/lab.html#ex-22">ex-22 · ex-23 drills</a>
+            <a href="books/lab.html#ex-24">ex-24 · ex-25 drills</a>
+            <a href="books/lab.html#ex-26">ex-26 · ex-27 drills</a>
+            <a href="books/lab.html#ex-28">ex-28 · ex-29 drills</a>
+            <a href="books/lab.html#ex-30">ex-30 drill + band checkpoint</a>
+            <a href="books/lab.html#ex-31">ex-31 · ex-32 bosses</a>
+            <a href="books/lab.html#ex-33">ex-33 · ex-34 bosses</a>
+            <a href="books/lab.html#ex-35">ex-35 · ex-36 bosses</a>
+            <a href="books/lab.html#ex-37">ex-37 · ex-38 bosses</a>
+            <a href="books/lab.html#ex-39">ex-39 boss + the FINAL BOSS</a>
+            <a href="books/lab.html#ex-40">Solutions sol-01 · sol-02 · sol-03 →</a>
           </div>
         </details>
       </article>
@@ -185,7 +205,7 @@
 
         <div class="btns">
           <a class="btn solid" href="books/exam-center.html">📖 Read online</a>
-          <a class="btn amber pdf-download-btn" href="books/exam-center.pdf" download="TerraForm_Vol4_Exam_Command_Center_by_Nabawy.pdf">⬇ PDF <small>28 MB</small></a>
+          <a class="btn amber pdf-download-btn" href="books/exam-center-lite.pdf" download="TerraForm_Vol4_Exam_Command_Center_by_Nabawy.pdf">⬇ PDF <small>17.2 MB</small></a>
         </div>
         <details class="chapters-preview-toggle">
           <summary>📑 Preview Chapters &amp; Topics</summary>
@@ -214,7 +234,7 @@
       <div class="drill-arena-header">
         <div class="drill-title-group">
           <h3>⚡ Exam Practice Drill Arena</h3>
-          <p>Instant quiz &amp; flashcards powered by the 261 Associate (003) exam questions.</p>
+          <p>Instant quiz &amp; flashcards — 90 quick-fire drills drawn from the 261-question bank in the Exam Command Center.</p>
         </div>
         <div class="drill-stats">
           <div class="drill-stat-box">
@@ -412,7 +432,7 @@
 
     <div class="notes-source-container">
       <div class="notes-source-grid">
-        <div class="note-card" onclick="window.openNoteModal('notes/09-alb-walkthrough.md')">
+        <div class="note-card" role="button" tabindex="0" data-note="notes/09-alb-walkthrough.md" aria-label="Open note: notes/09-alb-walkthrough.md" onclick="window.openNoteModal('notes/09-alb-walkthrough.md')" onkeydown="window.noteCardKey(event)">
           <div class="note-info">
             <span class="note-num">09 · ALB Walkthrough</span>
             <span class="note-title">Two-Tier Load Balancer Stack</span>
@@ -420,7 +440,7 @@
           <span class="note-arrow">→</span>
         </div>
 
-        <div class="note-card" onclick="window.openNoteModal('notes/17-what-is-terraform-facts.md')">
+        <div class="note-card" role="button" tabindex="0" data-note="notes/17-what-is-terraform-facts.md" aria-label="Open note: notes/17-what-is-terraform-facts.md" onclick="window.openNoteModal('notes/17-what-is-terraform-facts.md')" onkeydown="window.noteCardKey(event)">
           <div class="note-info">
             <span class="note-num">17 · Terraform Facts</span>
             <span class="note-title">License, Ecosystem &amp; 6 Pillars</span>
@@ -428,7 +448,7 @@
           <span class="note-arrow">→</span>
         </div>
 
-        <div class="note-card" onclick="window.openNoteModal('notes/18-terraform-init.md')">
+        <div class="note-card" role="button" tabindex="0" data-note="notes/18-terraform-init.md" aria-label="Open note: notes/18-terraform-init.md" onclick="window.openNoteModal('notes/18-terraform-init.md')" onkeydown="window.noteCardKey(event)">
           <div class="note-info">
             <span class="note-num">18 · terraform init</span>
             <span class="note-title">.terraform Tree, Lock &amp; .gitignore</span>
@@ -436,7 +456,7 @@
           <span class="note-arrow">→</span>
         </div>
 
-        <div class="note-card" onclick="window.openNoteModal('notes/19-providers-catalog.md')">
+        <div class="note-card" role="button" tabindex="0" data-note="notes/19-providers-catalog.md" aria-label="Open note: notes/19-providers-catalog.md" onclick="window.openNoteModal('notes/19-providers-catalog.md')" onkeydown="window.noteCardKey(event)">
           <div class="note-info">
             <span class="note-num">19 · Providers Catalog</span>
             <span class="note-title">IaaS, PaaS, SaaS Translators</span>
@@ -444,7 +464,7 @@
           <span class="note-arrow">→</span>
         </div>
 
-        <div class="note-card" onclick="window.openNoteModal('notes/20-core-cli-commands.md')">
+        <div class="note-card" role="button" tabindex="0" data-note="notes/20-core-cli-commands.md" aria-label="Open note: notes/20-core-cli-commands.md" onclick="window.openNoteModal('notes/20-core-cli-commands.md')" onkeydown="window.noteCardKey(event)">
           <div class="note-info">
             <span class="note-num">20 · Core CLI Commands</span>
             <span class="note-title">init, plan, apply, destroy Loop</span>
@@ -452,7 +472,7 @@
           <span class="note-arrow">→</span>
         </div>
 
-        <div class="note-card" onclick="window.openNoteModal('notes/21-state-file-what-why.md')">
+        <div class="note-card" role="button" tabindex="0" data-note="notes/21-state-file-what-why.md" aria-label="Open note: notes/21-state-file-what-why.md" onclick="window.openNoteModal('notes/21-state-file-what-why.md')" onkeydown="window.noteCardKey(event)">
           <div class="note-info">
             <span class="note-num">21 · State What &amp; Why</span>
             <span class="note-title">terraform.tfstate Ledger &amp; Secrets</span>
@@ -460,7 +480,7 @@
           <span class="note-arrow">→</span>
         </div>
 
-        <div class="note-card" onclick="window.openNoteModal('notes/22-state-commands.md')">
+        <div class="note-card" role="button" tabindex="0" data-note="notes/22-state-commands.md" aria-label="Open note: notes/22-state-commands.md" onclick="window.openNoteModal('notes/22-state-commands.md')" onkeydown="window.noteCardKey(event)">
           <div class="note-info">
             <span class="note-num">22 · State Commands</span>
             <span class="note-title">list, show, mv, rm, pull, import</span>
@@ -468,7 +488,7 @@
           <span class="note-arrow">→</span>
         </div>
 
-        <div class="note-card" onclick="window.openNoteModal('notes/23-fmt-and-destroy.md')">
+        <div class="note-card" role="button" tabindex="0" data-note="notes/23-fmt-and-destroy.md" aria-label="Open note: notes/23-fmt-and-destroy.md" onclick="window.openNoteModal('notes/23-fmt-and-destroy.md')" onkeydown="window.noteCardKey(event)">
           <div class="note-info">
             <span class="note-num">23 · fmt &amp; destroy</span>
             <span class="note-title">Canonical Style &amp; Safe Teardown</span>
@@ -476,7 +496,7 @@
           <span class="note-arrow">→</span>
         </div>
 
-        <div class="note-card" onclick="window.openNoteModal('notes/24-more-cli-commands.md')">
+        <div class="note-card" role="button" tabindex="0" data-note="notes/24-more-cli-commands.md" aria-label="Open note: notes/24-more-cli-commands.md" onclick="window.openNoteModal('notes/24-more-cli-commands.md')" onkeydown="window.noteCardKey(event)">
           <div class="note-info">
             <span class="note-num">24 · More CLI Commands</span>
             <span class="note-title">fmt, graph, console, refresh-only</span>
@@ -484,7 +504,7 @@
           <span class="note-arrow">→</span>
         </div>
 
-        <div class="note-card" onclick="window.openNoteModal('notes/25-provisioners-doctrine.md')">
+        <div class="note-card" role="button" tabindex="0" data-note="notes/25-provisioners-doctrine.md" aria-label="Open note: notes/25-provisioners-doctrine.md" onclick="window.openNoteModal('notes/25-provisioners-doctrine.md')" onkeydown="window.noteCardKey(event)">
           <div class="note-info">
             <span class="note-num">25 · Provisioners Doctrine</span>
             <span class="note-title">Last-Resort Rules &amp; Caveats</span>
@@ -492,7 +512,7 @@
           <span class="note-arrow">→</span>
         </div>
 
-        <div class="note-card" onclick="window.openNoteModal('notes/26-capstone-hands-on-chain.md')">
+        <div class="note-card" role="button" tabindex="0" data-note="notes/26-capstone-hands-on-chain.md" aria-label="Open note: notes/26-capstone-hands-on-chain.md" onclick="window.openNoteModal('notes/26-capstone-hands-on-chain.md')" onkeydown="window.noteCardKey(event)">
           <div class="note-info">
             <span class="note-num">26 · Capstone Build Chain</span>
             <span class="note-title">8 Resources in One Tested Config</span>
