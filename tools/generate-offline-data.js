@@ -14,6 +14,7 @@ const notes = Object.fromEntries(
 const data = {
   searchIndex: readJson('search_index.json'),
   examDrills: readJson('exam_drills.json'),
+  mockExams: readJson('mock_exams.json'),
   notes
 };
 

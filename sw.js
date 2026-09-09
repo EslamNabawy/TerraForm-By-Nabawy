@@ -15,6 +15,7 @@ const SHELL = [
   './offline-data.js',
   './search_index.json',
   './exam_drills.json',
+  './mock_exams.json',
   './favicon.svg',
   './books/book-reader.css',
   './books/book-reader.js',

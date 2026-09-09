@@ -19,7 +19,8 @@
   const STORAGE_KEYS = {
     THEME: 'tf_theme',
     SOUND: 'tf_sound',
-    DRILL_STATS: 'tf_drill_stats'
+    DRILL_STATS: 'tf_drill_stats',
+    MOCK_BEST: 'tf_mock_best'
   };
 
   const DEFAULT_DRILL_STATS = { answered: 0, correct: 0, streak: 0 };
@@ -44,6 +45,15 @@
     searchIndex: [],
     searchFilter: 'all',
     examDrills: [],
+    mockExams: [],
+    mode: 'drill',
+    mockNum: 1,
+    mockIdx: 0,
+    mockAnswers: {},
+    mockFlags: [],
+    mockEndsAt: 0,
+    mockTimerId: null,
+    mockSubmitted: false,
     currentDrillIndex: 0,
     currentNoteIndex: -1,
     notesCatalog: [
@@ -611,6 +621,273 @@
   }
 
   // =========================================================================
+  // 8B. TIMED MOCK EXAMS (3 x 57 questions, 60 minutes, pass at 40)
+  // =========================================================================
+  const MOCK_SECS = 3600;
+  const MOCK_PASS = 40;
+
+  function loadMockBest() {
+    try {
+      return JSON.parse(localStorage.getItem(STORAGE_KEYS.MOCK_BEST) || '{}');
+    } catch (error) {
+      return {};
+    }
+  }
+
+  function loadMockExams() {
+    loadJson('mock_exams.json', 'mockExams')
+      .then(data => {
+        APP_STATE.mockExams = data;
+        paintMockBest();
+      })
+      .catch(err => console.error('Error loading mock_exams.json:', err));
+  }
+
+  function paintMockBest() {
+    const best = loadMockBest();
+    [1, 2, 3].forEach(n => {
+      const el = document.getElementById(`best-${n}`);
+      if (el) el.textContent = best[n] != null ? ` · best ${best[n]}` : '';
+    });
+  }
+
+  function mockQuestions(n) {
+    return APP_STATE.mockExams
+      .filter(q => q.mock === n)
+      .sort((a, b) => a.num - b.num);
+  }
+
+  function setMode(mode) {
+    stopMockTimer();
+    playSound('click');
+    APP_STATE.mode = mode;
+    document.querySelectorAll('.mock-modes .filter-pill').forEach(pill => {
+      pill.classList.toggle('active', pill.dataset.mode === String(mode));
+    });
+    const inMock = mode !== 'drill';
+    ['mock-timer', 'mock-brief', 'mock-nav'].forEach(id => {
+      const el = document.getElementById(id);
+      if (el) el.hidden = !inMock;
+    });
+    const flagBtn = document.getElementById('mock-flag-btn');
+    const submitBtn = document.getElementById('mock-submit-btn');
+    const nextBtn = document.getElementById('drill-next-btn');
+    const randomBtn = document.getElementById('drill-random-btn');
+    if (flagBtn) flagBtn.hidden = !inMock;
+    if (submitBtn) submitBtn.hidden = !inMock;
+    if (nextBtn) nextBtn.hidden = inMock;
+    if (randomBtn) randomBtn.hidden = inMock;
+    const resultsEl = document.getElementById('mock-results');
+    if (resultsEl) {
+      resultsEl.hidden = true;
+      resultsEl.innerHTML = '';
+    }
+    if (inMock) {
+      startMock(parseInt(mode, 10));
+    } else {
+      renderDrillQuestion(APP_STATE.currentDrillIndex);
+    }
+  }
+
+  function startMock(n) {
+    const qs = mockQuestions(n);
+    if (!qs.length) {
+      showToast('Mock questions still loading — try again in a second', '⏳');
+      return;
+    }
+    APP_STATE.mockNum = n;
+    APP_STATE.mockIdx = 0;
+    APP_STATE.mockAnswers = {};
+    APP_STATE.mockFlags = [];
+    APP_STATE.mockSubmitted = false;
+    APP_STATE.mockEndsAt = Date.now() + MOCK_SECS * 1000;
+    renderMockQuestion(0);
+    tickMockTimer();
+    APP_STATE.mockTimerId = setInterval(tickMockTimer, 1000);
+    showToast(`Mock ${n} started — 57 questions, 60:00 on the clock`, '⏱');
+  }
+
+  function stopMockTimer() {
+    if (APP_STATE.mockTimerId) {
+      clearInterval(APP_STATE.mockTimerId);
+      APP_STATE.mockTimerId = null;
+    }
+  }
+
+  function tickMockTimer() {
+    const left = Math.max(0, Math.round((APP_STATE.mockEndsAt - Date.now()) / 1000));
+    const timeEl = document.getElementById('mock-time-left');
+    const timerBox = document.getElementById('mock-timer');
+    if (timeEl) timeEl.textContent = `${Math.floor(left / 60)}:${String(left % 60).padStart(2, '0')}`;
+    if (timerBox) timerBox.classList.toggle('danger', left <= 300 && left > 0);
+    if (left <= 0) submitMock(true);
+  }
+
+  function renderMockQuestion(i) {
+    const qs = mockQuestions(APP_STATE.mockNum);
+    if (!qs.length) return;
+    APP_STATE.mockIdx = Math.min(Math.max(0, i), qs.length - 1);
+    const q = qs[APP_STATE.mockIdx];
+
+    const qidEl = document.getElementById('drill-qid');
+    const domainEl = document.getElementById('drill-domain');
+    const promptEl = document.getElementById('drill-prompt');
+    const optionsEl = document.getElementById('drill-options');
+    const expEl = document.getElementById('drill-explanation');
+    const examLinkEl = document.getElementById('drill-exam-link');
+    if (!promptEl || !optionsEl) return;
+
+    if (qidEl) qidEl.textContent = `Mock ${APP_STATE.mockNum} · Q ${q.num}/57`;
+    if (domainEl) domainEl.textContent = 'No domain badge — classify it yourself';
+    promptEl.textContent = q.qText;
+    if (expEl) {
+      expEl.classList.remove('visible');
+      expEl.innerHTML = '';
+    }
+    if (examLinkEl) examLinkEl.href = safeNavigationUrl(q.url);
+
+    const saved = APP_STATE.mockAnswers[q.id];
+    const submitted = APP_STATE.mockSubmitted;
+    let optHtml = '';
+    q.options.forEach(opt => {
+      let cls = 'drill-opt-btn';
+      if (submitted) {
+        if (opt.label === q.answer) cls += ' correct';
+        else if (opt.label === saved) cls += ' incorrect';
+      } else if (opt.label === saved) {
+        cls += ' selected';
+      }
+      optHtml += `
+        <button class="${cls}" data-letter="${escapeHtml(opt.label)}"${submitted ? ' disabled' : ''}>
+          <span class="drill-opt-letter">${escapeHtml(opt.label)}</span>
+          <span class="drill-opt-text">${escapeHtml(opt.text)}</span>
+        </button>
+      `;
+    });
+    optionsEl.innerHTML = optHtml;
+    if (!submitted) {
+      optionsEl.querySelectorAll('.drill-opt-btn').forEach(button => {
+        button.addEventListener('click', () => mockPick(q.id, button.dataset.letter));
+      });
+    }
+    paintMockFlag();
+    renderMockNav();
+  }
+
+  function mockPick(qid, letter) {
+    if (APP_STATE.mockSubmitted) return;
+    playSound('click');
+    APP_STATE.mockAnswers[qid] = letter;
+    renderMockQuestion(APP_STATE.mockIdx);
+  }
+
+  function mockGoto(i) {
+    if (APP_STATE.mockSubmitted) {
+      renderMockQuestion(i);
+      return;
+    }
+    playSound('click');
+    renderMockQuestion(i);
+  }
+
+  function toggleMockFlag() {
+    if (APP_STATE.mode === 'drill' || APP_STATE.mockSubmitted) return;
+    playSound('click');
+    const idx = APP_STATE.mockIdx;
+    const at = APP_STATE.mockFlags.indexOf(idx);
+    if (at >= 0) APP_STATE.mockFlags.splice(at, 1);
+    else APP_STATE.mockFlags.push(idx);
+    paintMockFlag();
+    renderMockNav();
+  }
+
+  function paintMockFlag() {
+    const flagBtn = document.getElementById('mock-flag-btn');
+    if (!flagBtn) return;
+    const flagged = APP_STATE.mockFlags.includes(APP_STATE.mockIdx);
+    flagBtn.textContent = flagged ? '🚩 Flagged — tap to unflag' : '🚩 Flag for review';
+  }
+
+  function renderMockNav() {
+    const nav = document.getElementById('mock-nav');
+    if (!nav) return;
+    const qs = mockQuestions(APP_STATE.mockNum);
+    let html = `<button class="nav-arrow" onclick="window.mockGoto(${APP_STATE.mockIdx - 1})" title="Previous question">←</button>`;
+    qs.forEach((q, i) => {
+      let cls = '';
+      if (i === APP_STATE.mockIdx) cls += ' current';
+      if (APP_STATE.mockAnswers[q.id]) cls += ' done';
+      if (APP_STATE.mockFlags.includes(i)) cls += ' flagged';
+      html += `<button class="${cls.trim()}" onclick="window.mockGoto(${i})" title="Q ${q.num}">${q.num}</button>`;
+    });
+    html += `<button class="nav-arrow" onclick="window.mockGoto(${APP_STATE.mockIdx + 1})" title="Next question">→</button>`;
+    nav.innerHTML = html;
+  }
+
+  function mockBand(score) {
+    if (score < MOCK_PASS) return { label: 'Not yet — back to reviews, not more mocks', pass: false };
+    if (score <= 47) return { label: 'PASS — drill your weak domains', pass: true };
+    if (score <= 53) return { label: 'Strong — polish the traps', pass: true };
+    return { label: 'Exam-ready — book the date', pass: true };
+  }
+
+  function submitMock(auto) {
+    if (APP_STATE.mode === 'drill' || APP_STATE.mockSubmitted) return;
+    const qs = mockQuestions(APP_STATE.mockNum);
+    if (!qs.length) return;
+    stopMockTimer();
+    playSound(auto ? 'error' : 'success');
+    APP_STATE.mockSubmitted = true;
+
+    let score = 0;
+    const rows = qs.map((q, i) => {
+      const yours = APP_STATE.mockAnswers[q.id] || '—';
+      const hit = yours === q.answer;
+      if (hit) score++;
+      return { i, num: q.num, hit, yours, answer: q.answer, url: q.url };
+    });
+
+    const best = loadMockBest();
+    if (best[APP_STATE.mockNum] == null || score > best[APP_STATE.mockNum]) {
+      best[APP_STATE.mockNum] = score;
+      try {
+        localStorage.setItem(STORAGE_KEYS.MOCK_BEST, JSON.stringify(best));
+      } catch (error) {
+        // Private-mode storage — best score simply won't persist.
+      }
+      paintMockBest();
+    }
+
+    const band = mockBand(score);
+    const unanswered = qs.length - Object.keys(APP_STATE.mockAnswers).length;
+    const resultsEl = document.getElementById('mock-results');
+    if (resultsEl) {
+      let html = `
+        <div class="mock-score ${band.pass ? 'pass' : 'fail'}">
+          ${band.pass ? '✅' : '❌'} Mock ${APP_STATE.mockNum}: ${score} / ${qs.length}
+          <small>${escapeHtml(band.label)}${auto ? ' (auto-submitted at zero)' : ''}${unanswered ? ` · ${unanswered} left blank` : ''}</small>
+        </div>
+        <div class="mock-review-list">
+      `;
+      rows.forEach(row => {
+        html += `
+          <a class="mock-review-row ${row.hit ? 'hit' : 'miss'}" href="${safeNavigationUrl(row.url)}" target="_blank" rel="noopener">
+            <span class="mock-review-num">Q${row.num}</span>
+            <span class="mock-review-mark">${row.hit ? '✅' : '❌'}</span>
+            <span class="mock-review-letters">you ${escapeHtml(row.yours)} · key ${escapeHtml(row.answer)}</span>
+            <span class="mock-review-open">review ↗</span>
+          </a>
+        `;
+      });
+      resultsEl.innerHTML = html + '</div>';
+      resultsEl.hidden = false;
+      resultsEl.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    }
+    showToast(`Mock ${APP_STATE.mockNum} scored: ${score}/${qs.length}`, band.pass ? '✅' : '❌');
+    renderMockQuestion(APP_STATE.mockIdx);
+  }
+
+  // =========================================================================
   // 9. COMMAND DECK & CHEATSHEET TABS
   // =========================================================================
   function switchCheatTab(tabKey) {
@@ -756,6 +1033,10 @@
   window.checkDrillAnswer = checkDrillAnswer;
   window.nextDrill = nextDrill;
   window.randomDrill = randomDrill;
+  window.mockGoto = mockGoto;
+  window.toggleMockFlag = toggleMockFlag;
+  window.submitMock = submitMock;
+  window.setMockMode = setMode;
   window.switchCheatTab = switchCheatTab;
   window.selectRouteStep = selectRouteStep;
   window.toggleTheme = toggleTheme;
@@ -808,6 +1089,8 @@
     // 2. Load data
     loadSearchIndex();
     loadExamDrills();
+    loadMockExams();
+    paintMockBest();
 
     // 3. Search events
     const searchInput = document.getElementById('q');
@@ -817,6 +1100,7 @@
 
     // Filter pills
     document.querySelectorAll('.filter-pill').forEach(pill => {
+      if (pill.closest('.mock-modes')) return; // mock pills have their own handler below
       pill.addEventListener('click', () => {
         playSound('click');
         document.querySelectorAll('.filter-pill').forEach(p => p.classList.remove('active'));
@@ -824,6 +1108,11 @@
         APP_STATE.searchFilter = pill.dataset.filter;
         performSearch();
       });
+    });
+
+    // Mock mode pills (scoped container — not search filters)
+    document.querySelectorAll('.mock-modes .filter-pill').forEach(pill => {
+      pill.addEventListener('click', () => setMode(pill.dataset.mode), { capture: true });
     });
 
     // Quick tags

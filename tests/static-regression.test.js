@@ -51,6 +51,7 @@ test('the generated offline bundle matches its source datasets', () => {
 
   assert.deepEqual(JSON.parse(JSON.stringify(context.window.TERRAFORM_OFFLINE_DATA.searchIndex)), JSON.parse(read('search_index.json')));
   assert.deepEqual(JSON.parse(JSON.stringify(context.window.TERRAFORM_OFFLINE_DATA.examDrills)), JSON.parse(read('exam_drills.json')));
+  assert.deepEqual(JSON.parse(JSON.stringify(context.window.TERRAFORM_OFFLINE_DATA.mockExams)), JSON.parse(read('mock_exams.json')));
 
   const sourceNotes = Object.fromEntries(
     fs.readdirSync(path.join(root, 'notes'))
@@ -125,6 +126,37 @@ test('study-note catalog, cards, and files agree', () => {
   }
 });
 
+test('mock exam bank is complete and balanced', () => {
+  const mocks = JSON.parse(read('mock_exams.json'));
+  assert.equal(mocks.length, 171);
+  for (const n of [1, 2, 3]) {
+    const qs = mocks.filter(q => q.mock === n);
+    assert.equal(qs.length, 57, `mock ${n}`);
+    assert.deepEqual(qs.map(q => q.num), Array.from({ length: 57 }, (_, i) => i + 1));
+    for (const q of qs) {
+      assert.equal(q.options.length, 4);
+      assert.match(q.answer, /^[A-D]$/);
+      assert.ok(q.explanation.length > 0);
+      assert.ok(q.options.some(o => o.label === q.answer));
+    }
+    const bShare = qs.filter(q => q.answer === 'B').length / qs.length;
+    assert.ok(bShare > 0.15 && bShare < 0.35, `mock ${n} B-share ${bShare}`);
+  }
+});
+
+test('mock engine is wired (timer, scoring, review)', () => {
+  const app = read('app.js');
+  const index = read('index.html');
+  assert.match(app, /MOCK_SECS = 3600/);
+  assert.match(app, /MOCK_PASS = 40/);
+  assert.match(app, /loadJson\('mock_exams\.json', 'mockExams'\)/);
+  assert.match(app, /window\.mockGoto = mockGoto/);
+  assert.match(app, /window\.toggleMockFlag = toggleMockFlag/);
+  assert.match(app, /window\.submitMock = submitMock/);
+  for (const id of ['mock-timer', 'mock-brief', 'mock-nav', 'mock-results', 'mock-flag-btn', 'mock-submit-btn', 'best-1', 'best-2', 'best-3']) {
+    assert.ok(index.includes(`id="${id}"`), id);
+  }
+});
 test('modules evolution code pack is linked and downloadable', () => {
   const pathmod = require('node:path');
   const fssync = require('node:fs');

@@ -1,0 +1,4619 @@
+[
+ {
+  "id": "Q-M1-01",
+  "mock": 1,
+  "num": 1,
+  "qText": "Your editor formats on save, but CI still needs a style gate. Which command fails the build on unformatted HCL?",
+  "options": [
+   {
+    "label": "A",
+    "text": "terraform fmt -check"
+   },
+   {
+    "label": "B",
+    "text": "terraform fmt"
+   },
+   {
+    "label": "C",
+    "text": "terraform validate"
+   },
+   {
+    "label": "D",
+    "text": "terraform plan"
+   }
+  ],
+  "answer": "A",
+  "explanation": "fmt -check gates CI without rewriting.\n🧠 WHY — Gate = -check (exit 1, no writes); bare fmt is the local fixer. Rewriting in CI mutates what it judges.",
+  "url": "books/exam-center.html#Q-M1-01"
+ },
+ {
+  "id": "Q-M1-02",
+  "mock": 1,
+  "num": 2,
+  "qText": "What does terraform.tfstate primarily allow Terraform to do?",
+  "options": [
+   {
+    "label": "A",
+    "text": "Compile HCL faster"
+   },
+   {
+    "label": "B",
+    "text": "Map configuration to real-world objects"
+   },
+   {
+    "label": "C",
+    "text": "Skip init"
+   },
+   {
+    "label": "D",
+    "text": "Encrypt variables"
+   }
+  ],
+  "answer": "B",
+  "explanation": "State maps configuration to real-world objects.\n🧠 WHY — The binding table plan/apply join against. Compile-faster/skip-init/encrypt are all wrong-layer fictions.",
+  "url": "books/exam-center.html#Q-M1-02"
+ },
+ {
+  "id": "Q-M1-03",
+  "mock": 1,
+  "num": 3,
+  "qText": "Two applies of unchanged config show 0/0/0. This demonstrates…",
+  "options": [
+   {
+    "label": "A",
+    "text": "declarative syntax"
+   },
+   {
+    "label": "B",
+    "text": "remote backends"
+   },
+   {
+    "label": "C",
+    "text": "idempotence"
+   },
+   {
+    "label": "D",
+    "text": "peer review"
+   }
+  ],
+  "answer": "C",
+  "explanation": "0/0/0 on re-apply = idempotence.\n🧠 WHY — Same code, same world, no-op second run. Syntax, backends, and reviews are different properties.",
+  "url": "books/exam-center.html#Q-M1-03"
+ },
+ {
+  "id": "Q-M1-04",
+  "mock": 1,
+  "num": 4,
+  "qText": "Where are a managed VPC ID and its CIDR recorded after apply?",
+  "options": [
+   {
+    "label": "A",
+    "text": "Nowhere — re-queried every second"
+   },
+   {
+    "label": "B",
+    "text": "Only in the console output"
+   },
+   {
+    "label": "C",
+    "text": "In versions.tf"
+   },
+   {
+    "label": "D",
+    "text": "In the state file as resource metadata"
+   }
+  ],
+  "answer": "D",
+  "explanation": "VPC ID + CIDR land in state as resource metadata.\n🧠 WHY — Apply records what the APIs returned. Re-queried-every-second denies state; versions.tf pins providers.",
+  "url": "books/exam-center.html#Q-M1-04"
+ },
+ {
+  "id": "Q-M1-05",
+  "mock": 1,
+  "num": 5,
+  "qText": "count = 3 is reduced to count = 2. Which instance is destroyed?",
+  "options": [
+   {
+    "label": "A",
+    "text": "web[2]"
+   },
+   {
+    "label": "B",
+    "text": "web[0]"
+   },
+   {
+    "label": "C",
+    "text": "web[1]"
+   },
+   {
+    "label": "D",
+    "text": "All three"
+   }
+  ],
+  "answer": "A",
+  "explanation": "count 3→2 destroys web[2], the tail.\n🧠 WHY — Index is identity: the highest index vanishes. Survivors keep addresses; nothing else rebirths.",
+  "url": "books/exam-center.html#Q-M1-05"
+ },
+ {
+  "id": "Q-M1-06",
+  "mock": 1,
+  "num": 6,
+  "qText": "Which CANNOT be deleted?",
+  "options": [
+   {
+    "label": "A",
+    "text": "A dev workspace"
+   },
+   {
+    "label": "B",
+    "text": "The default workspace"
+   },
+   {
+    "label": "C",
+    "text": "An empty workspace"
+   },
+   {
+    "label": "D",
+    "text": "A staging workspace"
+   }
+  ],
+  "answer": "B",
+  "explanation": "default is the undeletable workspace.\n🧠 WHY — Implicit and permanent — migrate away, never remove. Named envs delete freely once empty.",
+  "url": "books/exam-center.html#Q-M1-06"
+ },
+ {
+  "id": "Q-M1-07",
+  "mock": 1,
+  "num": 7,
+  "qText": "for_each requires its argument to be…",
+  "options": [
+   {
+    "label": "A",
+    "text": "a list"
+   },
+   {
+    "label": "B",
+    "text": "a number"
+   },
+   {
+    "label": "C",
+    "text": "a set or map"
+   },
+   {
+    "label": "D",
+    "text": "a string"
+   }
+  ],
+  "answer": "C",
+  "explanation": "for_each takes a set or map.\n🧠 WHY — Keys need stability: lists re-index, numbers/strings key nothing. Bare lists wrap with toset().",
+  "url": "books/exam-center.html#Q-M1-07"
+ },
+ {
+  "id": "Q-M1-08",
+  "mock": 1,
+  "num": 8,
+  "qText": "Terraform Cloud and Terraform Enterprise differ in…",
+  "options": [
+   {
+    "label": "A",
+    "text": "state format"
+   },
+   {
+    "label": "B",
+    "text": "language: HCL vs YAML"
+   },
+   {
+    "label": "C",
+    "text": "CLI commands entirely"
+   },
+   {
+    "label": "D",
+    "text": "hosting: SaaS vs self-hosted"
+   }
+  ],
+  "answer": "D",
+  "explanation": "TFC vs TFE = hosting: SaaS vs self-hosted.\n🧠 WHY — Same platform, different operator. State format, language, and CLI are identical.",
+  "url": "books/exam-center.html#Q-M1-08"
+ },
+ {
+  "id": "Q-M1-09",
+  "mock": 1,
+  "num": 9,
+  "qText": "A policy must block deploys without cost tags, with no override. Sentinel mode?",
+  "options": [
+   {
+    "label": "A",
+    "text": "Mandatory"
+   },
+   {
+    "label": "B",
+    "text": "Advisory"
+   },
+   {
+    "label": "C",
+    "text": "Soft-mandatory"
+   },
+   {
+    "label": "D",
+    "text": "Disabled"
+   }
+  ],
+  "answer": "A",
+  "explanation": "No-override tag policy = mandatory.\n🧠 WHY — Mandatory hard-blocks; soft-mandatory permits override; advisory logs; disabled enforces nothing.",
+  "url": "books/exam-center.html#Q-M1-09"
+ },
+ {
+  "id": "Q-M1-10",
+  "mock": 1,
+  "num": 10,
+  "qText": "Token storage after terraform login?",
+  "options": [
+   {
+    "label": "A",
+    "text": "terraform.tfstate"
+   },
+   {
+    "label": "B",
+    "text": "credentials.tfrc.json"
+   },
+   {
+    "label": "C",
+    "text": ".terraform.lock.hcl"
+   },
+   {
+    "label": "D",
+    "text": "An S3 bucket"
+   }
+  ],
+  "answer": "B",
+  "explanation": "Login tokens live in credentials.tfrc.json.\n🧠 WHY — Home-dir CLI credentials, outside any repo. tfstate/lock/S3 are all wrong-layer or leak-prone.",
+  "url": "books/exam-center.html#Q-M1-10"
+ },
+ {
+  "id": "Q-M1-11",
+  "mock": 1,
+  "num": 11,
+  "qText": "Provider region B while default is region A. The resource needs…",
+  "options": [
+   {
+    "label": "A",
+    "text": "a second Terraform install"
+   },
+   {
+    "label": "B",
+    "text": "depends_on"
+   },
+   {
+    "label": "C",
+    "text": "provider = aws.eu on the block"
+   },
+   {
+    "label": "D",
+    "text": "a second state file"
+   }
+  ],
+  "answer": "C",
+  "explanation": "Cross-region block needs provider = aws.eu.\n🧠 WHY — Alias on the block selects the non-default config. Second installs, depends_on, and second states are all wrong tools.",
+  "url": "books/exam-center.html#Q-M1-11"
+ },
+ {
+  "id": "Q-M1-12",
+  "mock": 1,
+  "num": 12,
+  "qText": "TF_VAR_region, terraform.tfvars, and -var all set region. Winner?",
+  "options": [
+   {
+    "label": "A",
+    "text": "defaults"
+   },
+   {
+    "label": "B",
+    "text": "TF_VAR_region"
+   },
+   {
+    "label": "C",
+    "text": "terraform.tfvars"
+   },
+   {
+    "label": "D",
+    "text": "-var"
+   }
+  ],
+  "answer": "D",
+  "explanation": "TF_VAR vs file vs -var: -var wins.\n🧠 WHY — CLI flags outrank every file; files outrank env; env outranks defaults. Strip top-down.",
+  "url": "books/exam-center.html#Q-M1-12"
+ },
+ {
+  "id": "Q-M1-13",
+  "mock": 1,
+  "num": 13,
+  "qText": "State file deleted before apply. Consequence?",
+  "options": [
+   {
+    "label": "A",
+    "text": "Duplicate resources"
+   },
+   {
+    "label": "B",
+    "text": "Safe no-op"
+   },
+   {
+    "label": "C",
+    "text": "Auto-restore"
+   },
+   {
+    "label": "D",
+    "text": "Faster plans"
+   }
+  ],
+  "answer": "A",
+  "explanation": "Deleted state + apply = duplicate resources.\n🧠 WHY — Terraform forgot everything and recreates the world. No auto-restore, no no-op, no speedup.",
+  "url": "books/exam-center.html#Q-M1-13"
+ },
+ {
+  "id": "Q-M1-14",
+  "mock": 1,
+  "num": 14,
+  "qText": "\"Single cloud, deepest native integration.\" Best fit?",
+  "options": [
+   {
+    "label": "A",
+    "text": "Terraform"
+   },
+   {
+    "label": "B",
+    "text": "CloudFormation"
+   },
+   {
+    "label": "C",
+    "text": "Ansible"
+   },
+   {
+    "label": "D",
+    "text": "Packer"
+   }
+  ],
+  "answer": "B",
+  "explanation": "Single-cloud deepest-native = CloudFormation.\n🧠 WHY — Depth is CFN's whole proposition. Terraform = breadth, Ansible = fleet config, Packer = images.",
+  "url": "books/exam-center.html#Q-M1-14"
+ },
+ {
+  "id": "Q-M1-15",
+  "mock": 1,
+  "num": 15,
+  "qText": "Registry module best practice for versions?",
+  "options": [
+   {
+    "label": "A",
+    "text": "Omit version for latest"
+   },
+   {
+    "label": "B",
+    "text": "Branch main"
+   },
+   {
+    "label": "C",
+    "text": "Pin with version = \"x.y.z\""
+   },
+   {
+    "label": "D",
+    "text": "No pin needed"
+   }
+  ],
+  "answer": "C",
+  "explanation": "Registry modules pin version = \"x.y.z\".\n🧠 WHY — Floating latest breaks future runs; branches aren't versions. Pin every registry source.",
+  "url": "books/exam-center.html#Q-M1-15"
+ },
+ {
+  "id": "Q-M1-16",
+  "mock": 1,
+  "num": 16,
+  "qText": "PR opened, plan posted back automatically. This is…",
+  "options": [
+   {
+    "label": "A",
+    "text": "Console mode"
+   },
+   {
+    "label": "B",
+    "text": "local-exec"
+   },
+   {
+    "label": "C",
+    "text": "State mv"
+   },
+   {
+    "label": "D",
+    "text": "VCS-driven runs"
+   }
+  ],
+  "answer": "D",
+  "explanation": "PR → auto plan posted = VCS-driven runs.\n🧠 WHY — Remote runs on VCS events with PR comments. Console mode, local-exec, and state mv are unrelated.",
+  "url": "books/exam-center.html#Q-M1-16"
+ },
+ {
+  "id": "Q-M1-17",
+  "mock": 1,
+  "num": 17,
+  "qText": "\"Configure users and Nginx on 200 existing VMs.\" Best fit?",
+  "options": [
+   {
+    "label": "A",
+    "text": "Ansible"
+   },
+   {
+    "label": "B",
+    "text": "CloudFormation"
+   },
+   {
+    "label": "C",
+    "text": "Packer"
+   },
+   {
+    "label": "D",
+    "text": "Terraform"
+   }
+  ],
+  "answer": "A",
+  "explanation": "Users+Nginx on live VMs = Ansible.\n🧠 WHY — Fleet configuration of existing hosts is the config-management layer. Provisioners create; they don't babysit.",
+  "url": "books/exam-center.html#Q-M1-17"
+ },
+ {
+  "id": "Q-M1-18",
+  "mock": 1,
+  "num": 18,
+  "qText": "\"Error acquiring the state lock\" appears. First step?",
+  "options": [
+   {
+    "label": "A",
+    "text": "Destroy everything"
+   },
+   {
+    "label": "B",
+    "text": "Delete the DynamoDB row"
+   },
+   {
+    "label": "C",
+    "text": "Read the lock info: who, what op, since when"
+   },
+   {
+    "label": "D",
+    "text": "Disable locking"
+   }
+  ],
+  "answer": "C",
+  "explanation": "Lock error → read the lock info first.\n🧠 WHY — Who, what op, since when — then decide stale vs live. Deleting rows and destroying everything are panic moves.",
+  "url": "books/exam-center.html#Q-M1-18"
+ },
+ {
+  "id": "Q-M1-19",
+  "mock": 1,
+  "num": 19,
+  "qText": "Correct core workflow order?",
+  "options": [
+   {
+    "label": "A",
+    "text": "apply, plan, init, write"
+   },
+   {
+    "label": "B",
+    "text": "write, init, plan, apply"
+   },
+   {
+    "label": "C",
+    "text": "init, apply, plan, write"
+   },
+   {
+    "label": "D",
+    "text": "plan, write, apply, init"
+   }
+  ],
+  "answer": "B",
+  "explanation": "Workflow order: write, init, plan, apply.\n🧠 WHY — Files before init, init before plan, plan before apply. Any rotation describes a loop, not the lifecycle.",
+  "url": "books/exam-center.html#Q-M1-19"
+ },
+ {
+  "id": "Q-M1-20",
+  "mock": 1,
+  "num": 20,
+  "qText": "aws_subnet.public[\"us-east-1a\"] addressing implies…",
+  "options": [
+   {
+    "label": "A",
+    "text": "count indexing"
+   },
+   {
+    "label": "B",
+    "text": "A data source"
+   },
+   {
+    "label": "C",
+    "text": "No state"
+   },
+   {
+    "label": "D",
+    "text": "for_each keys"
+   }
+  ],
+  "answer": "D",
+  "explanation": "String-key addressing implies for_each keys.\n🧠 WHY — [\"us-east-1a\"] is a map/set key, never a count index. Count addresses numerically.",
+  "url": "books/exam-center.html#Q-M1-20"
+ },
+ {
+  "id": "Q-M1-21",
+  "mock": 1,
+  "num": 21,
+  "qText": "Same word, different concept in TFC vs CLI?",
+  "options": [
+   {
+    "label": "A",
+    "text": "Workspace"
+   },
+   {
+    "label": "B",
+    "text": "Apply"
+   },
+   {
+    "label": "C",
+    "text": "Plan"
+   },
+   {
+    "label": "D",
+    "text": "State file"
+   }
+  ],
+  "answer": "A",
+  "explanation": "Same word, different concept = workspace.\n🧠 WHY — CLI workspaces isolate state; TFC workspaces bind config+vars+state+runs. The exam's favorite homonym.",
+  "url": "books/exam-center.html#Q-M1-21"
+ },
+ {
+  "id": "Q-M1-22",
+  "mock": 1,
+  "num": 22,
+  "qText": "Safe reader for a possibly-empty counted list?",
+  "options": [
+   {
+    "label": "A",
+    "text": "x[0]"
+   },
+   {
+    "label": "B",
+    "text": "one(x[*].attr)"
+   },
+   {
+    "label": "C",
+    "text": "count.index"
+   },
+   {
+    "label": "D",
+    "text": "x[*][0]"
+   }
+  ],
+  "answer": "B",
+  "explanation": "Possibly-empty list reads via one(x[*].attr).\n🧠 WHY — one() returns the single element or null — x[0] crashes on empty. count.index writes, never reads.",
+  "url": "books/exam-center.html#Q-M1-22"
+ },
+ {
+  "id": "Q-M1-23",
+  "mock": 1,
+  "num": 23,
+  "qText": "Saved plan file purpose?",
+  "options": [
+   {
+    "label": "A",
+    "text": "Faster init"
+   },
+   {
+    "label": "B",
+    "text": "Skip state"
+   },
+   {
+    "label": "C",
+    "text": "Execute exactly the reviewed plan"
+   },
+   {
+    "label": "D",
+    "text": "Format code"
+   }
+  ],
+  "answer": "C",
+  "explanation": "Saved plans bind reviewed == executed.\n🧠 WHY — Serializing the exact diff closes the drift window between review and apply. Re-planning re-opens it.",
+  "url": "books/exam-center.html#Q-M1-23"
+ },
+ {
+  "id": "Q-M1-24",
+  "mock": 1,
+  "num": 24,
+  "qText": "Declarative means…",
+  "options": [
+   {
+    "label": "A",
+    "text": "Script every API call"
+   },
+   {
+    "label": "B",
+    "text": "Manual ordering"
+   },
+   {
+    "label": "C",
+    "text": "No planning needed"
+   },
+   {
+    "label": "D",
+    "text": "State end-state; let the tool derive steps"
+   }
+  ],
+  "answer": "D",
+  "explanation": "Declarative = state end-state, tool derives steps.\n🧠 WHY — WHAT not HOW: graph orders, providers translate. Scripting calls and manual ordering are imperative.",
+  "url": "books/exam-center.html#Q-M1-24"
+ },
+ {
+  "id": "Q-M1-25",
+  "mock": 1,
+  "num": 25,
+  "qText": "Remote state benefits include…",
+  "options": [
+   {
+    "label": "A",
+    "text": "Shared truth, locking, secrets off laptops"
+   },
+   {
+    "label": "B",
+    "text": "No locking needed"
+   },
+   {
+    "label": "C",
+    "text": "No backend needed"
+   },
+   {
+    "label": "D",
+    "text": "Free encryption of code"
+   }
+  ],
+  "answer": "A",
+  "explanation": "Remote backends: shared truth, locking, secrets off laptops.\n🧠 WHY — Collaboration needs all three. No-locking/no-backend claims deny the feature; code is never encrypted.",
+  "url": "books/exam-center.html#Q-M1-25"
+ },
+ {
+  "id": "Q-M1-26",
+  "mock": 1,
+  "num": 26,
+  "qText": "Cost estimate on a PR is produced by…",
+  "options": [
+   {
+    "label": "A",
+    "text": "Local fmt"
+   },
+   {
+    "label": "B",
+    "text": "Remote runs analyzing the plan"
+   },
+   {
+    "label": "C",
+    "text": "State mv"
+   },
+   {
+    "label": "D",
+    "text": "The console"
+   }
+  ],
+  "answer": "B",
+  "explanation": "PR cost estimates come from remote-run plan analysis.\n🧠 WHY — The platform prices the diff. fmt styles, state mv rebinds, consoles click — none price anything.",
+  "url": "books/exam-center.html#Q-M1-26"
+ },
+ {
+  "id": "Q-M1-27",
+  "mock": 1,
+  "num": 27,
+  "qText": "References between resources create…",
+  "options": [
+   {
+    "label": "A",
+    "text": "Nothing"
+   },
+   {
+    "label": "B",
+    "text": "Costs"
+   },
+   {
+    "label": "C",
+    "text": "Graph edges that order creation"
+   },
+   {
+    "label": "D",
+    "text": "Duplicates"
+   }
+  ],
+  "answer": "C",
+  "explanation": "References create graph edges ordering creation.\n🧠 WHY — Implicit dependencies from interpolation. No cost, no duplicates — just ordering.",
+  "url": "books/exam-center.html#Q-M1-27"
+ },
+ {
+  "id": "Q-M1-28",
+  "mock": 1,
+  "num": 28,
+  "qText": "terraform workspace show prints…",
+  "options": [
+   {
+    "label": "A",
+    "text": "All resources"
+   },
+   {
+    "label": "B",
+    "text": "The backend type"
+   },
+   {
+    "label": "C",
+    "text": "Plan output"
+   },
+   {
+    "label": "D",
+    "text": "The active workspace name"
+   }
+  ],
+  "answer": "D",
+  "explanation": "workspace show prints the active name only.\n🧠 WHY — One word answering \"where am I\". Resources come from state list; types from config.",
+  "url": "books/exam-center.html#Q-M1-28"
+ },
+ {
+  "id": "Q-M1-29",
+  "mock": 1,
+  "num": 29,
+  "qText": "Second run shows 0/0/0 after console tagging. Drift shows as…",
+  "options": [
+   {
+    "label": "A",
+    "text": "A ~ change on the tagged resource"
+   },
+   {
+    "label": "B",
+    "text": "It cannot show"
+   },
+   {
+    "label": "C",
+    "text": "State deletion"
+   },
+   {
+    "label": "D",
+    "text": "A new workspace"
+   }
+  ],
+  "answer": "A",
+  "explanation": "Console tagging surfaces as a ~ drift change.\n🧠 WHY — Refresh imports reality into the diff; clean applies never hide hand edits. Absence claims deny refresh.",
+  "url": "books/exam-center.html#Q-M1-29"
+ },
+ {
+  "id": "Q-M1-30",
+  "mock": 1,
+  "num": 30,
+  "qText": "TFC workspaces bind…",
+  "options": [
+   {
+    "label": "A",
+    "text": "Only a key suffix"
+   },
+   {
+    "label": "B",
+    "text": "Config, variables, state, run history"
+   },
+   {
+    "label": "C",
+    "text": "Nothing"
+   },
+   {
+    "label": "D",
+    "text": "Local binaries"
+   }
+  ],
+  "answer": "B",
+  "explanation": "TFC workspaces bind config, variables, state, run history.\n🧠 WHY — A full execution context, not a key suffix. Suffix-only describes CLI workspaces — the homonym trap.",
+  "url": "books/exam-center.html#Q-M1-30"
+ },
+ {
+  "id": "Q-M1-31",
+  "mock": 1,
+  "num": 31,
+  "qText": "version = \"~> 5.0\" allows…",
+  "options": [
+   {
+    "label": "A",
+    "text": "Only 5.0.0"
+   },
+   {
+    "label": "B",
+    "text": "Any version"
+   },
+   {
+    "label": "C",
+    "text": "5.x, never 6.0"
+   },
+   {
+    "label": "D",
+    "text": "Only 6.x"
+   }
+  ],
+  "answer": "C",
+  "explanation": "~> 5.0 allows 5.x, never 6.0.\n🧠 WHY — Minor-flex, major-freeze. Bare >= invites breaking majors; exact pins toil on patches.",
+  "url": "books/exam-center.html#Q-M1-31"
+ },
+ {
+  "id": "Q-M1-32",
+  "mock": 1,
+  "num": 32,
+  "qText": "terraform init does NOT…",
+  "options": [
+   {
+    "label": "A",
+    "text": "Download providers"
+   },
+   {
+    "label": "B",
+    "text": "Configure the backend"
+   },
+   {
+    "label": "C",
+    "text": "Write the lock file"
+   },
+   {
+    "label": "D",
+    "text": "Create real infrastructure"
+   }
+  ],
+  "answer": "D",
+  "explanation": "init never creates real infrastructure.\n🧠 WHY — Downloads, backend config, lock file — all local. Creation starts at apply.",
+  "url": "books/exam-center.html#Q-M1-32"
+ },
+ {
+  "id": "Q-M1-33",
+  "mock": 1,
+  "num": 33,
+  "qText": "Soft-mandatory Sentinel differs from mandatory in…",
+  "options": [
+   {
+    "label": "A",
+    "text": "Override possibility"
+   },
+   {
+    "label": "B",
+    "text": "Language"
+   },
+   {
+    "label": "C",
+    "text": "Speed"
+   },
+   {
+    "label": "D",
+    "text": "Nothing"
+   }
+  ],
+  "answer": "A",
+  "explanation": "Soft vs hard mandatory = override possibility.\n🧠 WHY — Permitted-with-rights vs never. Language, speed, and nothing are non-answers.",
+  "url": "books/exam-center.html#Q-M1-33"
+ },
+ {
+  "id": "Q-M1-34",
+  "mock": 1,
+  "num": 34,
+  "qText": "Which workspace survives every delete attempt?",
+  "options": [
+   {
+    "label": "A",
+    "text": "dev"
+   },
+   {
+    "label": "B",
+    "text": "default"
+   },
+   {
+    "label": "C",
+    "text": "staging"
+   },
+   {
+    "label": "D",
+    "text": "prod"
+   }
+  ],
+  "answer": "B",
+  "explanation": "default survives every delete.\n🧠 WHY — Implicit and permanent. Named envs delete freely once empty.",
+  "url": "books/exam-center.html#Q-M1-34"
+ },
+ {
+  "id": "Q-M1-35",
+  "mock": 1,
+  "num": 35,
+  "qText": "Noisiest TF_LOG level?",
+  "options": [
+   {
+    "label": "A",
+    "text": "OFF"
+   },
+   {
+    "label": "B",
+    "text": "INFO"
+   },
+   {
+    "label": "C",
+    "text": "TRACE"
+   },
+   {
+    "label": "D",
+    "text": "WARN"
+   }
+  ],
+  "answer": "C",
+  "explanation": "Noisiest TF_LOG level = TRACE.\n🧠 WHY — Full RPC detail for provider bugs. OFF silences, INFO summarizes, WARN filters to warnings.",
+  "url": "books/exam-center.html#Q-M1-35"
+ },
+ {
+  "id": "Q-M1-36",
+  "mock": 1,
+  "num": 36,
+  "qText": "Sensitive values in state files are…",
+  "options": [
+   {
+    "label": "A",
+    "text": "Encrypted by default"
+   },
+   {
+    "label": "B",
+    "text": "Hashed"
+   },
+   {
+    "label": "C",
+    "text": "Absent"
+   },
+   {
+    "label": "D",
+    "text": "Plaintext — restrict access"
+   }
+  ],
+  "answer": "D",
+  "explanation": "State secrets are plaintext — restrict access.\n🧠 WHY — No default encryption, no hashing, never absent. Bucket policy + IAM + Vault/SSM references.",
+  "url": "books/exam-center.html#Q-M1-36"
+ },
+ {
+  "id": "Q-M1-37",
+  "mock": 1,
+  "num": 37,
+  "qText": "Child modules should receive values via…",
+  "options": [
+   {
+    "label": "A",
+    "text": "Input variables from the root call"
+   },
+   {
+    "label": "B",
+    "text": "Console edits"
+   },
+   {
+    "label": "C",
+    "text": "Hardcoded locals"
+   },
+   {
+    "label": "D",
+    "text": "State surgery"
+   }
+  ],
+  "answer": "A",
+  "explanation": "Children receive values via root input variables.\n🧠 WHY — The module call's arguments are the only door in. Console edits, hardcoded locals, and surgery bypass the contract.",
+  "url": "books/exam-center.html#Q-M1-37"
+ },
+ {
+  "id": "Q-M1-38",
+  "mock": 1,
+  "num": 38,
+  "qText": "Pulumi differs from Terraform mainly in…",
+  "options": [
+   {
+    "label": "A",
+    "text": "No state"
+   },
+   {
+    "label": "B",
+    "text": "General-purpose languages vs HCL"
+   },
+   {
+    "label": "C",
+    "text": "AWS-only"
+   },
+   {
+    "label": "D",
+    "text": "No planning"
+   }
+  ],
+  "answer": "B",
+  "explanation": "Pulumi = general-purpose languages vs HCL.\n🧠 WHY — State, planning, and multi-cloud exist on both sides. Language is the axis; the rest are distractors.",
+  "url": "books/exam-center.html#Q-M1-38"
+ },
+ {
+  "id": "Q-M1-39",
+  "mock": 1,
+  "num": 39,
+  "qText": "Local path, registry, git, HTTP/S3 — these are…",
+  "options": [
+   {
+    "label": "A",
+    "text": "Backend types"
+   },
+   {
+    "label": "B",
+    "text": "Log levels"
+   },
+   {
+    "label": "C",
+    "text": "Module source types"
+   },
+   {
+    "label": "D",
+    "text": "Workspace kinds"
+   }
+  ],
+  "answer": "C",
+  "explanation": "Local/registry/git/HTTP/S3 = module source types.\n🧠 WHY — Where code lives. Backends store state, log levels verbosity, workspaces isolate — different lists.",
+  "url": "books/exam-center.html#Q-M1-39"
+ },
+ {
+  "id": "Q-M1-40",
+  "mock": 1,
+  "num": 40,
+  "qText": "{ for k,i : k => i.public_ip } builds…",
+  "options": [
+   {
+    "label": "A",
+    "text": "A list"
+   },
+   {
+    "label": "B",
+    "text": "An error"
+   },
+   {
+    "label": "C",
+    "text": "A subnet"
+   },
+   {
+    "label": "D",
+    "text": "A name→IP map"
+   }
+  ],
+  "answer": "D",
+  "explanation": "{ for k,i : k => i.public_ip } builds a name→IP map.\n🧠 WHY — Object comprehension keyed by name. Lists come from splat; subnets and errors are wrong shapes.",
+  "url": "books/exam-center.html#Q-M1-40"
+ },
+ {
+  "id": "Q-M1-41",
+  "mock": 1,
+  "num": 41,
+  "qText": "terraform validate checks…",
+  "options": [
+   {
+    "label": "A",
+    "text": "Syntax + consistency, no cloud"
+   },
+   {
+    "label": "B",
+    "text": "Real costs"
+   },
+   {
+    "label": "C",
+    "text": "State locks"
+   },
+   {
+    "label": "D",
+    "text": "DNS"
+   }
+  ],
+  "answer": "A",
+  "explanation": "validate = syntax + consistency, no cloud.\n🧠 WHY — Local gate: parses, resolves, type-checks. Costs, locks, and DNS all need a network validate never touches.",
+  "url": "books/exam-center.html#Q-M1-41"
+ },
+ {
+  "id": "Q-M1-42",
+  "mock": 1,
+  "num": 42,
+  "qText": "Golden IaC rule about state files?",
+  "options": [
+   {
+    "label": "A",
+    "text": "Commit them always"
+   },
+   {
+    "label": "B",
+    "text": "Never hand-edit; use state commands"
+   },
+   {
+    "label": "C",
+    "text": "Hand-edit freely"
+   },
+   {
+    "label": "D",
+    "text": "Email them"
+   }
+  ],
+  "answer": "B",
+  "explanation": "Golden rule: never hand-edit state; use state commands.\n🧠 WHY — Every fix has a command; hand JSON edits corrupt. Commit/email options violate every other rule too.",
+  "url": "books/exam-center.html#Q-M1-42"
+ },
+ {
+  "id": "Q-M1-43",
+  "mock": 1,
+  "num": 43,
+  "qText": "TF_VAR_tags for a map variable needs…",
+  "options": [
+   {
+    "label": "A",
+    "text": "Bare braces"
+   },
+   {
+    "label": "B",
+    "text": "Double quotes only"
+   },
+   {
+    "label": "C",
+    "text": "Single-quoted HCL"
+   },
+   {
+    "label": "D",
+    "text": "A tfvars file only"
+   }
+  ],
+  "answer": "C",
+  "explanation": "TF_VAR_tags maps need single-quoted HCL.\n🧠 WHY — Shell-safe quoting around object syntax. Bare braces split, double quotes interpolate, files are another path.",
+  "url": "books/exam-center.html#Q-M1-43"
+ },
+ {
+  "id": "Q-M1-44",
+  "mock": 1,
+  "num": 44,
+  "qText": "terraform state pull is for…",
+  "options": [
+   {
+    "label": "A",
+    "text": "Faster applies"
+   },
+   {
+    "label": "B",
+    "text": "Formatting"
+   },
+   {
+    "label": "C",
+    "text": "Provider upgrade"
+   },
+   {
+    "label": "D",
+    "text": "Raw JSON snapshot before surgery"
+   }
+  ],
+  "answer": "D",
+  "explanation": "state pull = raw JSON snapshot before surgery.\n🧠 WHY — Versioned backup enabling restore. Applies, formatting, and upgrades are unrelated verbs.",
+  "url": "books/exam-center.html#Q-M1-44"
+ },
+ {
+  "id": "Q-M1-45",
+  "mock": 1,
+  "num": 45,
+  "qText": "Private registry gives…",
+  "options": [
+   {
+    "label": "A",
+    "text": "Blessed org modules/providers"
+   },
+   {
+    "label": "B",
+    "text": "Faster CPUs"
+   },
+   {
+    "label": "C",
+    "text": "Free state"
+   },
+   {
+    "label": "D",
+    "text": "No init"
+   }
+  ],
+  "answer": "A",
+  "explanation": "Private registry = blessed org modules/providers.\n🧠 WHY — Versioned, reviewed, internal. CPUs, free state, and no-init are fantasy features.",
+  "url": "books/exam-center.html#Q-M1-45"
+ },
+ {
+  "id": "Q-M1-46",
+  "mock": 1,
+  "num": 46,
+  "qText": "terraform show -json tfplan | jq .output_changes gates…",
+  "options": [
+   {
+    "label": "A",
+    "text": "Formatting"
+   },
+   {
+    "label": "B",
+    "text": "Deploys on output changes"
+   },
+   {
+    "label": "C",
+    "text": "Billing"
+   },
+   {
+    "label": "D",
+    "text": "DNS"
+   }
+  ],
+  "answer": "B",
+  "explanation": "output_changes gates deploys on output deltas.\n🧠 WHY — Machine-readable contract diff for pipelines. Formatting, billing, and DNS are other tools' jobs.",
+  "url": "books/exam-center.html#Q-M1-46"
+ },
+ {
+  "id": "Q-M1-47",
+  "mock": 1,
+  "num": 47,
+  "qText": "TFC agents run…",
+  "options": [
+   {
+    "label": "A",
+    "text": "Laptop applies"
+   },
+   {
+    "label": "B",
+    "text": "Nothing"
+   },
+   {
+    "label": "C",
+    "text": "Remote operations on your infra"
+   },
+   {
+    "label": "D",
+    "text": "Only fmt"
+   }
+  ],
+  "answer": "C",
+  "explanation": "TFC agents run remote operations on your infra.\n🧠 WHY — Private-net execution, SaaS control. Laptops, nothing, and fmt-only miss the hybrid point.",
+  "url": "books/exam-center.html#Q-M1-47"
+ },
+ {
+  "id": "Q-M1-48",
+  "mock": 1,
+  "num": 48,
+  "qText": "merge(a, b) on colliding keys…",
+  "options": [
+   {
+    "label": "A",
+    "text": "Errors"
+   },
+   {
+    "label": "B",
+    "text": "Left wins"
+   },
+   {
+    "label": "C",
+    "text": "Drops both"
+   },
+   {
+    "label": "D",
+    "text": "Right wins"
+   }
+  ],
+  "answer": "D",
+  "explanation": "merge() collisions: right side wins.\n🧠 WHY — Later arguments override. Errors, left-wins, and drops are all wrong mental models.",
+  "url": "books/exam-center.html#Q-M1-48"
+ },
+ {
+  "id": "Q-M1-49",
+  "mock": 1,
+  "num": 49,
+  "qText": "Interrupted apply (Ctrl+C) leaves…",
+  "options": [
+   {
+    "label": "A",
+    "text": "Partial state; next apply continues"
+   },
+   {
+    "label": "B",
+    "text": "Full rollback"
+   },
+   {
+    "label": "C",
+    "text": "Deleted backend"
+   },
+   {
+    "label": "D",
+    "text": "No trace"
+   }
+  ],
+  "answer": "A",
+  "explanation": "Ctrl+C leaves partial state; re-apply continues.\n🧠 WHY — Finished creates stand recorded; the next plan reconciles. No rollback exists anywhere.",
+  "url": "books/exam-center.html#Q-M1-49"
+ },
+ {
+  "id": "Q-M1-50",
+  "mock": 1,
+  "num": 50,
+  "qText": "validation blocks run…",
+  "options": [
+   {
+    "label": "A",
+    "text": "After apply"
+   },
+   {
+    "label": "B",
+    "text": "At plan, rejecting bad input"
+   },
+   {
+    "label": "C",
+    "text": "In the console only"
+   },
+   {
+    "label": "D",
+    "text": "Never"
+   }
+  ],
+  "answer": "B",
+  "explanation": "Validation runs at plan, rejecting bad input.\n🧠 WHY — Fail-fast with custom messages before cost. After-apply/console/never all miss the gate.",
+  "url": "books/exam-center.html#Q-M1-50"
+ },
+ {
+  "id": "Q-M1-51",
+  "mock": 1,
+  "num": 51,
+  "qText": "-auto-approve belongs…",
+  "options": [
+   {
+    "label": "A",
+    "text": "On laptops in prod"
+   },
+   {
+    "label": "B",
+    "text": "Everywhere"
+   },
+   {
+    "label": "C",
+    "text": "In gated pipelines only"
+   },
+   {
+    "label": "D",
+    "text": "Nowhere"
+   }
+  ],
+  "answer": "C",
+  "explanation": "-auto-approve belongs in gated pipelines only.\n🧠 WHY — Reviewed plan + automation gate. Laptops, everywhere, and nowhere are all wrong scopes.",
+  "url": "books/exam-center.html#Q-M1-51"
+ },
+ {
+  "id": "Q-M1-52",
+  "mock": 1,
+  "num": 52,
+  "qText": "terraform workspace new prod fails: exists. Meaning?",
+  "options": [
+   {
+    "label": "A",
+    "text": "State corrupted"
+   },
+   {
+    "label": "B",
+    "text": "Init needed"
+   },
+   {
+    "label": "C",
+    "text": "Backend down"
+   },
+   {
+    "label": "D",
+    "text": "Name taken — select it instead"
+   }
+  ],
+  "answer": "D",
+  "explanation": "workspace new on a taken name: select it instead.\n🧠 WHY — Existence error, not corruption. Init, backends, and state are unrelated to naming.",
+  "url": "books/exam-center.html#Q-M1-52"
+ },
+ {
+  "id": "Q-M1-53",
+  "mock": 1,
+  "num": 53,
+  "qText": "VCS integration posts plans…",
+  "options": [
+   {
+    "label": "A",
+    "text": "Back on the PR"
+   },
+   {
+    "label": "B",
+    "text": "To email"
+   },
+   {
+    "label": "C",
+    "text": "To state"
+   },
+   {
+    "label": "D",
+    "text": "Nowhere"
+   }
+  ],
+  "answer": "A",
+  "explanation": "VCS integration posts plans back on the PR.\n🧠 WHY — Review where code lives. Email, state, and nowhere break the review loop.",
+  "url": "books/exam-center.html#Q-M1-53"
+ },
+ {
+  "id": "Q-M1-54",
+  "mock": 1,
+  "num": 54,
+  "qText": "depends_on is for…",
+  "options": [
+   {
+    "label": "A",
+    "text": "Every reference"
+   },
+   {
+    "label": "B",
+    "text": "Invisible side-effects only; references first"
+   },
+   {
+    "label": "C",
+    "text": "Deleting state"
+   },
+   {
+    "label": "D",
+    "text": "Formatting"
+   }
+  ],
+  "answer": "B",
+  "explanation": "depends_on covers invisible side-effects only.\n🧠 WHY — References first, always. Everywhere-clutter and nowhere-purism both break real configs.",
+  "url": "books/exam-center.html#Q-M1-54"
+ },
+ {
+  "id": "Q-M1-55",
+  "mock": 1,
+  "num": 55,
+  "qText": "terraform console is…",
+  "options": [
+   {
+    "label": "A",
+    "text": "A backend"
+   },
+   {
+    "label": "B",
+    "text": "A REPL for expressions, no cloud"
+   },
+   {
+    "label": "C",
+    "text": "A deployment tool"
+   },
+   {
+    "label": "D",
+    "text": "A registry"
+   }
+  ],
+  "answer": "B",
+  "explanation": "console = REPL for expressions, no cloud.\n🧠 WHY — Pipe values, test functions, touch nothing. Backends, deploys, and registries are other verbs.",
+  "url": "books/exam-center.html#Q-M1-55"
+ },
+ {
+  "id": "Q-M1-56",
+  "mock": 1,
+  "num": 56,
+  "qText": "force-unlock needs…",
+  "options": [
+   {
+    "label": "A",
+    "text": "Nothing"
+   },
+   {
+    "label": "B",
+    "text": "Fmt first"
+   },
+   {
+    "label": "C",
+    "text": "A new bucket"
+   },
+   {
+    "label": "D",
+    "text": "The lock ID after proof the holder is dead"
+   }
+  ],
+  "answer": "D",
+  "explanation": "force-unlock needs the lock ID after proving death.\n🧠 WHY — Confirm no live holder, release by ID, verify health. Nothing-less corrupts; buckets are unrelated.",
+  "url": "books/exam-center.html#Q-M1-56"
+ },
+ {
+  "id": "Q-M1-57",
+  "mock": 1,
+  "num": 57,
+  "qText": "Free-tier TFC caps push you to…",
+  "options": [
+   {
+    "label": "A",
+    "text": "Paid tier or scoped usage"
+   },
+   {
+    "label": "B",
+    "text": "Share tokens"
+   },
+   {
+    "label": "C",
+    "text": "Commit state"
+   },
+   {
+    "label": "D",
+    "text": "Ignore limits"
+   }
+  ],
+  "answer": "A",
+  "explanation": "Free-tier caps push to paid tier or scoped usage.\n🧠 WHY — Scale honestly: sharing tokens, committing state, and ignoring limits all violate other rules.",
+  "url": "books/exam-center.html#Q-M1-57"
+ },
+ {
+  "id": "Q-M2-01",
+  "mock": 2,
+  "num": 1,
+  "qText": "State purposes do NOT include…",
+  "options": [
+   {
+    "label": "A",
+    "text": "Compiling providers"
+   },
+   {
+    "label": "B",
+    "text": "Metadata storage"
+   },
+   {
+    "label": "C",
+    "text": "Mapping config to reality"
+   },
+   {
+    "label": "D",
+    "text": "Plan performance"
+   }
+  ],
+  "answer": "A",
+  "explanation": "State never compiles providers.\n🧠 WHY — EXCEPT-format: mapping, metadata, and plan-cache are real purposes; compiling is the odd one out.",
+  "url": "books/exam-center.html#Q-M2-01"
+ },
+ {
+  "id": "Q-M2-02",
+  "mock": 2,
+  "num": 2,
+  "qText": "Debug a provider with maximum logs to a file.",
+  "options": [
+   {
+    "label": "A",
+    "text": "TF_LOG=OFF"
+   },
+   {
+    "label": "B",
+    "text": "TF_LOG=TRACE … 2> debug.log"
+   },
+   {
+    "label": "C",
+    "text": "terraform fmt"
+   },
+   {
+    "label": "D",
+    "text": "rm .terraform"
+   }
+  ],
+  "answer": "B",
+  "explanation": "Max provider logs: TF_LOG=TRACE redirected to file.\n🧠 WHY — TRACE is loudest; stderr redirect captures. OFF silences; fmt/styles touch nothing.",
+  "url": "books/exam-center.html#Q-M2-02"
+ },
+ {
+  "id": "Q-M2-03",
+  "mock": 2,
+  "num": 3,
+  "qText": "\"Same environment from the same model, every time\" is…",
+  "options": [
+   {
+    "label": "A",
+    "text": "Snowflake servers"
+   },
+   {
+    "label": "B",
+    "text": "Manual clicking"
+   },
+   {
+    "label": "C",
+    "text": "Idempotence via IaC"
+   },
+   {
+    "label": "D",
+    "text": "Untracked change"
+   }
+  ],
+  "answer": "C",
+  "explanation": "Same model, same env, every time = idempotence via IaC.\n🧠 WHY — Repeatability from versioned declaration. Snowflakes, clicks, and untracked change are the disease.",
+  "url": "books/exam-center.html#Q-M2-03"
+ },
+ {
+  "id": "Q-M2-04",
+  "mock": 2,
+  "num": 4,
+  "qText": "TFC free tier limits push heavy teams to…",
+  "options": [
+   {
+    "label": "A",
+    "text": "Local backends only"
+   },
+   {
+    "label": "B",
+    "text": "Committing state"
+   },
+   {
+    "label": "C",
+    "text": "Disabling plans"
+   },
+   {
+    "label": "D",
+    "text": "Paid tier or scoped usage"
+   }
+  ],
+  "answer": "D",
+  "explanation": "Heavy teams outgrow free tier: paid or scoped usage.\n🧠 WHY — Local-only, committed state, and disabled plans all trade away the platform's value.",
+  "url": "books/exam-center.html#Q-M2-04"
+ },
+ {
+  "id": "Q-M2-05",
+  "mock": 2,
+  "num": 5,
+  "qText": "aws_instance.web[\"blue\"] implies…",
+  "options": [
+   {
+    "label": "A",
+    "text": "for_each keys"
+   },
+   {
+    "label": "B",
+    "text": "count"
+   },
+   {
+    "label": "C",
+    "text": "No backend"
+   },
+   {
+    "label": "D",
+    "text": "A provisioner"
+   }
+  ],
+  "answer": "A",
+  "explanation": "web[\"blue\"] implies for_each keys.\n🧠 WHY — String-key addressing is map/set identity. Count indexes numerically; backends/provisioners are unrelated.",
+  "url": "books/exam-center.html#Q-M2-05"
+ },
+ {
+  "id": "Q-M2-06",
+  "mock": 2,
+  "num": 6,
+  "qText": "Pulumi vs Terraform: core difference?",
+  "options": [
+   {
+    "label": "A",
+    "text": "General-purpose languages vs HCL"
+   },
+   {
+    "label": "B",
+    "text": "No state in Pulumi"
+   },
+   {
+    "label": "C",
+    "text": "Pulumi is AWS-only"
+   },
+   {
+    "label": "D",
+    "text": "Terraform has no plan"
+   }
+  ],
+  "answer": "A",
+  "explanation": "Pulumi differs: general-purpose languages vs HCL.\n🧠 WHY — Both keep state, plan, and span clouds. Language is the axis — the rest are fictions.",
+  "url": "books/exam-center.html#Q-M2-06"
+ },
+ {
+  "id": "Q-M2-07",
+  "mock": 2,
+  "num": 7,
+  "qText": "Registry child module needs a bug-fix version safely. Pin?",
+  "options": [
+   {
+    "label": "A",
+    "text": "Branch latest"
+   },
+   {
+    "label": "B",
+    "text": "No pin"
+   },
+   {
+    "label": "C",
+    "text": "version = \"~> 2.0\""
+   },
+   {
+    "label": "D",
+    "text": "version = \">= 1.0\""
+   }
+  ],
+  "answer": "C",
+  "explanation": "Safe bug-fix pin: version = \"~> 2.0\".\n🧠 WHY — Pessimistic constraint takes patches, refuses majors. Latest-branches and open ranges gamble.",
+  "url": "books/exam-center.html#Q-M2-07"
+ },
+ {
+  "id": "Q-M2-08",
+  "mock": 2,
+  "num": 8,
+  "qText": "TF_VAR_count=\"three\" for a number var: result?",
+  "options": [
+   {
+    "label": "A",
+    "text": "Auto-corrects to 3"
+   },
+   {
+    "label": "B",
+    "text": "Destroys state"
+   },
+   {
+    "label": "C",
+    "text": "Ignored silently"
+   },
+   {
+    "label": "D",
+    "text": "Type error at plan"
+   }
+  ],
+  "answer": "D",
+  "explanation": "TF_VAR_count=\"three\" for number = type error at plan.\n🧠 WHY — No auto-correction, no silent ignore — the type system fails fast. Destruction claims are panic.",
+  "url": "books/exam-center.html#Q-M2-08"
+ },
+ {
+  "id": "Q-M2-09",
+  "mock": 2,
+  "num": 9,
+  "qText": "Write → init → plan → apply. Skipping plan risks…",
+  "options": [
+   {
+    "label": "A",
+    "text": "Faster runs only"
+   },
+   {
+    "label": "B",
+    "text": "Unreviewed changes executing blind"
+   },
+   {
+    "label": "C",
+    "text": "Nothing"
+   },
+   {
+    "label": "D",
+    "text": "Better state"
+   }
+  ],
+  "answer": "B",
+  "explanation": "Skipping plan risks unreviewed changes executing blind.\n🧠 WHY — Plan is the review artifact. Faster-runs and better-state claims skip the safety the question asks about.",
+  "url": "books/exam-center.html#Q-M2-09"
+ },
+ {
+  "id": "Q-M2-10",
+  "mock": 2,
+  "num": 10,
+  "qText": "Golden rule: infra change without a PR is…",
+  "options": [
+   {
+    "label": "A",
+    "text": "Unreviewed — violates IaC peer review"
+   },
+   {
+    "label": "B",
+    "text": "Faster"
+   },
+   {
+    "label": "C",
+    "text": "Required"
+   },
+   {
+    "label": "D",
+    "text": "Encrypted"
+   }
+  ],
+  "answer": "A",
+  "explanation": "Change without PR = unreviewed, violates peer review.\n🧠 WHY — IaC's review discipline is the point. Faster/required/encrypted all miss the governance ask.",
+  "url": "books/exam-center.html#Q-M2-10"
+ },
+ {
+  "id": "Q-M2-11",
+  "mock": 2,
+  "num": 11,
+  "qText": "DynamoDB lock table deleted. Applies now…",
+  "options": [
+   {
+    "label": "A",
+    "text": "Run faster"
+   },
+   {
+    "label": "B",
+    "text": "Encrypt state"
+   },
+   {
+    "label": "C",
+    "text": "Race without serialization — restore it"
+   },
+   {
+    "label": "D",
+    "text": "Skip init"
+   }
+  ],
+  "answer": "C",
+  "explanation": "Deleted lock table = race without serialization; restore it.\n🧠 WHY — No lock, no mutual exclusion. Faster/encrypt/skip-init all misread the failure.",
+  "url": "books/exam-center.html#Q-M2-11"
+ },
+ {
+  "id": "Q-M2-12",
+  "mock": 2,
+  "num": 12,
+  "qText": "terraform output -json | jq .vpc_id.value is for…",
+  "options": [
+   {
+    "label": "A",
+    "text": "Formatting"
+   },
+   {
+    "label": "B",
+    "text": "Init"
+   },
+   {
+    "label": "C",
+    "text": "Locking"
+   },
+   {
+    "label": "D",
+    "text": "CI/script consumption of exports"
+   }
+  ],
+  "answer": "D",
+  "explanation": "output -json piped to jq serves CI/script consumption.\n🧠 WHY — Machine-readable exports for automation. Formatting, init, and locking are other verbs.",
+  "url": "books/exam-center.html#Q-M2-12"
+ },
+ {
+  "id": "Q-M2-13",
+  "mock": 2,
+  "num": 13,
+  "qText": "Speculative plan on a PR comes from…",
+  "options": [
+   {
+    "label": "A",
+    "text": "VCS-driven runs"
+   },
+   {
+    "label": "B",
+    "text": "local-exec"
+   },
+   {
+    "label": "C",
+    "text": "fmt"
+   },
+   {
+    "label": "D",
+    "text": "console"
+   }
+  ],
+  "answer": "A",
+  "explanation": "Speculative PR plans come from VCS-driven runs.\n🧠 WHY — Remote plans on pull requests, zero state risk. local-exec, fmt, and console are unrelated.",
+  "url": "books/exam-center.html#Q-M2-13"
+ },
+ {
+  "id": "Q-M2-14",
+  "mock": 2,
+  "num": 14,
+  "qText": "Lock error names ci-runner-9, job red for an hour. Move?",
+  "options": [
+   {
+    "label": "A",
+    "text": "Wait forever"
+   },
+   {
+    "label": "B",
+    "text": "Confirm death, force-unlock ID, prove health"
+   },
+   {
+    "label": "C",
+    "text": "Delete bucket"
+   },
+   {
+    "label": "D",
+    "text": "Reboot laptop"
+   }
+  ],
+  "answer": "B",
+  "explanation": "Red-hour lock: confirm death, force-unlock by ID, prove health.\n🧠 WHY — Stale-crash drill in order. Waiting forever stalls; bucket deletes and laptop reboots miss the object.",
+  "url": "books/exam-center.html#Q-M2-14"
+ },
+ {
+  "id": "Q-M2-15",
+  "mock": 2,
+  "num": 15,
+  "qText": "Public registry vs private module registry: use private for…",
+  "options": [
+   {
+    "label": "A",
+    "text": "Avoiding init"
+   },
+   {
+    "label": "B",
+    "text": "Faster downloads only"
+   },
+   {
+    "label": "C",
+    "text": "Blessed org versions"
+   },
+   {
+    "label": "D",
+    "text": "Public code only"
+   }
+  ],
+  "answer": "C",
+  "explanation": "Private registry hosts blessed org versions.\n🧠 WHY — Reviewed, versioned, internal modules. Avoiding-init and faster-downloads are fantasies.",
+  "url": "books/exam-center.html#Q-M2-15"
+ },
+ {
+  "id": "Q-M2-16",
+  "mock": 2,
+  "num": 16,
+  "qText": "values(aws_subnet.public)[*].id returns…",
+  "options": [
+   {
+    "label": "A",
+    "text": "One ID"
+   },
+   {
+    "label": "B",
+    "text": "A map"
+   },
+   {
+    "label": "C",
+    "text": "Nothing"
+   },
+   {
+    "label": "D",
+    "text": "All IDs as a list"
+   }
+  ],
+  "answer": "D",
+  "explanation": "values(map)[*].id returns all IDs as a list.\n🧠 WHY — Values projection then splat. One-ID, map-shape, and nothing misread the two-step.",
+  "url": "books/exam-center.html#Q-M2-16"
+ },
+ {
+  "id": "Q-M2-17",
+  "mock": 2,
+  "num": 17,
+  "qText": "terraform workspace list shows…",
+  "options": [
+   {
+    "label": "A",
+    "text": "All workspaces, * marking active"
+   },
+   {
+    "label": "B",
+    "text": "Only the current workspace"
+   },
+   {
+    "label": "C",
+    "text": "Resource counts"
+   },
+   {
+    "label": "D",
+    "text": "AWS costs"
+   }
+  ],
+  "answer": "A",
+  "explanation": "workspace list shows all, * marks active.\n🧠 WHY — Inventory plus position. Current-only, counts, and costs are other commands' jobs.",
+  "url": "books/exam-center.html#Q-M2-17"
+ },
+ {
+  "id": "Q-M2-18",
+  "mock": 2,
+  "num": 18,
+  "qText": "Advisory Sentinel policy violation…",
+  "options": [
+   {
+    "label": "A",
+    "text": "Blocks"
+   },
+   {
+    "label": "B",
+    "text": "Logs only, run continues"
+   },
+   {
+    "label": "C",
+    "text": "Deletes state"
+   },
+   {
+    "label": "D",
+    "text": "Bills extra"
+   }
+  ],
+  "answer": "B",
+  "explanation": "Advisory violation logs; the run continues.\n🧠 WHY — Informational by design. Blocks belong to mandatory; deletes and bills are fictions.",
+  "url": "books/exam-center.html#Q-M2-18"
+ },
+ {
+  "id": "Q-M2-19",
+  "mock": 2,
+  "num": 19,
+  "qText": "lookup(var.amis, var.region, \"ami-fallback\") does…",
+  "options": [
+   {
+    "label": "A",
+    "text": "Crashes on miss"
+   },
+   {
+    "label": "B",
+    "text": "Deletes AMIs"
+   },
+   {
+    "label": "C",
+    "text": "Returns fallback on miss"
+   },
+   {
+    "label": "D",
+    "text": "Ignores region"
+   }
+  ],
+  "answer": "C",
+  "explanation": "lookup() with default returns the fallback on miss.\n🧠 WHY — Three-arg safety net for per-region maps. Crashes need two-arg form; deletes never happen.",
+  "url": "books/exam-center.html#Q-M2-19"
+ },
+ {
+  "id": "Q-M2-20",
+  "mock": 2,
+  "num": 20,
+  "qText": "Manual console SG edit appears in next plan as…",
+  "options": [
+   {
+    "label": "A",
+    "text": "Nothing"
+   },
+   {
+    "label": "B",
+    "text": "An error, always"
+   },
+   {
+    "label": "C",
+    "text": "A new workspace"
+   },
+   {
+    "label": "D",
+    "text": "A ~ change to reconcile"
+   }
+  ],
+  "answer": "D",
+  "explanation": "Console SG edits surface as ~ changes to reconcile.\n🧠 WHY — Refresh imports reality; plan proposes code-as-truth. Invisible-error-new-workspace all deny refresh.",
+  "url": "books/exam-center.html#Q-M2-20"
+ },
+ {
+  "id": "Q-M2-21",
+  "mock": 2,
+  "num": 21,
+  "qText": "terraform apply tfplan guarantees…",
+  "options": [
+   {
+    "label": "A",
+    "text": "Reviewed == executed"
+   },
+   {
+    "label": "B",
+    "text": "No state"
+   },
+   {
+    "label": "C",
+    "text": "No backend"
+   },
+   {
+    "label": "D",
+    "text": "Faster init"
+   }
+  ],
+  "answer": "A",
+  "explanation": "apply tfplan guarantees reviewed == executed.\n🧠 WHY — The exact serialized diff runs. No-state/no-backend claims deny the file; init speed is unrelated.",
+  "url": "books/exam-center.html#Q-M2-21"
+ },
+ {
+  "id": "Q-M2-22",
+  "mock": 2,
+  "num": 22,
+  "qText": "terraform state show is used to…",
+  "options": [
+   {
+    "label": "A",
+    "text": "Delete resources"
+   },
+   {
+    "label": "B",
+    "text": "Display one resource attributes"
+   },
+   {
+    "label": "C",
+    "text": "Format code"
+   },
+   {
+    "label": "D",
+    "text": "Create workspaces"
+   }
+  ],
+  "answer": "B",
+  "explanation": "state show displays one resource's attributes.\n🧠 WHY — Single-address inspection. Deletes, formats, and workspace creation are other verbs.",
+  "url": "books/exam-center.html#Q-M2-22"
+ },
+ {
+  "id": "Q-M2-23",
+  "mock": 2,
+  "num": 23,
+  "qText": "Mandatory policy with missing tags…",
+  "options": [
+   {
+    "label": "A",
+    "text": "Warns only"
+   },
+   {
+    "label": "B",
+    "text": "Applies anyway"
+   },
+   {
+    "label": "C",
+    "text": "Hard-blocks the run"
+   },
+   {
+    "label": "D",
+    "text": "Deletes the policy"
+   }
+  ],
+  "answer": "C",
+  "explanation": "Mandatory policy with missing tags hard-blocks.\n🧠 WHY — No override, no warn-and-continue. Advisory warns; deletes target nothing.",
+  "url": "books/exam-center.html#Q-M2-23"
+ },
+ {
+  "id": "Q-M2-24",
+  "mock": 2,
+  "num": 24,
+  "qText": "-refresh-only mode is for…",
+  "options": [
+   {
+    "label": "A",
+    "text": "Destroying"
+   },
+   {
+    "label": "B",
+    "text": "Init"
+   },
+   {
+    "label": "C",
+    "text": "Formatting"
+   },
+   {
+    "label": "D",
+    "text": "Previewing/syncing drift explicitly"
+   }
+  ],
+  "answer": "D",
+  "explanation": "-refresh-only previews and syncs drift explicitly.\n🧠 WHY — Read-only reconciliation on demand. Destroy/init/format are different modes entirely.",
+  "url": "books/exam-center.html#Q-M2-24"
+ },
+ {
+  "id": "Q-M2-25",
+  "mock": 2,
+  "num": 25,
+  "qText": "apply -refresh-only writes…",
+  "options": [
+   {
+    "label": "A",
+    "text": "Synced state toward reality"
+   },
+   {
+    "label": "B",
+    "text": "Nothing"
+   },
+   {
+    "label": "C",
+    "text": "A new backend"
+   },
+   {
+    "label": "D",
+    "text": "Plan to trash"
+   }
+  ],
+  "answer": "A",
+  "explanation": "apply -refresh-only writes synced state toward reality.\n🧠 WHY — Explicit reconciliation persists. Nothing-written claims deny the sync; backends and trash-plans are unrelated.",
+  "url": "books/exam-center.html#Q-M2-25"
+ },
+ {
+  "id": "Q-M2-26",
+  "mock": 2,
+  "num": 26,
+  "qText": "Remote operations (TFC agents) mean…",
+  "options": [
+   {
+    "label": "A",
+    "text": "No history kept"
+   },
+   {
+    "label": "B",
+    "text": "Plans/applies run off-laptop with history"
+   },
+   {
+    "label": "C",
+    "text": "Local-only runs"
+   },
+   {
+    "label": "D",
+    "text": "No variables"
+   }
+  ],
+  "answer": "B",
+  "explanation": "Remote operations run off-laptop with history.\n🧠 WHY — Agents execute; the workspace records. No-history, local-only, and no-variables all invert the model.",
+  "url": "books/exam-center.html#Q-M2-26"
+ },
+ {
+  "id": "Q-M2-27",
+  "mock": 2,
+  "num": 27,
+  "qText": "New workspace starts with…",
+  "options": [
+   {
+    "label": "A",
+    "text": "Copied prod state"
+   },
+   {
+    "label": "B",
+    "text": "All resources"
+   },
+   {
+    "label": "C",
+    "text": "Empty state — apply to fill"
+   },
+   {
+    "label": "D",
+    "text": "An error"
+   }
+  ],
+  "answer": "C",
+  "explanation": "New workspaces start with empty state.\n🧠 WHY — Apply fills them. Copied-prod, all-resources, and error claims all misunderstand isolation.",
+  "url": "books/exam-center.html#Q-M2-27"
+ },
+ {
+  "id": "Q-M2-28",
+  "mock": 2,
+  "num": 28,
+  "qText": "coalesce(var.a, var.b, \"fb\") returns…",
+  "options": [
+   {
+    "label": "A",
+    "text": "Always \"fb\""
+   },
+   {
+    "label": "B",
+    "text": "Nothing"
+   },
+   {
+    "label": "C",
+    "text": "A list"
+   },
+   {
+    "label": "D",
+    "text": "First non-null/non-empty"
+   }
+  ],
+  "answer": "D",
+  "explanation": "coalesce() returns the first non-null, non-empty value.\n🧠 WHY — Fallback chains in order. Always-last, lists, and nothing misread the function.",
+  "url": "books/exam-center.html#Q-M2-28"
+ },
+ {
+  "id": "Q-M2-29",
+  "mock": 2,
+  "num": 29,
+  "qText": "terraform fmt -recursive covers…",
+  "options": [
+   {
+    "label": "A",
+    "text": "Subfolders too"
+   },
+   {
+    "label": "B",
+    "text": "One file"
+   },
+   {
+    "label": "C",
+    "text": "State"
+   },
+   {
+    "label": "D",
+    "text": "The registry"
+   }
+  ],
+  "answer": "A",
+  "explanation": "fmt -recursive covers subfolders too.\n🧠 WHY — Whole-tree style in one run. Single-file, state, and registry are wrong scopes.",
+  "url": "books/exam-center.html#Q-M2-29"
+ },
+ {
+  "id": "Q-M2-30",
+  "mock": 2,
+  "num": 30,
+  "qText": "Module outputs flow…",
+  "options": [
+   {
+    "label": "A",
+    "text": "Downward only"
+   },
+   {
+    "label": "B",
+    "text": "Upward to root/consumers"
+   },
+   {
+    "label": "C",
+    "text": "Nowhere"
+   },
+   {
+    "label": "D",
+    "text": "To S3 directly"
+   }
+  ],
+  "answer": "B",
+  "explanation": "Module outputs flow upward to root and consumers.\n🧠 WHY — Declaration crosses the boundary at use. Downward-only, nowhere, and S3-direct all invert the contract.",
+  "url": "books/exam-center.html#Q-M2-30"
+ },
+ {
+  "id": "Q-M2-31",
+  "mock": 2,
+  "num": 31,
+  "qText": "Root module is…",
+  "options": [
+   {
+    "label": "A",
+    "text": "The state file"
+   },
+   {
+    "label": "B",
+    "text": "A registry only"
+   },
+   {
+    "label": "C",
+    "text": "The entrypoint config that calls children"
+   },
+   {
+    "label": "D",
+    "text": "The lock file"
+   }
+  ],
+  "answer": "C",
+  "explanation": "The root module is the entrypoint config calling children.\n🧠 WHY — Composition starts here. State files, registries, and lock files are artifacts, not modules.",
+  "url": "books/exam-center.html#Q-M2-31"
+ },
+ {
+  "id": "Q-M2-32",
+  "mock": 2,
+  "num": 32,
+  "qText": "-destroy plan mode previews…",
+  "options": [
+   {
+    "label": "A",
+    "text": "Creation"
+   },
+   {
+    "label": "B",
+    "text": "Init"
+   },
+   {
+    "label": "C",
+    "text": "Formatting"
+   },
+   {
+    "label": "D",
+    "text": "Teardown for later apply"
+   }
+  ],
+  "answer": "D",
+  "explanation": "-destroy plan mode previews teardown for later apply.\n🧠 WHY — Serialized death list, reviewed first. Creation, init, and formatting are other modes.",
+  "url": "books/exam-center.html#Q-M2-32"
+ },
+ {
+  "id": "Q-M2-33",
+  "mock": 2,
+  "num": 33,
+  "qText": "*.auto.tfvars vs terraform.tfvars differ in…",
+  "options": [
+   {
+    "label": "A",
+    "text": "Layered lexical overlays vs single file"
+   },
+   {
+    "label": "B",
+    "text": "Nothing"
+   },
+   {
+    "label": "C",
+    "text": "Only comments"
+   },
+   {
+    "label": "D",
+    "text": "Speed"
+   }
+  ],
+  "answer": "A",
+  "explanation": "auto.tfvars vs tfvars: layered lexical overlays vs single file.\n🧠 WHY — Multi-file layering in name order. Nothing/comments/speed miss the loading mechanic.",
+  "url": "books/exam-center.html#Q-M2-33"
+ },
+ {
+  "id": "Q-M2-34",
+  "mock": 2,
+  "num": 34,
+  "qText": "echo expression | terraform console tests…",
+  "options": [
+   {
+    "label": "A",
+    "text": "Full applies"
+   },
+   {
+    "label": "B",
+    "text": "Functions/interpolation with no cloud"
+   },
+   {
+    "label": "C",
+    "text": "State locks"
+   },
+   {
+    "label": "D",
+    "text": "Billing"
+   }
+  ],
+  "answer": "B",
+  "explanation": "Piped console tests functions and interpolation with no cloud.\n🧠 WHY — Stdin evaluation, zero context. Full applies, locks, and billing are heavier verbs.",
+  "url": "books/exam-center.html#Q-M2-34"
+ },
+ {
+  "id": "Q-M2-35",
+  "mock": 2,
+  "num": 35,
+  "qText": "Ansible manages infra state like Terraform? No — because…",
+  "options": [
+   {
+    "label": "A",
+    "text": "It is newer"
+   },
+   {
+    "label": "B",
+    "text": "It is faster"
+   },
+   {
+    "label": "C",
+    "text": "It has no state/plan for infra"
+   },
+   {
+    "label": "D",
+    "text": "It costs more"
+   }
+  ],
+  "answer": "C",
+  "explanation": "Ansible lacks state and plan for infrastructure.\n🧠 WHY — No binding table, no dry-run diffs. Newer/faster/pricier are non-answers.",
+  "url": "books/exam-center.html#Q-M2-35"
+ },
+ {
+  "id": "Q-M2-36",
+  "mock": 2,
+  "num": 36,
+  "qText": "Dynamic blocks repeat…",
+  "options": [
+   {
+    "label": "A",
+    "text": "Providers"
+   },
+   {
+    "label": "B",
+    "text": "Workspaces"
+   },
+   {
+    "label": "C",
+    "text": "Backends"
+   },
+   {
+    "label": "D",
+    "text": "Nested blocks from variables"
+   }
+  ],
+  "answer": "D",
+  "explanation": "Dynamic blocks repeat nested blocks from variables.\n🧠 WHY — Data in, stanzas out. Providers, workspaces, and backends repeat at other layers.",
+  "url": "books/exam-center.html#Q-M2-36"
+ },
+ {
+  "id": "Q-M2-37",
+  "mock": 2,
+  "num": 37,
+  "qText": "TFC cost estimates appear…",
+  "options": [
+   {
+    "label": "A",
+    "text": "On PRs from remote plans"
+   },
+   {
+    "label": "B",
+    "text": "In state"
+   },
+   {
+    "label": "C",
+    "text": "In fmt output"
+   },
+   {
+    "label": "D",
+    "text": "Never"
+   }
+  ],
+  "answer": "A",
+  "explanation": "TFC cost estimates appear on PRs from remote plans.\n🧠 WHY — Priced diffs where review happens. State, fmt, and never are wrong venues.",
+  "url": "books/exam-center.html#Q-M2-37"
+ },
+ {
+  "id": "Q-M2-38",
+  "mock": 2,
+  "num": 38,
+  "qText": "Bare apply in prod is replaced by…",
+  "options": [
+   {
+    "label": "A",
+    "text": "destroy"
+   },
+   {
+    "label": "B",
+    "text": "apply tfplan after review"
+   },
+   {
+    "label": "C",
+    "text": "rm state"
+   },
+   {
+    "label": "D",
+    "text": "console edits"
+   }
+  ],
+  "answer": "B",
+  "explanation": "Prod replaces bare apply with apply tfplan after review.\n🧠 WHY — Serialized reviewed diff executes. Destroy, rm, and console edits are anti-patterns.",
+  "url": "books/exam-center.html#Q-M2-38"
+ },
+ {
+  "id": "Q-M2-39",
+  "mock": 2,
+  "num": 39,
+  "qText": "Soft-mandatory violation with override rights…",
+  "options": [
+   {
+    "label": "A",
+    "text": "Blocks always"
+   },
+   {
+    "label": "B",
+    "text": "Deletes policy"
+   },
+   {
+    "label": "C",
+    "text": "Proceeds with permission"
+   },
+   {
+    "label": "D",
+    "text": "Ignores code"
+   }
+  ],
+  "answer": "C",
+  "explanation": "Soft-mandatory with rights proceeds with permission.\n🧠 WHY — Override with authority, audited. Always-blocks, deletes, and ignores misread the mode.",
+  "url": "books/exam-center.html#Q-M2-39"
+ },
+ {
+  "id": "Q-M2-40",
+  "mock": 2,
+  "num": 40,
+  "qText": "terraform state list shows…",
+  "options": [
+   {
+    "label": "A",
+    "text": "Nothing useful"
+   },
+   {
+    "label": "B",
+    "text": "AWS bills"
+   },
+   {
+    "label": "C",
+    "text": "Provider source"
+   },
+   {
+    "label": "D",
+    "text": "Every managed address"
+   }
+  ],
+  "answer": "D",
+  "explanation": "state list shows every managed address.\n🧠 WHY — The full binding inventory. Bills, sources, and nothing-useful deny its job.",
+  "url": "books/exam-center.html#Q-M2-40"
+ },
+ {
+  "id": "Q-M2-41",
+  "mock": 2,
+  "num": 41,
+  "qText": "Module pin missing on registry source risks…",
+  "options": [
+   {
+    "label": "A",
+    "text": "Floating majors breaking runs"
+   },
+   {
+    "label": "B",
+    "text": "Nothing"
+   },
+   {
+    "label": "C",
+    "text": "Instant failure"
+   },
+   {
+    "label": "D",
+    "text": "State loss"
+   }
+  ],
+  "answer": "A",
+  "explanation": "Missing registry pin risks floating majors breaking runs.\n🧠 WHY — Unpinned floats every release. Nothing/instant/state-loss all misprice the risk.",
+  "url": "books/exam-center.html#Q-M2-41"
+ },
+ {
+  "id": "Q-M2-42",
+  "mock": 2,
+  "num": 42,
+  "qText": "terraform.tfvars committed with secrets. Fix?",
+  "options": [
+   {
+    "label": "A",
+    "text": "Nothing — normal"
+   },
+   {
+    "label": "B",
+    "text": "Gitignore + example template + secret store"
+   },
+   {
+    "label": "C",
+    "text": "Delete git"
+   },
+   {
+    "label": "D",
+    "text": "Encrypt filenames"
+   }
+  ],
+  "answer": "B",
+  "explanation": "Committed tfvars secrets: gitignore + example template + secret store.\n🧠 WHY — History rewritten, pattern fixed, secrets relocated. Nothing-normal, git-delete, and filename games all fail.",
+  "url": "books/exam-center.html#Q-M2-42"
+ },
+ {
+  "id": "Q-M2-43",
+  "mock": 2,
+  "num": 43,
+  "qText": "depends_on belongs where?",
+  "options": [
+   {
+    "label": "A",
+    "text": "Everywhere"
+   },
+   {
+    "label": "B",
+    "text": "Nowhere"
+   },
+   {
+    "label": "C",
+    "text": "Invisible side-effects only"
+   },
+   {
+    "label": "D",
+    "text": "In outputs"
+   }
+  ],
+  "answer": "C",
+  "explanation": "depends_on belongs on invisible side-effects only.\n🧠 WHY — References first, meta-argument second. Everywhere-clutter and nowhere-purism both break.",
+  "url": "books/exam-center.html#Q-M2-43"
+ },
+ {
+  "id": "Q-M2-44",
+  "mock": 2,
+  "num": 44,
+  "qText": "api.example.com CNAME via Cloudflare provider in one apply shows…",
+  "options": [
+   {
+    "label": "A",
+    "text": "Lock failure"
+   },
+   {
+    "label": "B",
+    "text": "A bug"
+   },
+   {
+    "label": "C",
+    "text": "Drift"
+   },
+   {
+    "label": "D",
+    "text": "Multi-provider power"
+   }
+  ],
+  "answer": "D",
+  "explanation": "Cloudflare CNAME in one apply shows multi-provider power.\n🧠 WHY — Two APIs, one graph, one run. Lock-failure/bug/drift all misread composition.",
+  "url": "books/exam-center.html#Q-M2-44"
+ },
+ {
+  "id": "Q-M2-45",
+  "mock": 2,
+  "num": 45,
+  "qText": "terraform validate needs…",
+  "options": [
+   {
+    "label": "A",
+    "text": "Cloud credentials"
+   },
+   {
+    "label": "B",
+    "text": "No cloud — syntax only"
+   },
+   {
+    "label": "C",
+    "text": "A backend"
+   },
+   {
+    "label": "D",
+    "text": "State"
+   }
+  ],
+  "answer": "B",
+  "explanation": "validate needs no cloud — syntax only.\n🧠 WHY — Local gate, zero credentials. Cloud/backend/state claims invent requirements.",
+  "url": "books/exam-center.html#Q-M2-45"
+ },
+ {
+  "id": "Q-M2-46",
+  "mock": 2,
+  "num": 46,
+  "qText": "Backend block with var.* fails because…",
+  "options": [
+   {
+    "label": "A",
+    "text": "Vars are broken"
+   },
+   {
+    "label": "B",
+    "text": "Backends take literals/-backend-config only"
+   },
+   {
+    "label": "C",
+    "text": "S3 is down"
+   },
+   {
+    "label": "D",
+    "text": "Init is slow"
+   }
+  ],
+  "answer": "B",
+  "explanation": "Backend blocks take literals or -backend-config only.\n🧠 WHY — No variables allowed inside backend blocks — partial config plus flags instead. Vars-aren't-broken; S3/speed are unrelated.",
+  "url": "books/exam-center.html#Q-M2-46"
+ },
+ {
+  "id": "Q-M2-47",
+  "mock": 2,
+  "num": 47,
+  "qText": "for_each = toset(var.list) converts…",
+  "options": [
+   {
+    "label": "A",
+    "text": "Map to string"
+   },
+   {
+    "label": "B",
+    "text": "Number to bool"
+   },
+   {
+    "label": "C",
+    "text": "List to stable set"
+   },
+   {
+    "label": "D",
+    "text": "Nothing"
+   }
+  ],
+  "answer": "C",
+  "explanation": "toset() converts lists to stable sets.\n🧠 WHY — for_each needs set/map identity. Map-to-string, number-to-bool, and nothing misread the cast.",
+  "url": "books/exam-center.html#Q-M2-47"
+ },
+ {
+  "id": "Q-M2-48",
+  "mock": 2,
+  "num": 48,
+  "qText": "terraform show reads…",
+  "options": [
+   {
+    "label": "A",
+    "text": "DNS"
+   },
+   {
+    "label": "B",
+    "text": "The future"
+   },
+   {
+    "label": "C",
+    "text": "Billing"
+   },
+   {
+    "label": "D",
+    "text": "State or plan files human/JSON"
+   }
+  ],
+  "answer": "D",
+  "explanation": "show reads state or plan files, human or JSON.\n🧠 WHY — Inspection across formats. DNS, futures, and billing are wrong universes.",
+  "url": "books/exam-center.html#Q-M2-48"
+ },
+ {
+  "id": "Q-M2-49",
+  "mock": 2,
+  "num": 49,
+  "qText": "TRACE vs INFO: TRACE is…",
+  "options": [
+   {
+    "label": "A",
+    "text": "Loudest, full RPC detail"
+   },
+   {
+    "label": "B",
+    "text": "Off"
+   },
+   {
+    "label": "C",
+    "text": "Quieter"
+   },
+   {
+    "label": "D",
+    "text": "Errors only"
+   }
+  ],
+  "answer": "A",
+  "explanation": "TRACE is loudest: full RPC detail.\n🧠 WHY — Deepest debugging verbosity. OFF silences; quieter/errors-only invert the scale.",
+  "url": "books/exam-center.html#Q-M2-49"
+ },
+ {
+  "id": "Q-M2-50",
+  "mock": 2,
+  "num": 50,
+  "qText": "Orphaned EC2 found running, untracked. First command?",
+  "options": [
+   {
+    "label": "A",
+    "text": "destroy"
+   },
+   {
+    "label": "B",
+    "text": "terraform state list to confirm absence, then import flow"
+   },
+   {
+    "label": "C",
+    "text": "rm -rf"
+   },
+   {
+    "label": "D",
+    "text": "fmt"
+   }
+  ],
+  "answer": "B",
+  "explanation": "Untracked EC2: state list confirms absence, then import.\n🧠 WHY — Prove it's foreign before adopting. Destroy-first, rm-rf, and fmt are panic or nonsense.",
+  "url": "books/exam-center.html#Q-M2-50"
+ },
+ {
+  "id": "Q-M2-51",
+  "mock": 2,
+  "num": 51,
+  "qText": "TFC run history lives…",
+  "options": [
+   {
+    "label": "A",
+    "text": "Nowhere"
+   },
+   {
+    "label": "B",
+    "text": "Locally only"
+   },
+   {
+    "label": "C",
+    "text": "In the workspace (config+vars+state+runs)"
+   },
+   {
+    "label": "D",
+    "text": "In git"
+   }
+  ],
+  "answer": "C",
+  "explanation": "TFC run history lives in the workspace.\n🧠 WHY — Config plus vars plus state plus runs. Nowhere/local-only/git all deny the platform.",
+  "url": "books/exam-center.html#Q-M2-51"
+ },
+ {
+  "id": "Q-M2-52",
+  "mock": 2,
+  "num": 52,
+  "qText": "Module output consumed as…",
+  "options": [
+   {
+    "label": "A",
+    "text": "Via email"
+   },
+   {
+    "label": "B",
+    "text": "Only via console"
+   },
+   {
+    "label": "C",
+    "text": "Never"
+   },
+   {
+    "label": "D",
+    "text": "module.NAME.output like any value"
+   }
+  ],
+  "answer": "D",
+  "explanation": "Child outputs consume as module.NAME.output.\n🧠 WHY — Like any value once declared. Email, console-only, and never invent ceremony.",
+  "url": "books/exam-center.html#Q-M2-52"
+ },
+ {
+  "id": "Q-M2-53",
+  "mock": 2,
+  "num": 53,
+  "qText": "\"Same model, same env\" is IaC…",
+  "options": [
+   {
+    "label": "A",
+    "text": "Risk"
+   },
+   {
+    "label": "B",
+    "text": "Slowness"
+   },
+   {
+    "label": "C",
+    "text": "Cost"
+   },
+   {
+    "label": "D",
+    "text": "Repeatability"
+   }
+  ],
+  "answer": "D",
+  "explanation": "Same model, same env = repeatability.\n🧠 WHY — Identical outcomes from versioned code. Risk/slowness/cost are non-answers.",
+  "url": "books/exam-center.html#Q-M2-53"
+ },
+ {
+  "id": "Q-M2-54",
+  "mock": 2,
+  "num": 54,
+  "qText": "Workspaces isolate…",
+  "options": [
+   {
+    "label": "A",
+    "text": "Nothing"
+   },
+   {
+    "label": "B",
+    "text": "State per env under one backend"
+   },
+   {
+    "label": "C",
+    "text": "Providers"
+   },
+   {
+    "label": "D",
+    "text": "Binaries"
+   }
+  ],
+  "answer": "B",
+  "explanation": "Workspaces isolate state per env under one backend.\n🧠 WHY — Same code, N bindings. Providers, binaries, and nothing are un-isolated.",
+  "url": "books/exam-center.html#Q-M2-54"
+ },
+ {
+  "id": "Q-M2-55",
+  "mock": 2,
+  "num": 55,
+  "qText": "-out=tfplan then apply tfplan gives…",
+  "options": [
+   {
+    "label": "A",
+    "text": "Faster init"
+   },
+   {
+    "label": "B",
+    "text": "No state"
+   },
+   {
+    "label": "C",
+    "text": "Reviewed == executed"
+   },
+   {
+    "label": "D",
+    "text": "No backend"
+   }
+  ],
+  "answer": "C",
+  "explanation": "-out then apply gives reviewed == executed.\n🧠 WHY — Serialized exact diff runs. Faster-init/no-state/no-backend all deny the file.",
+  "url": "books/exam-center.html#Q-M2-55"
+ },
+ {
+  "id": "Q-M2-56",
+  "mock": 2,
+  "num": 56,
+  "qText": "one(null_resource.none[*].id) returns…",
+  "options": [
+   {
+    "label": "A",
+    "text": "An error"
+   },
+   {
+    "label": "B",
+    "text": "A list"
+   },
+   {
+    "label": "C",
+    "text": "Zero"
+   },
+   {
+    "label": "D",
+    "text": "null"
+   }
+  ],
+  "answer": "D",
+  "explanation": "one() over empty returns null.\n🧠 WHY — Single-or-null semantics for conditional resources. Errors, lists, and zeros misread it.",
+  "url": "books/exam-center.html#Q-M2-56"
+ },
+ {
+  "id": "Q-M2-57",
+  "mock": 2,
+  "num": 57,
+  "qText": "Old tutorial says \"terraform refresh\". Modern equivalent?",
+  "options": [
+   {
+    "label": "A",
+    "text": "terraform plan -refresh-only"
+   },
+   {
+    "label": "B",
+    "text": "Nothing — removed"
+   },
+   {
+    "label": "C",
+    "text": "terraform destroy"
+   },
+   {
+    "label": "D",
+    "text": "terraform fmt"
+   }
+  ],
+  "answer": "A",
+  "explanation": "Modern refresh = plan -refresh-only.\n🧠 WHY — Explicit drift preview/sync. Removed/destroy/fmt all misremember history.",
+  "url": "books/exam-center.html#Q-M2-57"
+ },
+ {
+  "id": "Q-M3-01",
+  "mock": 3,
+  "num": 1,
+  "qText": "\"Build, change, version infrastructure\" describes…",
+  "options": [
+   {
+    "label": "A",
+    "text": "Terraform"
+   },
+   {
+    "label": "B",
+    "text": "Packer"
+   },
+   {
+    "label": "C",
+    "text": "Ansible"
+   },
+   {
+    "label": "D",
+    "text": "Git"
+   }
+  ],
+  "answer": "A",
+  "explanation": "Build, change, version = Terraform.\n🧠 WHY — The three-verb signature. Packers bake, Ansibles configure, gits version code — not infra.",
+  "url": "books/exam-center.html#Q-M3-01"
+ },
+ {
+  "id": "Q-M3-02",
+  "mock": 3,
+  "num": 2,
+  "qText": "Private provider registry is for…",
+  "options": [
+   {
+    "label": "A",
+    "text": "Public mirrors only"
+   },
+   {
+    "label": "B",
+    "text": "Blessed org providers"
+   },
+   {
+    "label": "C",
+    "text": "Skipping init"
+   },
+   {
+    "label": "D",
+    "text": "Billing"
+   }
+  ],
+  "answer": "B",
+  "explanation": "Private provider registry hosts blessed org providers.\n🧠 WHY — Internal mirror of approved builds. Public-only, skip-init, and billing miss the point.",
+  "url": "books/exam-center.html#Q-M3-02"
+ },
+ {
+  "id": "Q-M3-03",
+  "mock": 3,
+  "num": 3,
+  "qText": "terraform init -upgrade does what?",
+  "options": [
+   {
+    "label": "A",
+    "text": "Destroys state"
+   },
+   {
+    "label": "B",
+    "text": "Formats code"
+   },
+   {
+    "label": "C",
+    "text": "Re-resolves newest allowed providers, rewrites lock"
+   },
+   {
+    "label": "D",
+    "text": "Creates workspaces"
+   }
+  ],
+  "answer": "C",
+  "explanation": "init -upgrade re-resolves newest allowed providers, rewrites lock.\n🧠 WHY — Controlled freshness within constraints. Destroys/formats/workspaces are other verbs.",
+  "url": "books/exam-center.html#Q-M3-03"
+ },
+ {
+  "id": "Q-M3-04",
+  "mock": 3,
+  "num": 4,
+  "qText": "Saved destroy plan via…",
+  "options": [
+   {
+    "label": "A",
+    "text": "login"
+   },
+   {
+    "label": "B",
+    "text": "fmt"
+   },
+   {
+    "label": "C",
+    "text": "console"
+   },
+   {
+    "label": "D",
+    "text": "plan -destroy -out=kill.plan"
+   }
+  ],
+  "answer": "D",
+  "explanation": "Saved destroy plans via plan -destroy -out.\n🧠 WHY — Serialized teardown for review. Login/fmt/console are unrelated verbs.",
+  "url": "books/exam-center.html#Q-M3-04"
+ },
+ {
+  "id": "Q-M3-05",
+  "mock": 3,
+  "num": 5,
+  "qText": "Module source pinned with version is…",
+  "options": [
+   {
+    "label": "A",
+    "text": "Best practice for registry modules"
+   },
+   {
+    "label": "B",
+    "text": "Optional"
+   },
+   {
+    "label": "C",
+    "text": "Forbidden"
+   },
+   {
+    "label": "D",
+    "text": "Slow"
+   }
+  ],
+  "answer": "A",
+  "explanation": "Pinned registry source = best practice.\n🧠 WHY — Reproducible installs, no floating majors. Optional/forbidden/slow all invert the rule.",
+  "url": "books/exam-center.html#Q-M3-05"
+ },
+ {
+  "id": "Q-M3-06",
+  "mock": 3,
+  "num": 6,
+  "qText": "Remote state benefits exclude…",
+  "options": [
+   {
+    "label": "A",
+    "text": "Shared truth"
+   },
+   {
+    "label": "B",
+    "text": "Local-only secrecy"
+   },
+   {
+    "label": "C",
+    "text": "Locking"
+   },
+   {
+    "label": "D",
+    "text": "Off-laptop secrets"
+   }
+  ],
+  "answer": "B",
+  "explanation": "Remote benefits EXCLUDE local-only secrecy.\n🧠 WHY — EXCEPT-format: shared truth, locking, and off-laptop secrets are real; local secrecy contradicts sharing.",
+  "url": "books/exam-center.html#Q-M3-06"
+ },
+ {
+  "id": "Q-M3-07",
+  "mock": 3,
+  "num": 7,
+  "qText": "toset(var.list) is needed because for_each takes…",
+  "options": [
+   {
+    "label": "A",
+    "text": "Lists happily"
+   },
+   {
+    "label": "B",
+    "text": "Numbers"
+   },
+   {
+    "label": "C",
+    "text": "Sets or maps only"
+   },
+   {
+    "label": "D",
+    "text": "Nothing"
+   }
+  ],
+  "answer": "C",
+  "explanation": "toset() needed: for_each takes sets or maps only.\n🧠 WHY — Lists re-index; the cast buys stable identity. Happily/numbers/nothing deny the constraint.",
+  "url": "books/exam-center.html#Q-M3-07"
+ },
+ {
+  "id": "Q-M3-08",
+  "mock": 3,
+  "num": 8,
+  "qText": "Ghost lock recovery starts with…",
+  "options": [
+   {
+    "label": "A",
+    "text": "Reboot"
+   },
+   {
+    "label": "B",
+    "text": "Deleting the table"
+   },
+   {
+    "label": "C",
+    "text": "Destroy"
+   },
+   {
+    "label": "D",
+    "text": "Reading lock info"
+   }
+  ],
+  "answer": "D",
+  "explanation": "Ghost-lock recovery starts by reading lock info.\n🧠 WHY — Who, what, since — before any action. Reboots, table deletes, and destroys are panic order.",
+  "url": "books/exam-center.html#Q-M3-08"
+ },
+ {
+  "id": "Q-M3-09",
+  "mock": 3,
+  "num": 9,
+  "qText": "Provider credentials belong in…",
+  "options": [
+   {
+    "label": "A",
+    "text": "Env vars / SSO, never git"
+   },
+   {
+    "label": "B",
+    "text": "Committed blocks"
+   },
+   {
+    "label": "C",
+    "text": "State outputs"
+   },
+   {
+    "label": "D",
+    "text": "Lock file"
+   }
+  ],
+  "answer": "A",
+  "explanation": "Credentials belong in env vars or SSO, never git.\n🧠 WHY — Environment-scoped secrets. Committed blocks, state outputs, and lock files all leak.",
+  "url": "books/exam-center.html#Q-M3-09"
+ },
+ {
+  "id": "Q-M3-10",
+  "mock": 3,
+  "num": 10,
+  "qText": "\"OS users and packages on live hosts\" →",
+  "options": [
+   {
+    "label": "A",
+    "text": "Terraform"
+   },
+   {
+    "label": "B",
+    "text": "Ansible"
+   },
+   {
+    "label": "C",
+    "text": "CloudFormation"
+   },
+   {
+    "label": "D",
+    "text": "TFC"
+   }
+  ],
+  "answer": "B",
+  "explanation": "OS users and packages on live hosts = Ansible.\n🧠 WHY — Config-management layer, existing fleet. Provisioners, CFN-single-cloud, and TFC venue all miss.",
+  "url": "books/exam-center.html#Q-M3-10"
+ },
+ {
+  "id": "Q-M3-11",
+  "mock": 3,
+  "num": 11,
+  "qText": "Conditional resource idiom?",
+  "options": [
+   {
+    "label": "A",
+    "text": "No conditionals exist"
+   },
+   {
+    "label": "B",
+    "text": "count = always"
+   },
+   {
+    "label": "C",
+    "text": "count = var.on ? 1 : 0"
+   },
+   {
+    "label": "D",
+    "text": "Destroy first"
+   }
+  ],
+  "answer": "C",
+  "explanation": "Conditional idiom: count = var.on ? 1 : 0.\n🧠 WHY — Ternary-gated existence with safe reads. No-conditionals denies HCL; always-on inverts the ask.",
+  "url": "books/exam-center.html#Q-M3-11"
+ },
+ {
+  "id": "Q-M3-12",
+  "mock": 3,
+  "num": 12,
+  "qText": "Peer review of infra happens via…",
+  "options": [
+   {
+    "label": "A",
+    "text": "Console clicks"
+   },
+   {
+    "label": "B",
+    "text": "State edits"
+   },
+   {
+    "label": "C",
+    "text": "Phone calls"
+   },
+   {
+    "label": "D",
+    "text": "VCS PRs on HCL"
+   }
+  ],
+  "answer": "D",
+  "explanation": "Infra peer review happens via VCS PRs on HCL.\n🧠 WHY — Reviewable text, reviewable diffs. Clicks, state edits, and calls bypass review.",
+  "url": "books/exam-center.html#Q-M3-12"
+ },
+ {
+  "id": "Q-M3-13",
+  "mock": 3,
+  "num": 13,
+  "qText": "values(map)[*].id collects…",
+  "options": [
+   {
+    "label": "A",
+    "text": "All values IDs as a list"
+   },
+   {
+    "label": "B",
+    "text": "Keys"
+   },
+   {
+    "label": "C",
+    "text": "Nothing"
+   },
+   {
+    "label": "D",
+    "text": "One string"
+   }
+  ],
+  "answer": "A",
+  "explanation": "values(map)[*].id collects all IDs as a list.\n🧠 WHY — Values projection then splat. Keys, nothing, and one-string misread the two-step.",
+  "url": "books/exam-center.html#Q-M3-13"
+ },
+ {
+  "id": "Q-M3-14",
+  "mock": 3,
+  "num": 14,
+  "qText": "Agents run plans…",
+  "options": [
+   {
+    "label": "A",
+    "text": "On laptops"
+   },
+   {
+    "label": "B",
+    "text": "Remotely with history"
+   },
+   {
+    "label": "C",
+    "text": "Never"
+   },
+   {
+    "label": "D",
+    "text": "In fmt"
+   }
+  ],
+  "answer": "B",
+  "explanation": "Agents run plans remotely with history.\n🧠 WHY — Off-laptop execution, recorded runs. Laptops, never, and fmt-only invert the model.",
+  "url": "books/exam-center.html#Q-M3-14"
+ },
+ {
+  "id": "Q-M3-15",
+  "mock": 3,
+  "num": 15,
+  "qText": "Explicit credentials in a committed block risk…",
+  "options": [
+   {
+    "label": "A",
+    "text": "Nothing"
+   },
+   {
+    "label": "B",
+    "text": "Faster plans"
+   },
+   {
+    "label": "C",
+    "text": "Scraped secrets in minutes"
+   },
+   {
+    "label": "D",
+    "text": "Better state"
+   }
+  ],
+  "answer": "C",
+  "explanation": "Committed explicit credentials risk scraped secrets in minutes.\n🧠 WHY — Bots scan public history instantly. Nothing/faster/better-state deny the threat model.",
+  "url": "books/exam-center.html#Q-M3-15"
+ },
+ {
+  "id": "Q-M3-16",
+  "mock": 3,
+  "num": 16,
+  "qText": "Stale local state vs changed reality reconciles via…",
+  "options": [
+   {
+    "label": "A",
+    "text": "New workspace"
+   },
+   {
+    "label": "B",
+    "text": "Deleting config"
+   },
+   {
+    "label": "C",
+    "text": "Fmt"
+   },
+   {
+    "label": "D",
+    "text": "Refresh during plan"
+   }
+  ],
+  "answer": "D",
+  "explanation": "Stale state reconciles via refresh during plan.\n🧠 WHY — Reality re-read into the diff. New workspaces, config deletes, and fmt are wrong repairs.",
+  "url": "books/exam-center.html#Q-M3-16"
+ },
+ {
+  "id": "Q-M3-17",
+  "mock": 3,
+  "num": 17,
+  "qText": "Speculative PR plans come from…",
+  "options": [
+   {
+    "label": "A",
+    "text": "VCS-driven runs"
+   },
+   {
+    "label": "B",
+    "text": "Cron fmt"
+   },
+   {
+    "label": "C",
+    "text": "Local state"
+   },
+   {
+    "label": "D",
+    "text": "Email hooks"
+   }
+  ],
+  "answer": "A",
+  "explanation": "Speculative PR plans come from VCS-driven runs.\n🧠 WHY — Remote dry-runs on pull requests. Cron-fmt, local state, and email hooks are unrelated.",
+  "url": "books/exam-center.html#Q-M3-17"
+ },
+ {
+  "id": "Q-M3-18",
+  "mock": 3,
+  "num": 18,
+  "qText": "terraform state show vpc reads…",
+  "options": [
+   {
+    "label": "A",
+    "text": "All bills"
+   },
+   {
+    "label": "B",
+    "text": "One resource attributes"
+   },
+   {
+    "label": "C",
+    "text": "Provider source"
+   },
+   {
+    "label": "D",
+    "text": "Nothing"
+   }
+  ],
+  "answer": "B",
+  "explanation": "state show vpc reads one resource's attributes.\n🧠 WHY — Single-address inspection. Bills, sources, and nothing deny its job.",
+  "url": "books/exam-center.html#Q-M3-18"
+ },
+ {
+  "id": "Q-M3-19",
+  "mock": 3,
+  "num": 19,
+  "qText": "merge() collision winner is…",
+  "options": [
+   {
+    "label": "A",
+    "text": "Left"
+   },
+   {
+    "label": "B",
+    "text": "Error"
+   },
+   {
+    "label": "C",
+    "text": "Right"
+   },
+   {
+    "label": "D",
+    "text": "Neither"
+   }
+  ],
+  "answer": "C",
+  "explanation": "merge() collisions: right side wins.\n🧠 WHY — Later arguments override. Left-wins, errors, and neither-drops misremember.",
+  "url": "books/exam-center.html#Q-M3-19"
+ },
+ {
+  "id": "Q-M3-20",
+  "mock": 3,
+  "num": 20,
+  "qText": "terraform.tfvars vs *.auto.tfvars differ in…",
+  "options": [
+   {
+    "label": "A",
+    "text": "Nothing"
+   },
+   {
+    "label": "B",
+    "text": "Color"
+   },
+   {
+    "label": "C",
+    "text": "Speed"
+   },
+   {
+    "label": "D",
+    "text": "Single file vs layered lexical overlays"
+   }
+  ],
+  "answer": "D",
+  "explanation": "tfvars vs auto.tfvars: single file vs layered lexical overlays.\n🧠 WHY — Explicit -var-file vs automatic layering. Nothing/color/speed miss the loading mechanic.",
+  "url": "books/exam-center.html#Q-M3-20"
+ },
+ {
+  "id": "Q-M3-21",
+  "mock": 3,
+  "num": 21,
+  "qText": "Root passes inputs to children via…",
+  "options": [
+   {
+    "label": "A",
+    "text": "Module call arguments"
+   },
+   {
+    "label": "B",
+    "text": "State surgery"
+   },
+   {
+    "label": "C",
+    "text": "Console"
+   },
+   {
+    "label": "D",
+    "text": "Email"
+   }
+  ],
+  "answer": "A",
+  "explanation": "Root passes inputs via module call arguments.\n🧠 WHY — The only door in. Surgery, consoles, and email bypass the contract.",
+  "url": "books/exam-center.html#Q-M3-21"
+ },
+ {
+  "id": "Q-M3-22",
+  "mock": 3,
+  "num": 22,
+  "qText": "Console drift on tags appears as…",
+  "options": [
+   {
+    "label": "A",
+    "text": "No output"
+   },
+   {
+    "label": "B",
+    "text": "~ change"
+   },
+   {
+    "label": "C",
+    "text": "New backend"
+   },
+   {
+    "label": "D",
+    "text": "Crash"
+   }
+  ],
+  "answer": "B",
+  "explanation": "Console tag drift appears as ~ change.\n🧠 WHY — Refresh imports reality; plan proposes revert. No-output/new-backend/crash deny refresh.",
+  "url": "books/exam-center.html#Q-M3-22"
+ },
+ {
+  "id": "Q-M3-23",
+  "mock": 3,
+  "num": 23,
+  "qText": "coalesce picks…",
+  "options": [
+   {
+    "label": "A",
+    "text": "Last null"
+   },
+   {
+    "label": "B",
+    "text": "All values"
+   },
+   {
+    "label": "C",
+    "text": "First non-null"
+   },
+   {
+    "label": "D",
+    "text": "None"
+   }
+  ],
+  "answer": "C",
+  "explanation": "coalesce() picks the first non-null value.\n🧠 WHY — Ordered fallback chain. Last/all/none misread the function.",
+  "url": "books/exam-center.html#Q-M3-23"
+ },
+ {
+  "id": "Q-M3-24",
+  "mock": 3,
+  "num": 24,
+  "qText": "*.tfvars.example committed while real tfvars ignored because…",
+  "options": [
+   {
+    "label": "A",
+    "text": "Speed"
+   },
+   {
+    "label": "B",
+    "text": "State needs it"
+   },
+   {
+    "label": "C",
+    "text": "Required by law"
+   },
+   {
+    "label": "D",
+    "text": "Template shared, secrets stay local"
+   }
+  ],
+  "answer": "D",
+  "explanation": "Example tfvars commits; real tfvars stays local.\n🧠 WHY — Template shared, secrets local. Speed/state/law are non-reasons.",
+  "url": "books/exam-center.html#Q-M3-24"
+ },
+ {
+  "id": "Q-M3-25",
+  "mock": 3,
+  "num": 25,
+  "qText": "Interrupted mid-apply: next step?",
+  "options": [
+   {
+    "label": "A",
+    "text": "Review partial state, re-apply to continue"
+   },
+   {
+    "label": "B",
+    "text": "Delete everything"
+   },
+   {
+    "label": "C",
+    "text": "New backend"
+   },
+   {
+    "label": "D",
+    "text": "Fmt"
+   }
+  ],
+  "answer": "A",
+  "explanation": "Interrupted apply: review partial state, re-apply.\n🧠 WHY — Reconciliation through planning. Deletes, new backends, and fmt are panic moves.",
+  "url": "books/exam-center.html#Q-M3-25"
+ },
+ {
+  "id": "Q-M3-26",
+  "mock": 3,
+  "num": 26,
+  "qText": "\"No manual snowflakes\" is IaC…",
+  "options": [
+   {
+    "label": "A",
+    "text": "Cost"
+   },
+   {
+    "label": "B",
+    "text": "Consistency"
+   },
+   {
+    "label": "C",
+    "text": "Slowness"
+   },
+   {
+    "label": "D",
+    "text": "Risk"
+   }
+  ],
+  "answer": "B",
+  "explanation": "No manual snowflakes = consistency.\n🧠 WHY — Identical systems from code. Cost/slowness/risk are non-answers.",
+  "url": "books/exam-center.html#Q-M3-26"
+ },
+ {
+  "id": "Q-M3-27",
+  "mock": 3,
+  "num": 27,
+  "qText": "Go binary, no runtime describes…",
+  "options": [
+   {
+    "label": "A",
+    "text": "The provider only"
+   },
+   {
+    "label": "B",
+    "text": "State files"
+   },
+   {
+    "label": "C",
+    "text": "The Terraform CLI distribution"
+   },
+   {
+    "label": "D",
+    "text": "Sentinel"
+   }
+  ],
+  "answer": "C",
+  "explanation": "Go binary, no runtime = the Terraform CLI distribution.\n🧠 WHY — Single static executable. Provider-only, state-file, and Sentinel readings miss the subject.",
+  "url": "books/exam-center.html#Q-M3-27"
+ },
+ {
+  "id": "Q-M3-28",
+  "mock": 3,
+  "num": 28,
+  "qText": "Same config, two applies, both green 0/0/0. Property?",
+  "options": [
+   {
+    "label": "A",
+    "text": "Import"
+   },
+   {
+    "label": "B",
+    "text": "Drift"
+   },
+   {
+    "label": "C",
+    "text": "Taint"
+   },
+   {
+    "label": "D",
+    "text": "Idempotence"
+   }
+  ],
+  "answer": "D",
+  "explanation": "Two green 0/0/0 applies = idempotence.\n🧠 WHY — Repeat no-op from unchanged code. Import/drift/taint are other concepts.",
+  "url": "books/exam-center.html#Q-M3-28"
+ },
+ {
+  "id": "Q-M3-29",
+  "mock": 3,
+  "num": 29,
+  "qText": "try() guards…",
+  "options": [
+   {
+    "label": "A",
+    "text": "Optional access without crashing"
+   },
+   {
+    "label": "B",
+    "text": "Billing"
+   },
+   {
+    "label": "C",
+    "text": "Locks"
+   },
+   {
+    "label": "D",
+    "text": "DNS"
+   }
+  ],
+  "answer": "A",
+  "explanation": "try() guards optional access without crashing.\n🧠 WHY — Fallback on missing paths. Billing, locks, and DNS are wrong universes.",
+  "url": "books/exam-center.html#Q-M3-29"
+ },
+ {
+  "id": "Q-M3-30",
+  "mock": 3,
+  "num": 30,
+  "qText": "Graph edges derive from…",
+  "options": [
+   {
+    "label": "A",
+    "text": "File order"
+   },
+   {
+    "label": "B",
+    "text": "References"
+   },
+   {
+    "label": "C",
+    "text": "Comments"
+   },
+   {
+    "label": "D",
+    "text": "Filenames"
+   }
+  ],
+  "answer": "B",
+  "explanation": "Graph edges derive from references.\n🧠 WHY — Interpolation orders creation. File order, comments, and filenames order nothing.",
+  "url": "books/exam-center.html#Q-M3-30"
+ },
+ {
+  "id": "Q-M3-31",
+  "mock": 3,
+  "num": 31,
+  "qText": "console tests…",
+  "options": [
+   {
+    "label": "A",
+    "text": "Locks"
+   },
+   {
+    "label": "B",
+    "text": "Full deploys"
+   },
+   {
+    "label": "C",
+    "text": "Expressions with no cloud"
+   },
+   {
+    "label": "D",
+    "text": "Bills"
+   }
+  ],
+  "answer": "C",
+  "explanation": "console tests expressions with no cloud.\n🧠 WHY — REPL evaluation, zero context. Locks, deploys, and bills are heavier verbs.",
+  "url": "books/exam-center.html#Q-M3-31"
+ },
+ {
+  "id": "Q-M3-32",
+  "mock": 3,
+  "num": 32,
+  "qText": "TFC workspace binds…",
+  "options": [
+   {
+    "label": "A",
+    "text": "Binaries"
+   },
+   {
+    "label": "B",
+    "text": "A key suffix only"
+   },
+   {
+    "label": "C",
+    "text": "Nothing"
+   },
+   {
+    "label": "D",
+    "text": "Config, vars, state, runs"
+   }
+  ],
+  "answer": "D",
+  "explanation": "TFC workspaces bind config, vars, state, runs.\n🧠 WHY — Full execution context. Binaries, suffix-only, and nothing deny the platform.",
+  "url": "books/exam-center.html#Q-M3-32"
+ },
+ {
+  "id": "Q-M3-33",
+  "mock": 3,
+  "num": 33,
+  "qText": "Multi-cloud in one apply is possible because…",
+  "options": [
+   {
+    "label": "A",
+    "text": "Providers are plugins over RPC"
+   },
+   {
+    "label": "B",
+    "text": "One giant binary"
+   },
+   {
+    "label": "C",
+    "text": "No state"
+   },
+   {
+    "label": "D",
+    "text": "YAML"
+   }
+  ],
+  "answer": "A",
+  "explanation": "Multi-cloud in one apply: providers are plugins over RPC.\n🧠 WHY — One core, many translators, one graph. Giant-binary/no-state/YAML all deny the architecture.",
+  "url": "books/exam-center.html#Q-M3-33"
+ },
+ {
+  "id": "Q-M3-34",
+  "mock": 3,
+  "num": 34,
+  "qText": "Cost control on PRs via…",
+  "options": [
+   {
+    "label": "A",
+    "text": "Fmt"
+   },
+   {
+    "label": "B",
+    "text": "Remote-run estimates"
+   },
+   {
+    "label": "C",
+    "text": "State rm"
+   },
+   {
+    "label": "D",
+    "text": "Taint"
+   }
+  ],
+  "answer": "B",
+  "explanation": "PR cost control via remote-run estimates.\n🧠 WHY — Priced diffs at review time. Fmt, rm, and taint price nothing.",
+  "url": "books/exam-center.html#Q-M3-34"
+ },
+ {
+  "id": "Q-M3-35",
+  "mock": 3,
+  "num": 35,
+  "qText": "Splat [*] over instances gives…",
+  "options": [
+   {
+    "label": "A",
+    "text": "A map"
+   },
+   {
+    "label": "B",
+    "text": "An error"
+   },
+   {
+    "label": "C",
+    "text": "A list of the attribute"
+   },
+   {
+    "label": "D",
+    "text": "A backend"
+   }
+  ],
+  "answer": "C",
+  "explanation": "Splat over instances gives a list of the attribute.\n🧠 WHY — Projection across the fleet. Maps, errors, and backends are wrong shapes.",
+  "url": "books/exam-center.html#Q-M3-35"
+ },
+ {
+  "id": "Q-M3-36",
+  "mock": 3,
+  "num": 36,
+  "qText": "Ghost lock: first read…",
+  "options": [
+   {
+    "label": "A",
+    "text": "Fmt"
+   },
+   {
+    "label": "B",
+    "text": "Nothing"
+   },
+   {
+    "label": "C",
+    "text": "Billing"
+   },
+   {
+    "label": "D",
+    "text": "Lock info: who/what/since"
+   }
+  ],
+  "answer": "D",
+  "explanation": "Ghost lock: first read lock info — who, what, since.\n🧠 WHY — Diagnose before acting. Fmt, nothing, and billing skip the evidence.",
+  "url": "books/exam-center.html#Q-M3-36"
+ },
+ {
+  "id": "Q-M3-37",
+  "mock": 3,
+  "num": 37,
+  "qText": "Log verbosity for deep debugging?",
+  "options": [
+   {
+    "label": "A",
+    "text": "TRACE"
+   },
+   {
+    "label": "B",
+    "text": "ERROR"
+   },
+   {
+    "label": "C",
+    "text": "OFF"
+   },
+   {
+    "label": "D",
+    "text": "WARN"
+   }
+  ],
+  "answer": "A",
+  "explanation": "Deep debugging verbosity = TRACE.\n🧠 WHY — Full RPC detail. ERROR/WARN filter; OFF silences.",
+  "url": "books/exam-center.html#Q-M3-37"
+ },
+ {
+  "id": "Q-M3-38",
+  "mock": 3,
+  "num": 38,
+  "qText": "apply -refresh-only syncs…",
+  "options": [
+   {
+    "label": "A",
+    "text": "Code style"
+   },
+   {
+    "label": "B",
+    "text": "State toward reality"
+   },
+   {
+    "label": "C",
+    "text": "Providers"
+   },
+   {
+    "label": "D",
+    "text": "Regions"
+   }
+  ],
+  "answer": "B",
+  "explanation": "apply -refresh-only syncs state toward reality.\n🧠 WHY — Explicit reconciliation persists. Style, providers, and regions are other verbs.",
+  "url": "books/exam-center.html#Q-M3-38"
+ },
+ {
+  "id": "Q-M3-39",
+  "mock": 3,
+  "num": 39,
+  "qText": "Advisory policy breach…",
+  "options": [
+   {
+    "label": "A",
+    "text": "Blocks"
+   },
+   {
+    "label": "B",
+    "text": "Deletes"
+   },
+   {
+    "label": "C",
+    "text": "Logs, run continues"
+   },
+   {
+    "label": "D",
+    "text": "Bills"
+   }
+  ],
+  "answer": "C",
+  "explanation": "Advisory breach logs; the run continues.\n🧠 WHY — Informational by design. Blocks, deletes, and bills belong to other modes.",
+  "url": "books/exam-center.html#Q-M3-39"
+ },
+ {
+  "id": "Q-M3-40",
+  "mock": 3,
+  "num": 40,
+  "qText": "Partial apply then re-apply…",
+  "options": [
+   {
+    "label": "A",
+    "text": "Rolls back"
+   },
+   {
+    "label": "B",
+    "text": "Forks code"
+   },
+   {
+    "label": "C",
+    "text": "Wipes backend"
+   },
+   {
+    "label": "D",
+    "text": "Continues from recorded state"
+   }
+  ],
+  "answer": "D",
+  "explanation": "Partial apply then re-apply continues from recorded state.\n🧠 WHY — No rollback exists; reconciliation moves forward. Rollback/fork/wipe deny the model.",
+  "url": "books/exam-center.html#Q-M3-40"
+ },
+ {
+  "id": "Q-M3-41",
+  "mock": 3,
+  "num": 41,
+  "qText": "\"Golden image with Nginx baked\" is built by…",
+  "options": [
+   {
+    "label": "A",
+    "text": "Packer"
+   },
+   {
+    "label": "B",
+    "text": "Terraform provisioners"
+   },
+   {
+    "label": "C",
+    "text": "Console"
+   },
+   {
+    "label": "D",
+    "text": "State mv"
+   }
+  ],
+  "answer": "A",
+  "explanation": "Golden images with software baked = Packer.\n🧠 WHY — Bakes AMIs; Terraform provisions, provisioners configure last-resort. Console and mv build nothing.",
+  "url": "books/exam-center.html#Q-M3-41"
+ },
+ {
+  "id": "Q-M3-42",
+  "mock": 3,
+  "num": 42,
+  "qText": "for_each over [\"a\",\"b\"] fails: fix?",
+  "options": [
+   {
+    "label": "A",
+    "text": "Delete list"
+   },
+   {
+    "label": "B",
+    "text": "toset() wrap"
+   },
+   {
+    "label": "C",
+    "text": "depends_on"
+   },
+   {
+    "label": "D",
+    "text": "Count only"
+   }
+  ],
+  "answer": "B",
+  "explanation": "for_each over a list: wrap with toset().\n🧠 WHY — Sets give stable identity; lists re-index. Deletes, depends_on, and count-only dodge the cast.",
+  "url": "books/exam-center.html#Q-M3-42"
+ },
+ {
+  "id": "Q-M3-43",
+  "mock": 3,
+  "num": 43,
+  "qText": "TF_VAR for objects needs…",
+  "options": [
+   {
+    "label": "A",
+    "text": "Bare words"
+   },
+   {
+    "label": "B",
+    "text": "Double binaries"
+   },
+   {
+    "label": "C",
+    "text": "Single-quoted HCL"
+   },
+   {
+    "label": "D",
+    "text": "No quoting"
+   }
+  ],
+  "answer": "C",
+  "explanation": "TF_VAR objects need single-quoted HCL.\n🧠 WHY — Shell-safe object syntax. Bare words split; binaries and no-quoting are nonsense.",
+  "url": "books/exam-center.html#Q-M3-43"
+ },
+ {
+  "id": "Q-M3-44",
+  "mock": 3,
+  "num": 44,
+  "qText": "Child output consumed as…",
+  "options": [
+   {
+    "label": "A",
+    "text": "Never"
+   },
+   {
+    "label": "B",
+    "text": "Console only"
+   },
+   {
+    "label": "C",
+    "text": "Email"
+   },
+   {
+    "label": "D",
+    "text": "module.NAME.output"
+   }
+  ],
+  "answer": "D",
+  "explanation": "Child outputs consume as module.NAME.output.\n🧠 WHY — Like any value once declared. Never/console/email invent ceremony.",
+  "url": "books/exam-center.html#Q-M3-44"
+ },
+ {
+  "id": "Q-M3-45",
+  "mock": 3,
+  "num": 45,
+  "qText": "terraform.tfvars purpose?",
+  "options": [
+   {
+    "label": "A",
+    "text": "Auto-loaded variable values"
+   },
+   {
+    "label": "B",
+    "text": "Backend only"
+   },
+   {
+    "label": "C",
+    "text": "Locking"
+   },
+   {
+    "label": "D",
+    "text": "Billing"
+   }
+  ],
+  "answer": "A",
+  "explanation": "terraform.tfvars holds auto-loaded variable values.\n🧠 WHY — Convention-loaded inputs. Backends, locks, and bills are other files' jobs.",
+  "url": "books/exam-center.html#Q-M3-45"
+ },
+ {
+  "id": "Q-M3-46",
+  "mock": 3,
+  "num": 46,
+  "qText": "Lock table per env buys…",
+  "options": [
+   {
+    "label": "A",
+    "text": "Nothing"
+   },
+   {
+    "label": "B",
+    "text": "Parallel applies, more tables"
+   },
+   {
+    "label": "C",
+    "text": "No init"
+   },
+   {
+    "label": "D",
+    "text": "Free state"
+   }
+  ],
+  "answer": "B",
+  "explanation": "Per-env lock tables buy parallel applies at table cost.\n🧠 WHY — Isolated serialization per env. Nothing/no-init/free-state misprice the trade.",
+  "url": "books/exam-center.html#Q-M3-46"
+ },
+ {
+  "id": "Q-M3-47",
+  "mock": 3,
+  "num": 47,
+  "qText": "validation blocks run…",
+  "options": [
+   {
+    "label": "A",
+    "text": "Never"
+   },
+   {
+    "label": "B",
+    "text": "After destroy"
+   },
+   {
+    "label": "C",
+    "text": "At plan"
+   },
+   {
+    "label": "D",
+    "text": "In git"
+   }
+  ],
+  "answer": "C",
+  "explanation": "Validation blocks run at plan.\n🧠 WHY — Fail-fast input gates. Never/after-destroy/in-git all miss the timing.",
+  "url": "books/exam-center.html#Q-M3-47"
+ },
+ {
+  "id": "Q-M3-48",
+  "mock": 3,
+  "num": 48,
+  "qText": "-destroy plan mode is for…",
+  "options": [
+   {
+    "label": "A",
+    "text": "Login"
+   },
+   {
+    "label": "B",
+    "text": "Creation"
+   },
+   {
+    "label": "C",
+    "text": "Fmt"
+   },
+   {
+    "label": "D",
+    "text": "Teardown preview"
+   }
+  ],
+  "answer": "D",
+  "explanation": "-destroy plan mode previews teardown.\n🧠 WHY — Serialized death list for review. Login/creation/fmt are other modes.",
+  "url": "books/exam-center.html#Q-M3-48"
+ },
+ {
+  "id": "Q-M3-49",
+  "mock": 3,
+  "num": 49,
+  "qText": "New workspace state starts…",
+  "options": [
+   {
+    "label": "A",
+    "text": "Empty — apply fills it"
+   },
+   {
+    "label": "B",
+    "text": "With prod data"
+   },
+   {
+    "label": "C",
+    "text": "With errors"
+   },
+   {
+    "label": "D",
+    "text": "Locked forever"
+   }
+  ],
+  "answer": "A",
+  "explanation": "New workspace state starts empty; apply fills it.\n🧠 WHY — Isolation from zero. Prod-data, errors, and forever-locks deny the model.",
+  "url": "books/exam-center.html#Q-M3-49"
+ },
+ {
+  "id": "Q-M3-50",
+  "mock": 3,
+  "num": 50,
+  "qText": "TFC workspace binds…",
+  "options": [
+   {
+    "label": "A",
+    "text": "Key suffix only"
+   },
+   {
+    "label": "B",
+    "text": "Config, vars, state, runs"
+   },
+   {
+    "label": "C",
+    "text": "Nothing"
+   },
+   {
+    "label": "D",
+    "text": "Binaries"
+   }
+  ],
+  "answer": "B",
+  "explanation": "TFC workspaces bind config, vars, state, runs.\n🧠 WHY — Full execution context. Suffix-only, nothing, and binaries describe other things.",
+  "url": "books/exam-center.html#Q-M3-50"
+ },
+ {
+  "id": "Q-M3-51",
+  "mock": 3,
+  "num": 51,
+  "qText": "Login writes token to…",
+  "options": [
+   {
+    "label": "A",
+    "text": "State"
+   },
+   {
+    "label": "B",
+    "text": "Lock file"
+   },
+   {
+    "label": "C",
+    "text": "credentials.tfrc.json"
+   },
+   {
+    "label": "D",
+    "text": "tfvars"
+   }
+  ],
+  "answer": "C",
+  "explanation": "Login writes tokens to credentials.tfrc.json.\n🧠 WHY — Home-dir CLI credentials. State, lock, and tfvars are wrong files.",
+  "url": "books/exam-center.html#Q-M3-51"
+ },
+ {
+  "id": "Q-M3-52",
+  "mock": 3,
+  "num": 52,
+  "qText": "locals derive values to…",
+  "options": [
+   {
+    "label": "A",
+    "text": "Duplicate code"
+   },
+   {
+    "label": "B",
+    "text": "Slow plans"
+   },
+   {
+    "label": "C",
+    "text": "Skip state"
+   },
+   {
+    "label": "D",
+    "text": "Avoid repetition, single source"
+   }
+  ],
+  "answer": "D",
+  "explanation": "Locals derive values to avoid repetition — single source.\n🧠 WHY — Computed once, referenced widely. Duplication, slowness, and state-skips invert the purpose.",
+  "url": "books/exam-center.html#Q-M3-52"
+ },
+ {
+  "id": "Q-M3-53",
+  "mock": 3,
+  "num": 53,
+  "qText": "terraform output shows…",
+  "options": [
+   {
+    "label": "A",
+    "text": "Exports after apply"
+   },
+   {
+    "label": "B",
+    "text": "Billing"
+   },
+   {
+    "label": "C",
+    "text": "Locks"
+   },
+   {
+    "label": "D",
+    "text": "Nothing"
+   }
+  ],
+  "answer": "A",
+  "explanation": "terraform output shows exports after apply.\n🧠 WHY — Values for humans and pipelines. Billing, locks, and nothing deny its job.",
+  "url": "books/exam-center.html#Q-M3-53"
+ },
+ {
+  "id": "Q-M3-54",
+  "mock": 3,
+  "num": 54,
+  "qText": "Pin registry modules because…",
+  "options": [
+   {
+    "label": "A",
+    "text": "Speed"
+   },
+   {
+    "label": "B",
+    "text": "Floating majors break runs"
+   },
+   {
+    "label": "C",
+    "text": "State needs it"
+   },
+   {
+    "label": "D",
+    "text": "Fmt does"
+   }
+  ],
+  "answer": "B",
+  "explanation": "Pin registry modules: floating majors break runs.\n🧠 WHY — Reproducibility demands pins. Speed, state-needs, and fmt-does are non-reasons.",
+  "url": "books/exam-center.html#Q-M3-54"
+ },
+ {
+  "id": "Q-M3-55",
+  "mock": 3,
+  "num": 55,
+  "qText": "Soft-mandatory with rights…",
+  "options": [
+   {
+    "label": "A",
+    "text": "Blocks"
+   },
+   {
+    "label": "B",
+    "text": "Deletes"
+   },
+   {
+    "label": "C",
+    "text": "Proceeds permitted"
+   },
+   {
+    "label": "D",
+    "text": "Ignores"
+   }
+  ],
+  "answer": "C",
+  "explanation": "Soft-mandatory with rights proceeds when permitted.\n🧠 WHY — Override with authority, audited trail. Blocks/deletes/ignores misread the mode.",
+  "url": "books/exam-center.html#Q-M3-55"
+ },
+ {
+  "id": "Q-M3-56",
+  "mock": 3,
+  "num": 56,
+  "qText": "-auto-approve belongs…",
+  "options": [
+   {
+    "label": "A",
+    "text": "Laptops in prod"
+   },
+   {
+    "label": "B",
+    "text": "Never anywhere"
+   },
+   {
+    "label": "C",
+    "text": "Always"
+   },
+   {
+    "label": "D",
+    "text": "Gated pipelines only"
+   }
+  ],
+  "answer": "D",
+  "explanation": "-auto-approve belongs in gated pipelines only.\n🧠 WHY — Reviewed plan plus automation gate. Laptops, never-anywhere, and always mis-scope it.",
+  "url": "books/exam-center.html#Q-M3-56"
+ },
+ {
+  "id": "Q-M3-57",
+  "mock": 3,
+  "num": 57,
+  "qText": "S3 backend state with secrets is…",
+  "options": [
+   {
+    "label": "A",
+    "text": "Plaintext — restrict + Vault/SSM"
+   },
+   {
+    "label": "B",
+    "text": "Encrypted by Terraform"
+   },
+   {
+    "label": "C",
+    "text": "Absent"
+   },
+   {
+    "label": "D",
+    "text": "Hashed"
+   }
+  ],
+  "answer": "A",
+  "explanation": "S3 backend state with secrets is plaintext — restrict plus Vault/SSM.\n🧠 WHY — No at-rest encryption by Terraform. Encrypted-absent-hashed are all fictions.",
+  "url": "books/exam-center.html#Q-M3-57"
+ }
+]

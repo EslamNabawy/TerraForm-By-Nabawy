@@ -234,7 +234,7 @@
       <div class="drill-arena-header">
         <div class="drill-title-group">
           <h3>⚡ Exam Practice Drill Arena</h3>
-          <p>Instant quiz &amp; flashcards — 90 quick-fire drills drawn from the 261-question bank in the Exam Command Center.</p>
+          <p>Instant quiz &amp; flashcards — 90 quick-fire drills drawn from the 261-question bank — or sit a full 57-question timed mock.</p>
         </div>
         <div class="drill-stats">
           <div class="drill-stat-box">
@@ -252,6 +252,18 @@
         </div>
       </div>
 
+      <div class="mock-mode-bar">
+        <div class="mock-modes" role="tablist" aria-label="Practice mode">
+          <button class="filter-pill active" data-mode="drill" role="tab">⚡ Drills</button>
+          <button class="filter-pill" data-mode="1" role="tab">Mock 1<small class="mock-best" id="best-1"></small></button>
+          <button class="filter-pill" data-mode="2" role="tab">Mock 2<small class="mock-best" id="best-2"></small></button>
+          <button class="filter-pill" data-mode="3" role="tab">Mock 3<small class="mock-best" id="best-3"></small></button>
+        </div>
+        <div id="mock-timer" class="mock-timer" hidden>⏱ <span id="mock-time-left">60:00</span></div>
+      </div>
+      <p id="mock-brief" class="small" hidden>57 questions · 60 minutes · pass at 40 · flag hard ones, never leave blanks. Timer auto-submits at zero.</p>
+      <div id="mock-nav" class="mock-nav" hidden></div>
+
       <div class="drill-card">
         <div class="drill-meta-bar">
           <span id="drill-domain" class="drill-domain-badge">Domain 1: IaC Concepts</span>
@@ -266,10 +278,14 @@
         <div id="drill-explanation" class="drill-explanation"></div>
       </div>
 
+      <div id="mock-results" class="mock-results" hidden></div>
+
       <div class="drill-footer">
-        <div style="display: flex; gap: 8px;">
-          <button class="btn solid" onclick="window.nextDrill()">Next Question →</button>
-          <button class="btn outline" onclick="window.randomDrill()">🔀 Random Drill</button>
+        <div style="display: flex; gap: 8px; flex-wrap: wrap;">
+          <button class="btn solid" id="drill-next-btn" onclick="window.nextDrill()">Next Question →</button>
+          <button class="btn outline" id="drill-random-btn" onclick="window.randomDrill()">🔀 Random Drill</button>
+          <button class="btn outline" id="mock-flag-btn" onclick="window.toggleMockFlag()" hidden>🚩 Flag for review</button>
+          <button class="btn solid" id="mock-submit-btn" onclick="window.submitMock()" hidden>Submit mock →</button>
         </div>
         <a id="drill-exam-link" class="inline" href="books/exam-center.html#Q-D1-01" target="_blank" style="font-size: 13px;">
           Open in Exam Command Center ↗
