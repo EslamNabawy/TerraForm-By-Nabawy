@@ -125,6 +125,16 @@ test('study-note catalog, cards, and files agree', () => {
   }
 });
 
+test('modules evolution code pack is linked and downloadable', () => {
+  const pathmod = require('node:path');
+  const fssync = require('node:fs');
+  const index = read('index.html');
+  for (const href of ['code-modules-evolution/README.md', 'code-modules-evolution/stage1-no-vars-no-loop-no-module/main.tf', 'code-modules-evolution/stage2-vars-no-loop-no-module/main.tf', 'code-modules-evolution/stage3-vars-loop-no-module/main.tf', 'code-modules-evolution/stage4-vars-loop-module/main.tf']) {
+    assert.ok(index.includes(`href="${href}"`), href);
+    assert.ok(fssync.existsSync(pathmod.join(root, href)), href);
+  }
+});
+
 test('div tags balance on every page', () => {
   for (const parts of [['index.html'], ['books', 'vol1-foundations.html'], ['books', 'vol2-production.html'], ['books', 'lab.html'], ['books', 'exam-center.html']]) {
     const page = read(...parts);

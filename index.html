@@ -277,6 +277,45 @@
       </div>
     </section>
 
+    <!-- MODULES EVOLUTION CODE PACK -->
+    <div class="section-header" id="code-pack">
+      <h2 class="sec"><span>🧬</span> Modules evolution code pack</h2>
+      <span class="sec-sub">Same task (3 S3 log buckets) evolved in 4 runnable stages: hardcoded → variables → for_each → reusable module. <a class="inline" href="code-modules-evolution/README.md" download="modules-evolution-README.md">Download the README</a> · run any stage with <code>terraform init &amp;&amp; terraform plan</code>.</span>
+    </div>
+
+    <div class="notes-source-container">
+      <div class="notes-source-grid">
+        <a class="note-card" href="code-modules-evolution/stage1-no-vars-no-loop-no-module/main.tf" download="stage1-main.tf">
+          <div class="note-info">
+            <span class="note-num">STAGE 1 · 38 lines</span>
+            <span class="note-title">Hardcoded — 3 bucket blocks, no vars</span>
+          </div>
+          <span class="note-arrow">⬇</span>
+        </a>
+        <a class="note-card" href="code-modules-evolution/stage2-vars-no-loop-no-module/main.tf" download="stage2-main.tf">
+          <div class="note-info">
+            <span class="note-num">STAGE 2 · 27 lines</span>
+            <span class="note-title">Variables + tfvars, still 3 blocks</span>
+          </div>
+          <span class="note-arrow">⬇</span>
+        </a>
+        <a class="note-card" href="code-modules-evolution/stage3-vars-loop-no-module/main.tf" download="stage3-main.tf">
+          <div class="note-info">
+            <span class="note-num">STAGE 3 · 15 lines</span>
+            <span class="note-title">One block with for_each over envs</span>
+          </div>
+          <span class="note-arrow">⬇</span>
+        </a>
+        <a class="note-card" href="code-modules-evolution/stage4-vars-loop-module/main.tf" download="stage4-main.tf">
+          <div class="note-info">
+            <span class="note-num">STAGE 4 · 12 + 9 lines</span>
+            <span class="note-title">Reusable s3-bucket module + for_each</span>
+          </div>
+          <span class="note-arrow">⬇</span>
+        </a>
+      </div>
+    </div>
+
     <!-- COMMAND DECK & CHEATSHEET -->
     <div class="section-header" id="cheatsheet">
       <h2 class="sec"><span>⚡</span> Terraform quick command deck</h2>

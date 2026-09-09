@@ -2902,5 +2902,11 @@
   "u": "notes/14-floci-verified-apply.md",
   "s": "Study note",
   "k": "Verified terraform apply against Floci Verified terraform apply against Floci — Proof Runbook One line: prove your Terraform + Floci wiring end to end — init → plan → apply → cross check from the CLI → confirm state → destroy. If all seven steps pass, your endpoints, credentials, and backend are correct and nothing touched real AWS. 1. Start Floci guide 11 bash floci start detach floci wait timeout 60s eval \"$ floci env \" Or with Docker Compose: docker compose up d , then export AWS_ACCESS_KEY_ID=test , AWS_SECRET_ACCESS_KEY=test , AWS_REGION=us east 1 . 2. The 7 step proof bash 1. Init — must succeed only when Floci responds terraform init Expected: \"Terraform has been successfully initialized!\" 2. Plan — the proof of correct endpoint setup terraform plan Expected: 1 to add, 0 to change, 0 to destroy If the endpoint is wrong or missing: hangs, times out, or tries real AWS 3. Apply — real resource creation inside the emulator"
+ },
+ {
+  "t": "Modules evolution code pack — 4 runnable stages",
+  "u": "code-modules-evolution/README.md",
+  "s": "Code pack",
+  "k": "Modules evolution code pack stages hardcoded variables for_each reusable s3-bucket module # Modules Evolution Lab — 4 Stages  Same task (3 S3 log buckets) evolved step by step.  | Stage | Path | Vars | Loop | Module | Lines (main.tf) | |-------|------|------|------|--------|-----------------| | 1 | stage1-no-vars-no-loop-no-module | ❌ | ❌ | ❌ | 38 | | 2 | stage2-vars-no-loop-no-module | ✅ | ❌ | ❌ | 27 | | 3 | stage3-vars-loop-no-module | ✅ | ✅ `for_each` | ❌ | 15 | | 4 | stage4-vars-loop-module | ✅ | ✅ `for_each` on module | ✅ | 12 + module/9 |  Run each: ``` cd stageX && terraform init && terraform plan # or with Floci localstack: # terraform plan -var=\"region=us-east-1\"   (provider already points to 4566 if you add endpoints) ```  Stage 4 module lives at `stage4-vars-loop-modul"
  }
 ]
