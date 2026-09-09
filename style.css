@@ -184,9 +184,17 @@ footer .fol-rule::before,footer .fol-rule::after{content:''; flex:1; border-top:
 .card .btn.amber:hover{background:var(--amber); color:#fff;}
 .card .btn.downloading{pointer-events:none; opacity:0.85; background:var(--amber)!important; color:#fff!important; animation:pulseAmber 1s infinite alternate;}
 @keyframes pulseAmber{from{box-shadow:2px 2px 0 var(--ink);}to{box-shadow:4px 4px 10px rgba(217,119,6,0.6);}}
-.chapters-preview-toggle{margin-top:14px; border-top:1.5px dashed var(--line); padding-top:10px;}
-.chapters-preview-toggle summary{font-size:12px; font-weight:800; color:var(--amber-d); cursor:pointer; user-select:none; list-style:none;}
+.chapters-preview-toggle{margin-top:14px; border-top:1.5px dashed var(--line); padding-top:12px;}
+.chapters-preview-toggle summary{display:flex; align-items:center; justify-content:space-between; gap:8px; font-size:12.5px; font-weight:800; color:var(--ink); background:var(--t-paper); border:2px solid var(--ink); border-radius:10px; padding:8px 14px; cursor:pointer; user-select:none; list-style:none; box-shadow:2px 2px 0 rgba(38,32,26,.85); transition:all .12s;}
 .chapters-preview-toggle summary::-webkit-details-marker{display:none;}
+.chapters-preview-toggle summary::marker{content:'';}
+.chapters-preview-toggle summary:hover{background:var(--t-amber); border-color:var(--amber-d); transform:translate(-1px,-1px); box-shadow:3px 3px 0 rgba(38,32,26,.85);}
+.chapters-preview-toggle summary:active{transform:translate(1px,1px); box-shadow:0 0 0 rgba(38,32,26,.85);}
+.chapters-preview-toggle summary:focus-visible{outline:2px solid var(--amber); outline-offset:2px;}
+.chapters-preview-toggle summary .ch-arrow{display:inline-flex; align-items:center; justify-content:center; min-width:22px; height:22px; border-radius:6px; background:var(--ink); color:var(--paper); font-size:11px; transition:transform .18s ease, background .12s;}
+.chapters-preview-toggle summary:hover .ch-arrow{background:var(--amber-d);}
+.chapters-preview-toggle[open] summary{background:var(--ink); color:var(--paper); border-color:var(--ink);}
+.chapters-preview-toggle[open] summary .ch-arrow{transform:rotate(180deg); background:var(--amber);}
 .chapters-preview-list{margin-top:8px; max-height:160px; overflow-y:auto; border:1.5px solid var(--ink); border-radius:8px; background:var(--t-paper); padding:6px 10px; font-size:11.5px;}
 .chapters-preview-list a{display:block; padding:4px 0; color:var(--ink); text-decoration:none; border-bottom:1px solid var(--line);}
 .chapters-preview-list a:last-child{border-bottom:none;}
@@ -378,6 +386,10 @@ footer .fol-rule::before,footer .fol-rule::after{content:''; flex:1; border-top:
 [data-theme="dark"] .chapters-preview-list{background:var(--t-paper); border-color:var(--line);}
 [data-theme="dark"] .chapters-preview-list a{color:#ded7ce; border-bottom-color:var(--line);}
 [data-theme="dark"] .chapters-preview-list a:hover{color:var(--amber-d);}
+[data-theme="dark"] .chapters-preview-toggle summary{background:var(--t-paper); border-color:var(--line);}
+[data-theme="dark"] .chapters-preview-toggle summary:hover{background:var(--t-amber); border-color:var(--amber);}
+[data-theme="dark"] .chapters-preview-toggle[open] summary{background:var(--amber); border-color:var(--amber); color:#14110f;}
+[data-theme="dark"] .chapters-preview-toggle[open] summary .ch-arrow{background:#14110f; color:var(--amber);}
 [data-theme="dark"] #results{background:var(--card); border-color:var(--line); box-shadow:var(--shadow);}
 [data-theme="dark"] #results .res{border-bottom-color:var(--line); color:var(--ink);}
 [data-theme="dark"] #results .res:hover{background:var(--t-amber);}

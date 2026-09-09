@@ -126,6 +126,14 @@ test('study-note catalog, cards, and files agree', () => {
   }
 });
 
+test('chapter preview toggles are styled buttons with arrows', () => {
+  const index = read('index.html');
+  const css = read('style.css');
+  assert.equal((index.match(/<span class="ch-arrow" aria-hidden="true">▾<\/span>/g) || []).length, 4);
+  assert.match(css, /\.chapters-preview-toggle\[open\] summary/);
+  assert.match(css, /\.ch-arrow\{[^}]*transform/);
+});
+
 test('top-level sections share one width structure', () => {
   const css = read('style.css');
   for (const selector of ['.sheet{', '.section-header{', '.card-grid{', '.drill-arena{', '.notes-source-container{', 'body > .panel{']) {
