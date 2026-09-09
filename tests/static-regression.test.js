@@ -149,9 +149,19 @@ test('folio prev/next links resolve to real sheets in every book', () => {
         assert.ok(ids.has(link), `${filename} folio link #${link}`);
       }
     }
-    // no folio may link a sheet to itself (dead loop)
-    const selfLinks = [...page.matchAll(/<div class="sheet[^"]*" id="([^"]+)">[\s\S]*?<div class="folio">[\s\S]*?href="#\1"[^>]*>(?:prev|next)<\/a>/g)];
-    assert.equal(selfLinks.length, 0, `${filename} has self-linking folios`);
+    // no folio may link a sheet to itself (dead loop): check each sheet's
+    // own folio segment (between its open tag and the next sheet open)
+    const sheetMarks = [...page.matchAll(/<div class="sheet[^"]*" id="([^"]+)">/g)];
+    for (let i = 0; i < sheetMarks.length; i++) {
+      const sid = sheetMarks[i][1];
+      const segStart = sheetMarks[i].index + sheetMarks[i][0].length;
+      const segEnd = i + 1 < sheetMarks.length ? sheetMarks[i + 1].index : page.length;
+      const seg = page.slice(segStart, segEnd);
+      const folioAt = seg.indexOf('<div class="folio">');
+      if (folioAt === -1) continue;
+      const folioSeg = seg.slice(folioAt);
+      assert.doesNotMatch(folioSeg, new RegExp(`href="#${sid}"[^>]*>(?:prev|next)<\\/a>`), `${filename}#${sid} self-links`);
+    }
   }
 });
 
