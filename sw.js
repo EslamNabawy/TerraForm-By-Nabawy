@@ -33,6 +33,7 @@ const SHELL = [
   './notes/24-more-cli-commands.md',
   './notes/25-provisioners-doctrine.md',
   './notes/26-capstone-hands-on-chain.md',
+  './notes/27-verified-apply-proof.md',
   './code-modules-evolution/README.md',
   './code-modules-evolution/stage1-no-vars-no-loop-no-module/main.tf',
   './code-modules-evolution/stage2-vars-no-loop-no-module/main.tf',

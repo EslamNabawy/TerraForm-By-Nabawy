@@ -2908,5 +2908,11 @@
   "u": "code-modules-evolution/README.md",
   "s": "Code pack",
   "k": "Modules evolution code pack stages hardcoded variables for_each reusable s3-bucket module # Modules Evolution Lab — 4 Stages  Same task (3 S3 log buckets) evolved step by step.  | Stage | Path | Vars | Loop | Module | Lines (main.tf) | |-------|------|------|------|--------|-----------------| | 1 | stage1-no-vars-no-loop-no-module | ❌ | ❌ | ❌ | 38 | | 2 | stage2-vars-no-loop-no-module | ✅ | ❌ | ❌ | 27 | | 3 | stage3-vars-loop-no-module | ✅ | ✅ `for_each` | ❌ | 15 | | 4 | stage4-vars-loop-module | ✅ | ✅ `for_each` on module | ✅ | 12 + module/9 |  Run each: ``` cd stageX && terraform init && terraform plan # or with Floci localstack: # terraform plan -var=\"region=us-east-1\"   (provider already points to 4566 if you add endpoints) ```  Stage 4 module lives at `stage4-vars-loop-modul"
+ },
+ {
+  "t": "Verified-Apply Proof appendix — note",
+  "u": "notes/27-verified-apply-proof.md",
+  "s": "Study note",
+  "k": "Verified-Apply Proof appendix Verified Apply Proof — Executed Evidence Appendix One line: this library's projects were actually applied, not just written — S3 smoke test plus a two tier ALB stack across three workspaces, all against the Floci emulator, with idempotence re checks. 1. S3 smoke proof 1 resource, full lifecycle Terraform v1.16.1 against Floci v2.0.1: init → plan 1 to add → apply bucket created, confirmed via aws s3 ls against the endpoint → terraform show resource recorded → destroy 1 destroyed, clean state . Proves endpoints, dummy credentials, and state handling before touching bigger stacks. 2. ALB stack across three workspaces identical code Workspace VPC Apply summary dev vpc 5e7eebfd 10.30.0.0/16 6 added full apply after EC2 stub cleanup staging vpc 82c9f766 22 added fresh prod vpc 64c1ca93 22 added fresh Each workspace keeps its own state file terraform.tfstate.d/<name /terraform.tfstate , ~52–69 "
  }
 ]

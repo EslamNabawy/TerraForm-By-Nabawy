@@ -59,7 +59,8 @@
       { id: 'note-23', file: 'notes/23-fmt-and-destroy.md', num: '23', title: 'fmt & destroy', topic: 'Canonical Code & Safe Teardown' },
       { id: 'note-24', file: 'notes/24-more-cli-commands.md', num: '24', title: 'More CLI Commands', topic: 'fmt, graph, console, refresh-only' },
       { id: 'note-25', file: 'notes/25-provisioners-doctrine.md', num: '25', title: 'Provisioners Doctrine', topic: 'Last-Resort Rules & Gotchas' },
-      { id: 'note-26', file: 'notes/26-capstone-hands-on-chain.md', num: '26', title: 'Capstone Chain', topic: '8-Resource End-to-End Build' }
+      { id: 'note-26', file: 'notes/26-capstone-hands-on-chain.md', num: '26', title: 'Capstone Chain', topic: '8-Resource End-to-End Build' },
+      { id: 'note-27', file: 'notes/27-verified-apply-proof.md', num: '27', title: 'Verified-Apply Proof', topic: 'Executed Evidence Appendix' }
     ]
   };
 
