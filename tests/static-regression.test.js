@@ -19,7 +19,7 @@ test('Exam Center preview links target existing anchors', () => {
 });
 
 test('each book page loads its reader controller once', () => {
-  for (const filename of ['vol1-foundations.html', 'vol2-production.html', 'lab.html', 'exam-center.html']) {
+  for (const filename of ['vol1-foundations.html', 'vol2-production.html', 'lab.html', 'exam-center.html', 'interview-arsenal.html']) {
     const page = read('books', filename);
     assert.equal((page.match(/src=["']book-reader\.js["']/g) || []).length, 1, filename);
   }
@@ -126,6 +126,17 @@ test('study-note catalog, cards, and files agree', () => {
   }
 });
 
+test('interview arsenal book is assembled and linked', () => {
+  const page = read('books', 'interview-arsenal.html');
+  const index = read('index.html');
+  for (const anchor of ['summary', 'intel', 'elevator', 'z1', 'z2', 'z10', 'mock-mid', 'mock-senior', 'rapid', 'final']) {
+    assert.match(page, new RegExp(`id=["']${anchor}["']`));
+    assert.ok(index.includes(`books/interview-arsenal.html#${anchor}`), anchor);
+  }
+  assert.ok(index.includes('id="book-card-5"'));
+  assert.ok(index.includes('books/interview-arsenal-lite.pdf'));
+});
+
 test('one-command PDF rebuild exists', () => {
   const pkg = JSON.parse(read('package.json'));
   assert.equal(pkg.scripts.pdfs, 'node tools/render-pdfs.js');
@@ -139,7 +150,7 @@ test('one-command PDF rebuild exists', () => {
 test('chapter preview toggles are styled buttons with arrows', () => {
   const index = read('index.html');
   const css = read('style.css');
-  assert.equal((index.match(/<span class="ch-arrow" aria-hidden="true">▾<\/span>/g) || []).length, 4);
+  assert.equal((index.match(/<span class="ch-arrow" aria-hidden="true">▾<\/span>/g) || []).length, 5);
   assert.match(css, /\.chapters-preview-toggle\[open\] summary/);
   assert.match(css, /\.ch-arrow\{[^}]*transform/);
 });

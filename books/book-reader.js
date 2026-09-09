@@ -68,6 +68,7 @@
     if (raw.includes('Vol 1') || raw.includes('Foundations')) return 'Vol 1 · Foundations';
     if (raw.includes('Vol 2') || raw.includes('Production')) return 'Vol 2 · Production';
     if (raw.includes('Practice Lab')) return 'Vol 3 · Practice Lab';
+    if (raw.includes('Interview Arsenal')) return 'Vol 5 · Interview Arsenal';
     if (raw.includes('Exam') || raw.includes('Associate')) return 'Vol 4 · Exam Center';
     return raw.split('·')[0].trim() || 'Terraform Book';
   }

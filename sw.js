@@ -21,6 +21,7 @@ const SHELL = [
   './books/book-reader.js',
   './books/vol1-foundations.html',
   './books/vol2-production.html',
+  './books/interview-arsenal.html',
   './books/lab.html',
   './books/exam-center.html',
   './notes/09-alb-walkthrough.md',

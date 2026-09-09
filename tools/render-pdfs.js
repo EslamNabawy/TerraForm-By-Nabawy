@@ -20,6 +20,7 @@ const BOOKS = [
   'vol2-production.html',
   'lab.html',
   'exam-center.html',
+  'interview-arsenal.html',
 ];
 
 function findChrome() {
