@@ -126,6 +126,30 @@ test('study-note catalog, cards, and files agree', () => {
   }
 });
 
+test('folio prev/next links resolve to real sheets in every book', () => {
+  for (const filename of ['vol1-foundations.html', 'vol2-production.html', 'lab.html', 'exam-center.html']) {
+    const page = read('books', filename);
+    const ids = new Set([...page.matchAll(/id="([^"]+)"/g)].map(match => match[1]));
+    const folios = [...page.matchAll(/<div class="folio">([\s\S]*?)<\/div>/g)].map(match => match[1]);
+    assert.ok(folios.length > 0, `${filename} has folios`);
+    for (const folio of folios) {
+      for (const link of [...folio.matchAll(/href="#([^"]+)"/g)].map(match => match[1])) {
+        assert.ok(ids.has(link), `${filename} folio link #${link}`);
+      }
+    }
+  }
+});
+
+test('reader supports fullscreen mode', () => {
+  const reader = read('books', 'book-reader.js');
+  const readerCss = read('books', 'book-reader.css');
+  assert.match(reader, /reader-full-btn/);
+  assert.match(reader, /requestFullscreen/);
+  assert.match(reader, /fullscreenchange/);
+  assert.match(reader, /document\.fullscreenElement/);
+  assert.match(readerCss, /html:fullscreen/);
+});
+
 test('mock exam bank is complete and balanced', () => {
   const mocks = JSON.parse(read('mock_exams.json'));
   assert.equal(mocks.length, 171);

@@ -135,6 +135,15 @@
   text-align: center;
 }
 
+/* Fullscreen reading: keep the desk backdrop behind the sheets */
+html:fullscreen {
+  background: var(--desk, #e9e2d6);
+}
+html:fullscreen body {
+  max-width: 1000px;
+  margin: 0 auto;
+}
+
 /* ── 2. DARK MODE (OBSIDIAN) OVERRIDES ── */
 [data-theme="dark"] {
   --paper: #191512 !important;

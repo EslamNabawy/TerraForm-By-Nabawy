@@ -4,7 +4,7 @@
  * - Syncs theme (Parchment / Obsidian) with main website
  * - 4-Level Font Sizing (Small, Normal, Large, X-Large)
  * - Minimal, non-blocking sticky top header
- * - Keyboard shortcuts (t: toggle theme, -/+: font size, Esc: return to library)
+ * - Keyboard shortcuts (t: toggle theme, f: fullscreen, -/+: font size, Esc: return to library)
  */
 
 (function () {
@@ -104,6 +104,11 @@
         <button class="reader-ctrl-btn reader-print-btn" id="reader-print-btn" title="Print to A4 PDF (Ctrl+P)">
           🖨️ <span class="btn-text">Print</span>
         </button>
+
+        <!-- Fullscreen -->
+        <button class="reader-ctrl-btn" id="reader-full-btn" title="Fullscreen reading (f)">
+          ⛶ <span class="btn-text">Full</span>
+        </button>
       </div>
     `;
 
@@ -114,6 +119,28 @@
     document.getElementById('reader-font-dec').addEventListener('click', () => changeFontSize(-1));
     document.getElementById('reader-font-inc').addEventListener('click', () => changeFontSize(1));
     document.getElementById('reader-print-btn').addEventListener('click', () => window.print());
+    document.getElementById('reader-full-btn').addEventListener('click', toggleFullscreen);
+    document.addEventListener('fullscreenchange', syncFullscreenButton);
+  }
+
+  function toggleFullscreen() {
+    try {
+      if (document.fullscreenElement) {
+        document.exitFullscreen();
+      } else if (document.documentElement.requestFullscreen) {
+        document.documentElement.requestFullscreen();
+      }
+    } catch (error) {
+      // Fullscreen unavailable (e.g. embedded iframe without permission) — stay put.
+    }
+  }
+
+  function syncFullscreenButton() {
+    const fullBtn = document.getElementById('reader-full-btn');
+    if (!fullBtn) return;
+    const on = !!document.fullscreenElement;
+    fullBtn.innerHTML = on ? '⛶ <span class="btn-text">Exit</span>' : '⛶ <span class="btn-text">Full</span>';
+    fullBtn.title = on ? 'Exit fullscreen (f)' : 'Fullscreen reading (f)';
   }
 
   // Keyboard shortcuts
@@ -133,7 +160,11 @@
         applyFontSize();
       } else if (e.key === 't' && !e.ctrlKey && !e.metaKey) {
         toggleTheme();
+      } else if (e.key === 'f' && !e.ctrlKey && !e.metaKey) {
+        toggleFullscreen();
       } else if (e.key === 'Escape') {
+        // In fullscreen, Esc already exits it natively — don't also navigate away
+        if (document.fullscreenElement) return;
         // Return to the library, but preserve in-site history when possible
         if (window.history.length > 1) {
           window.history.back();
