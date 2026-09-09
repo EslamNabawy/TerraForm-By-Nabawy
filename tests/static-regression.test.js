@@ -126,6 +126,18 @@ test('study-note catalog, cards, and files agree', () => {
   }
 });
 
+test('top-level sections share one width structure', () => {
+  const css = read('style.css');
+  for (const selector of ['.sheet{', '.section-header{', '.card-grid{', '.drill-arena{', '.notes-source-container{', 'body > .panel{']) {
+    assert.ok(css.includes(selector), selector);
+  }
+  const widths = new Set(
+    [...css.matchAll(/(?:\.sheet|\.section-header|\.card-grid|\.drill-arena|\.notes-source-container|body > \.panel)\{[^}]*?width:([^;}]+)/g)]
+      .map(match => match[1].trim())
+  );
+  assert.deepEqual([...widths], ['min(1080px,94vw)']);
+});
+
 test('folio prev/next links resolve to real sheets in every book', () => {
   for (const filename of ['vol1-foundations.html', 'vol2-production.html', 'lab.html', 'exam-center.html']) {
     const page = read('books', filename);

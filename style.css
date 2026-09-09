@@ -55,6 +55,8 @@ a.inline{color:var(--amber-d); font-weight:700;}
 
 /* ── panels, chips, blocks ── */
 .panel{background:var(--card); border:2px solid var(--ink); border-radius:12px; box-shadow:var(--shadow); padding:16px 18px; margin:14px 0; transition:transform .12s, box-shadow .12s;}
+/* Top-level panels (command deck, print guide) share the site-wide section width */
+body > .panel{width:min(1080px,94vw); margin:14px auto 28px;}
 .panel:hover{transform:translate(-2px,-2px); box-shadow:6px 6px 0 rgba(38,32,26,.85);}
 .ptitle{font-family:Georgia,serif; font-size:17px; font-weight:700; margin:0 0 8px;}
 .grid2{display:grid; grid-template-columns:repeat(auto-fit,minmax(280px,1fr)); gap:16px;}
