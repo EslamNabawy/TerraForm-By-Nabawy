@@ -104,6 +104,22 @@ test('homepage preview links cover every chapter and exercise sheet', () => {
   }
 });
 
+test('book sheet headers are well-formed (no unclosed h1)', () => {
+  for (const filename of ['vol1-foundations.html', 'vol2-production.html', 'lab.html', 'exam-center.html']) {
+    const page = read('books', filename);
+    assert.doesNotMatch(page, /<h1 class="t">[^<]*?<\/div>/);
+  }
+});
+
+test('div tags balance on every page', () => {
+  for (const parts of [['index.html'], ['books', 'vol1-foundations.html'], ['books', 'vol2-production.html'], ['books', 'lab.html'], ['books', 'exam-center.html']]) {
+    const page = read(...parts);
+    const opens = (page.match(/<div[\s>]/g) || []).length;
+    const closes = (page.match(/<\/div>/g) || []).length;
+    assert.equal(closes, opens, parts.join('/'));
+  }
+});
+
 test('service worker precache list matches real files', () => {
   const pathmod = require('node:path');
   const fssync = require('node:fs');
