@@ -5,6 +5,7 @@
   "description": "TerraForm by Nabawy — Master Study Library (static site)",
   "scripts": {
     "test": "node --test tests/static-regression.test.js",
-    "offline": "node tools/generate-offline-data.js"
+    "offline": "node tools/generate-offline-data.js",
+    "pdfs": "node tools/render-pdfs.js"
   }
 }

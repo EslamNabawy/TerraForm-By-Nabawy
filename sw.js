@@ -5,7 +5,7 @@
  * (including the lite PDFs once downloaded) for later offline visits.
  * PDFs are NOT precached — they are too large to fetch up front.
  */
-const CACHE = 'tf-nabawy-v1';
+const CACHE = 'tf-nabawy-v2';
 
 const SHELL = [
   './',

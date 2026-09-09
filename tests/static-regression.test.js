@@ -126,6 +126,16 @@ test('study-note catalog, cards, and files agree', () => {
   }
 });
 
+test('one-command PDF rebuild exists', () => {
+  const pkg = JSON.parse(read('package.json'));
+  assert.equal(pkg.scripts.pdfs, 'node tools/render-pdfs.js');
+  const renderer = read('tools', 'render-pdfs.js');
+  assert.match(renderer, /--print-to-pdf/);
+  assert.match(renderer, /--no-pdf-header-footer/);
+  assert.match(renderer, /pikepdf/);
+  assert.match(renderer, /CHROME_BIN/);
+});
+
 test('chapter preview toggles are styled buttons with arrows', () => {
   const index = read('index.html');
   const css = read('style.css');
