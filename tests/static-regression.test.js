@@ -72,7 +72,8 @@ test('book reader keeps screen sheets rounded and constrains grid content', () =
   const readerCss = read('books', 'book-reader.css');
 
   assert.match(readerCss, /\.sheet::before\s*\{[\s\S]*border-radius: 12px 12px 0 0 !important/);
-  assert.match(readerCss, /\.grid2,\s*\.grid3,\s*\.labcols\s*\{[\s\S]*minmax\(0, 1fr\)/);
+  assert.match(readerCss, /\.grid2\s*\{[\s\S]*?minmax\(0,\s*1fr\)\s*minmax\(0,\s*1fr\)/);
+  assert.match(readerCss, /min-width:\s*0\s*!important/);
   assert.match(readerCss, /\.sheet\.cover \.cver\s*\{[\s\S]*position: static !important/);
 });
 

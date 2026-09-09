@@ -302,6 +302,15 @@
     page-break-inside: auto !important;
   }
 
+  /* Grid blowout guard: bare 1fr tracks stretch past the sheet when a code
+     line can't wrap. Clamp tracks and let code scroll inside its own card. */
+  .grid2 { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) !important; }
+  .grid3 { grid-template-columns: repeat(3, minmax(0, 1fr)) !important; }
+  .labcols { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) !important; }
+  .grid2 > *, .grid3 > *, .labcols > *, .frow > *, .rowc > *, .tocgrid > * {
+    min-width: 0 !important;
+  }
+
   /* Font Scaling Options */
   html[data-font-size="small"] { font-size: 13.5px; }
   html[data-font-size="normal"] { font-size: 15px; }
@@ -509,13 +518,9 @@
   }
 
   .grid2, .grid3, .labcols, .fcols, .frow {
-    grid-template-columns: 1fr !important;
+    grid-template-columns: minmax(0, 1fr) !important;
     display: grid !important;
     gap: 8px !important;
-  }
-  /* Constrain grid tracks so wide content cannot blow out the sheet */
-  .grid2, .grid3, .labcols {
-    grid-template-columns: minmax(0, 1fr) !important;
   }
 
   .tblwrap, table.tb {
