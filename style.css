@@ -425,6 +425,16 @@ footer .fol-rule::before,footer .fol-rule::after{content:''; flex:1; border-top:
   .search-clear-btn{right:16px;}
   .topnav nav .btn-text{display:none;}
   .topnav{gap:8px; padding:8px 10px;}
+  .mock-mode-bar{margin-bottom:8px;}
+  .mock-timer{font-size:12px; padding:3px 10px;}
+  .mock-nav{gap:4px; margin-bottom:10px;}
+  .mock-nav button{min-width:26px; font-size:10px; padding:2px 0;}
+  .mock-nav button.nav-arrow{padding:2px 8px;}
+  .mock-results{padding:14px;}
+  .mock-score{font-size:19px;}
+  .mock-review-list{max-height:260px;}
+  .mock-review-row{flex-wrap:wrap; gap:4px 8px; font-size:12px;}
+  .mock-review-open{margin-left:0; width:100%;}
 }
 
 /* ═══════════ BACK TO TOP ═══════════ */

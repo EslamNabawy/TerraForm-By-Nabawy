@@ -126,6 +126,12 @@ test('study-note catalog, cards, and files agree', () => {
   }
 });
 
+test('mock arena has a mobile layout pass', () => {
+  const css = read('style.css');
+  assert.match(css, /@media\(max-width:540px\)[\s\S]*?\.mock-nav button/);
+  assert.match(css, /@media\(max-width:540px\)[\s\S]*?\.mock-review-row/);
+});
+
 test('interview arsenal book is assembled and linked', () => {
   const page = read('books', 'interview-arsenal.html');
   const index = read('index.html');
