@@ -249,7 +249,7 @@
   "t": "🟢 ex-05 · ex-06 warm-ups — Practice Lab",
   "u": "books/lab.html#ex-05",
   "s": "Practice Lab",
-  "k": "EXERCISE 05–06 · PROVIDER + VPC EXERCISE 05–06 · PROVIDER + VPC 🟢 ex-05 · ex-06 warm-ups Book 1 Ch 5–6 🎯 ex-05 THE TASK (T1 · Find the bug) This provider.tf was just committed to a public repo. Two things are wrong — one is a secret leak, one will break every non-default-AWS setup. Name both and write the fixed block. # provider.tf (COMMITTED — do not do this) provider \"aws\" { region = \"us-east-1\" access_key = \"AKIAIOSFODNN7EXAMPLE\" secret_key = \"wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY\" } 💡 HINT Where should secrets live instead — and what decides the endpoint/region when the block is minimal? ( Book 1, Chapter 5 — three cr"
+  "k": "EXERCISE 05–06 · PROVIDER + VPC EXERCISE 05–06 · PROVIDER + VPC 🟢 ex-05 · ex-06 warm-ups Book 1 Ch 5–6 🎯 ex-05 THE TASK (T1 · Find the bug) This provider.tf was just committed to a public repo. Two things are wrong — one is a secret leak, one will break every non-default-AWS setup. Name both and write the fixed block. # provider.tf (COMMITTED — do not do this) NOTE: AWS docs EXAMPLE placeholders, not valid credentials. provider \"aws\" { region = \"us-east-1\" access_key = \"AKIAIOSFODNN7EXAMPLE\" secret_key = \"wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY\" } 💡 HINT Where should secrets live instead — and what decides the endpoint/region when the block is minimal? ( Book 1, Chapter 5 — three cr"
  },
  {
   "t": "🟢 ex-07 · ex-08 warm-ups — Practice Lab",
